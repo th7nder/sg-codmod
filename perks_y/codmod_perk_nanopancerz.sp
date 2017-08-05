@@ -1,0 +1,60 @@
+#include <sourcemod>
+#include <cstrike>
+#include <sdktools>
+#include <sdkhooks>
+#include <codmod301>
+
+
+public Plugin:myinfo = {
+	name = "Call of Duty Mod - Perk - Nanopancerz",
+	author = "th7nder",
+	description = "CODMOD's Perk",
+	version = "1.0",
+	url = "http://th7.eu"
+};
+
+new const String:szClassName[NAME_LENGTH] = {"Nanopancerz"};
+new const String:szDesc[DESC_LENGTH] = {"Jesteś odporny na instakille."};
+new g_iPerkId;
+
+
+new bool:g_bHasItem[MAXPLAYERS +1] = {false};
+public OnPluginStart(){
+	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+}
+
+public OnPluginEnd(){
+	CodMod_UnregisterPerk(g_iPerkId);
+}
+
+public OnClientPutInServer(iClient){
+	g_bHasItem[iClient] = false;
+}
+
+public CodMod_OnPerkEnabled(iClient, iPerkId){
+	if(iPerkId != g_iPerkId)
+		return;
+
+	g_bHasItem[iClient] = true;
+
+}
+
+public CodMod_OnPerkDisabled(iClient, iPerkId){
+	if(iPerkId != g_iPerkId)
+		return;
+
+	g_bHasItem[iClient] = false;
+}
+
+
+public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+	if(g_bHasItem[iVictim] && fDamage > 300.0 && iWeaponID != WEAPON_AWP){
+		fDamage = 100.0;
+	}
+}
+
+public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
+	if(g_bHasItem[iVictim] && fDamage > 300.0){
+		fDamage = 100.0;
+	}
+}
