@@ -120,6 +120,7 @@ public Action Timer_DisableNoRecoil(Handle hTimer, int iSerial)
 
     g_bNoRecoil[iClient] = false;
     TH7_DisableNoRecoil(iClient);
+    PrintToChat(iClient, "%s Twoje Skupienie skończyło się!", PREFIX_SKILL);
 
     return Plugin_Stop;
 }
