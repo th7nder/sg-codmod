@@ -121,7 +121,7 @@ public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7
     }
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bUsing[iVictim]){
         fDamage *= 0.0;
     }

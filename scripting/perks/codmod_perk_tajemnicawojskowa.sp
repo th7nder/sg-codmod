@@ -51,7 +51,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 
 int g_iColors[] = {0, 204, 204, 230};
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if(GetRandomInt(1, 100) >= 80){
     		CodMod_FadeClient(iVictim, 50, g_iColors, 1000);

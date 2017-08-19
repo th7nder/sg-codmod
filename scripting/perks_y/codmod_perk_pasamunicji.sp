@@ -58,7 +58,7 @@ public CodMod_OnPlayerSpawn(iClient){
 	}
 }
 
-public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
 	if(g_bHasItem[iAttacker]){
 		fDamage += 8.0;
 	}

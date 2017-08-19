@@ -48,7 +48,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 }
 
 
-public CodMod_OnPlayerDamaged(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
+public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
 	if(g_bHasItem[iAttacker] && GetClientTeam(iAttacker) != GetClientTeam(iVictim)){
 		if(GetRandomInt(1, 100) >= 75){
 			CodMod_Freeze(iVictim, 1.5);

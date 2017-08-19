@@ -49,7 +49,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 
 
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if(GetRandomInt(1, 8) == 1){
             int iEntity = GetPlayerWeaponSlot(iVictim, 0);

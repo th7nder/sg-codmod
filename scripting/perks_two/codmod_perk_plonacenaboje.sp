@@ -58,7 +58,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
     g_bOnFire[iClient] = false;
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker] && !g_bOnFire[iVictim] && GetRandomInt(1, 100) >= 75){
         g_bOnFire[iVictim] = true;
         PrintToChat(iAttacker, "%s Podpaliłeś gracza!", PREFIX_SKILL);

@@ -77,7 +77,7 @@ public void CodMod_OnWeaponCanUsePerk(int iClient, WeaponID iWeaponID, int &iCan
     }
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if(GetRandomInt(1, 100) >= 75 && iWeaponID == g_iGiveWeapon){
             fDamage *= 300.0;

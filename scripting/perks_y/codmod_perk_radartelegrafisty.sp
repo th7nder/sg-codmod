@@ -71,16 +71,18 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 
     if(GetGameTime() - g_fLastUse[iClient] < 5.0){
         PrintToChat(iClient, "%s Użycie raz na 5 sec!", PREFIX_SKILL);
-        g_fLastUse[iClient] = GetGameTime();
     }
 
+    PrintToChat(iClient, "%s Użyłeś Radaru Telegrafisty! Spójrz na radar!", PREFIX_SKILL);
+
+    g_fLastUse[iClient] = GetGameTime();
     g_iRadarUsed[iClient]++;
 
     ShowEnemiesToClient(iClient);
     Handle hPack = CreateDataPack();
     WritePackCell(hPack, GetClientSerial(iClient));
-    WritePackCell(hPack, 3);
-    CreateTimer(1.0, Timer_ShowEnemies, hPack);
+    WritePackCell(hPack, 150);
+    CreateTimer(0.02, Timer_ShowEnemies, hPack);
 
 }
 
@@ -96,6 +98,7 @@ public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
 
     iRemaining--;
     if(iRemaining < 0){
+        PrintToChat(iClient, "%s Twój radar się skończył!", PREFIX_SKILL);
         return Plugin_Stop;
     }
 
@@ -105,7 +108,7 @@ public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
     hPack = CreateDataPack();
     WritePackCell(hPack, GetClientSerial(iClient));
     WritePackCell(hPack, iRemaining);
-    CreateTimer(1.0, Timer_ShowEnemies, hPack);
+    CreateTimer(0.02, Timer_ShowEnemies, hPack);
 
     return Plugin_Stop;
 }
@@ -113,20 +116,24 @@ public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
 
 public void ShowEnemiesToClient(int iClient){
     Handle hMessage = StartMessageOne("ProcessSpottedEntityUpdate", iClient, USERMSG_RELIABLE);
+    //PbSetBool(hMessage, "new_update", true);
     Handle hEntityUpdates;
-
-    float fPos[3];
+    float fPos[3], fAngles[3];
     int iTeam = GetClientTeam(iClient)
     for(int i = 1; i <= MaxClients; i++){
         if(IsClientInGame(i) && IsPlayerAlive(i) && GetClientTeam(i) != iTeam){
             hEntityUpdates = PbAddMessage(hMessage, "entity_updates");
+            SetEntProp(i, Prop_Send, "m_bSpotted", 1);
             GetClientAbsOrigin(i, fPos);
+            GetClientEyeAngles(i, fAngles);
             PbSetInt(hEntityUpdates, "entity_idx", i);
             PbSetInt(hEntityUpdates, "class_id", GetClientTeam(i));
             PbSetInt(hEntityUpdates, "origin_x", RoundFloat(fPos[0]));
             PbSetInt(hEntityUpdates, "origin_y", RoundFloat(fPos[1]));
             PbSetInt(hEntityUpdates, "origin_z", RoundFloat(fPos[2]));
+            PbSetInt(hEntityUpdates, "angle_y", RoundFloat(fAngles[1]));
         }
     }
     EndMessage();
 }
+

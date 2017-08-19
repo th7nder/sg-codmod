@@ -56,7 +56,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) - 30);
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         fDamage += 8.0;
     }

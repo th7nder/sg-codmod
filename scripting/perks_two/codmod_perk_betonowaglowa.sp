@@ -47,7 +47,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     g_bHasItem[iClient] = false;
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iVictim] && (iDamageType & CS_DMG_HEADSHOT)){
         fDamage *= 0.0;
     }

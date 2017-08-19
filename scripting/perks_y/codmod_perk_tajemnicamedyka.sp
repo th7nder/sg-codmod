@@ -139,7 +139,7 @@ public Action Timer_Resurrect(Handle hTimer, Handle hPack){
     int iRandom = GetRandomInt(50, 150);
     PrintToChat(iClient, "%s Otrzymałeś %d expa za wskrzeszenie!", PREFIX_SKILL, iRandom);
     CodMod_GiveExp(iClient, iRandom);
-    CodMod_GiveEverlasting(iClient, 1);
+    CodMod_SetDogtagCount(iClient, CodMod_GetDogtagCount(iClient) + 1);
     g_iRessurected[iClient]++;
     g_hSkillTimers[iClient] = INVALID_HANDLE;
     KillSkillTimer(iClient);

@@ -97,7 +97,7 @@ public Action Timer_Reset(Handle hTimer, iClient){
 }
 
 
-public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
 	if(g_bHasItem[iAttacker] && g_bUsing[iAttacker]){
 		fDamage *= 4.0;
 	}

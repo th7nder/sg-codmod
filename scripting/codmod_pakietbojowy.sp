@@ -3,7 +3,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <codmod301>
-#include "include/emitsoundany.inc"
+#include <emitsoundany>
 #define CHAT_PREFIX_SG "  \x06[\x0BSerwery\x01-\x07GO\x06]\x0A"
 
 public Plugin:myinfo = {

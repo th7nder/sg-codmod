@@ -54,7 +54,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
     g_fLastReflected[iClient] = 0.0;
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iVictim] && !(iDamageType & CS_DMG_HEADSHOT)){
         if(g_fLastReflected[iVictim] == 0.0){
             g_fLastReflected[iVictim] = GetGameTime();

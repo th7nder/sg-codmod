@@ -85,7 +85,7 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
     return Plugin_Stop;
 }
 
-public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iVictim] && !g_bWasInvisible[iVictim]){
         g_bInvisible[iVictim] = true;
         g_bWasInvisible[iVictim] = true;

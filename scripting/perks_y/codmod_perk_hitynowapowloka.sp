@@ -48,7 +48,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 
 
-public CodMod_OnPlayerDamaged(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
+public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
 	if(g_bHasItem[iVictim]){
 		CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
 	}

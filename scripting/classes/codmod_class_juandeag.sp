@@ -115,7 +115,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     g_bUsed[iClient] = true;
     g_bUsing[iClient] = true;
 
-    PrintToChat(iClient, "%s Blokujesz 85% dmg przez 2sec!", PREFIX_SKILL);
+    PrintToChat(iClient, "%s Blokujesz 85%% dmg przez 2sec!", PREFIX_SKILL);
     Handle hData = CreateDataPack();
     WritePackCell(hData, GetClientSerial(iClient));
     WritePackCell(hData, CodMod_GetRoundIndex());

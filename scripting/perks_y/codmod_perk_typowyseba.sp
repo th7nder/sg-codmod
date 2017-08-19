@@ -66,7 +66,7 @@ public void CodMod_OnWeaponCanUsePerk(int iClient, WeaponID iWeaponID, int &iCan
 }
 
 
-public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
 	if(g_bHasItem[iAttacker] && iWeaponID == WEAPON_TASER){
 		fDamage *= 200.0;
 	}

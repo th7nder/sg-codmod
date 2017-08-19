@@ -80,7 +80,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
     g_bOnFire[iClient] = false;
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if((iWeaponID == WEAPON_HEGRENADE)){
             fDamage += 125.0;

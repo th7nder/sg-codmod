@@ -47,7 +47,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     g_bHasItem[iClient] = false;
 }
 
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if((iWeaponID == WEAPON_USP || iWeaponID == WEAPON_GLOCK || iWeaponID == WEAPON_HKP2000) && GetRandomInt(1, 100) >= 80){
             fDamage *= 300.0;

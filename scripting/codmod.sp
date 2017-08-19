@@ -84,6 +84,7 @@ new String:perks[PERK_LIMIT][registerIdxs][128];
 new changedClass[MAXPLAYERS+1] = {0};
 
 
+Handle g_hDamagePerkForward = INVALID_HANDLE;
 new Handle:g_DamageForward;
 new Handle:g_WeaponUseForward;
 new Handle:g_OnPlayerDieForward;
@@ -173,6 +174,7 @@ public OnPluginStart(){
 
     g_OnChangeClass = CreateGlobalForward("CodMod_OnChangeClass", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
     g_DamageForward = CreateGlobalForward("CodMod_OnPlayerDamaged", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell, Param_Cell);
+    g_hDamagePerkForward = CreateGlobalForward("CodMod_OnPlayerDamagedPerk", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell, Param_Cell);
     g_OnPlayerDieForward = CreateGlobalForward("CodMod_OnPlayerDie", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
     g_WeaponUseForward = CreateGlobalForward("CodMod_OnWeaponCanUse", ET_Single, Param_Cell, Param_Cell, Param_CellByRef, Param_Cell);
     g_hWeaponCanUsePerk = CreateGlobalForward("CodMod_OnWeaponCanUsePerk", ET_Single, Param_Cell, Param_Cell, Param_CellByRef, Param_Cell);
@@ -244,8 +246,62 @@ public OnPluginStart(){
     g_iOffsetArmorValue = FindSendPropInfo("CCSPlayer", "m_ArmorValue");
 
     RegConsoleCmd("bindy", Command_Binds);
+
+    AddCommandListener(Listener_Buy, "buy")
 }
 
+
+public Action Listener_Buy(int client, const char[] szCommand, int iArgc)
+{
+    char weapon[128];
+    GetCmdArg(1, weapon, sizeof(weapon));
+    if(StrEqual(weapon, "fn57"))
+    {
+        Format(weapon, sizeof(weapon), "fiveseven");
+    }
+
+
+    if(StrContains(weapon, "defuser") != -1)
+        return Plugin_Continue;
+
+    if(StrContains(weapon, "g3sg1") != -1 || StrContains(weapon, "scar20") != -1){
+        return Plugin_Handled;
+    }
+
+    if(StrEqual(classes[g_PlayersInfo[client][CLASS]][NAME], "Szpieg [Premium]")){
+        if(WeaponIsPistol(CodMod_GetWeaponIDByName(weapon))){
+            return Plugin_Continue;
+        }
+    }
+
+    WeaponID iWeaponID = CodMod_GetWeaponIDByName(weapon);
+    int canUseForward = 1;
+    Call_StartForward(g_WeaponUseForward);
+    Call_PushCell(client);
+    Call_PushCell(iWeaponID);
+    Call_PushCellRef(canUseForward);
+    Call_PushCell(true);
+    Call_Finish();
+
+    Call_StartForward(g_hWeaponCanUsePerk);
+    Call_PushCell(client);
+    Call_PushCell(iWeaponID);
+    Call_PushCellRef(canUseForward);
+    Call_PushCell(true);
+    Call_Finish();
+
+
+    if(canUseForward == 0){
+        return Plugin_Handled;
+    }
+
+    if(canUseForward == 2){
+        return Plugin_Continue;
+    }
+
+
+    return Plugin_Handled;
+}
 
 public int Native_GetPerkName(Handle hPlugin, int iNumParams)
 {
@@ -486,9 +542,9 @@ public CodMod_AddExpFill(client, amount){
     if(CodMod_GetLevel(client) >= MAX_LEVEL)
         return;
 
-     if(GetPlayerCount() < 5) return;
+    if(GetPlayerCount() < 5) return;
 
-    new Float:multiply = 1.0;
+    float multiply = 1.0;
     Call_StartForward(g_OnGiveExpMultiply);
     Call_PushCell(client);
     Call_PushFloatRef(multiply);
@@ -1162,24 +1218,23 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
 
     int iRealAttacker = attacker;
     if(inflictor > MAXPLAYERS){
-      char szAttacker[64];
-    GetEntPropString(inflictor, Prop_Data, "m_iClassname", szAttacker, 31);
-      int iOwner = GetEntPropEnt(inflictor, Prop_Send, "m_hOwnerEntity");
-      if(IsValidPlayer(iOwner)){
-        if(StrEqual(szAttacker, "inferno")){
-          weaponID = WEAPON_MOLOTOV;
-        } else if(StrEqual(szAttacker, "hegrenade_projectile")){
-          weaponID = WEAPON_HEGRENADE;
-        }
-
-        attacker = iOwner;
+        char szAttacker[64];
+        GetEntPropString(inflictor, Prop_Data, "m_iClassname", szAttacker, 31);
+        int iOwner = GetEntPropEnt(inflictor, Prop_Send, "m_hOwnerEntity");
+        if(IsValidPlayer(iOwner)){
+            if(StrEqual(szAttacker, "inferno")){
+                weaponID = WEAPON_MOLOTOV;
+            } else if(StrEqual(szAttacker, "hegrenade_projectile")){
+                weaponID = WEAPON_HEGRENADE;
+            }
+            attacker = iOwner;
       } else {
         attacker = 0;
       }
     } else if(IsValidPlayer(attacker)){
         weaponID = CodMod_GetClientWeaponID(attacker);
         if(damagetype & DMG_BURN){
-          weaponID = WEAPON_MOLOTOV;
+            weaponID = WEAPON_MOLOTOV;
         }
     }
 
@@ -1208,8 +1263,17 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     Call_PushCell(iDMGType);
     Call_Finish();
 
+    float fDamageBeforePerk = damage;
+    Call_StartForward(g_hDamagePerkForward);
+    Call_PushCell(attacker);
+    Call_PushCell(victim);
+    Call_PushFloatRef(damage);
+    Call_PushCell(weaponID);
+    Call_PushCell(iDMGType);
+    Call_Finish();
+
     if(iVictimPerk == g_iNanoarmor){
-      if(damage / fDamageBefore > 10.0){
+      if(damage / fDamageBefore > 10.0 || damage / fDamageBeforePerk > 10.0){
         damage = fDamageBefore;
       }
     }
@@ -1256,7 +1320,10 @@ public CodMod_SetClass(client, class){
 }
 
 
-public Action CS_OnBuyCommand(client, const String:weapon[]){
+public Action CS_OnBuyCommand(client, const char[] weapon){
+    return Plugin_Continue;
+
+    /*
     if(StrContains(weapon, "defuser") != -1)
         return Plugin_Continue;
 
@@ -1286,6 +1353,7 @@ public Action CS_OnBuyCommand(client, const String:weapon[]){
     Call_PushCell(true);
     Call_Finish();
 
+
     if(canUseForward == 0){
         return Plugin_Handled;
     }
@@ -1295,7 +1363,7 @@ public Action CS_OnBuyCommand(client, const String:weapon[]){
     }
 
 
-    return Plugin_Handled;
+    return Plugin_Handled;*/
 }
 
 public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:angles[3], &weapon){
@@ -2102,7 +2170,6 @@ public Menu_Regive_Perk_Give_Handler(Handle:menu, MenuAction:action, client, pos
 
         case MenuAction_End:
         {
-            PrintToChat(giver, "%s Gracz nie chciał przyjąć Twojego perku", PREFIX);
             CloseHandle(menu);
         }
     }
@@ -2995,7 +3062,7 @@ public bool IsPlayerTarget(int sEntity, int iContentsMask, any iVictim)
 	return (iVictim == sEntity);
 }
 
-ShowSpecMessage(iClient, const String:szMessage[])
+stock void ShowSpecMessage(iClient, const String:szMessage[])
 {
     HudMsg(iClient, 1, Float:{0.8, -1.0}, {255, 0, 0, 255}, {0, 255, 0, 255}, 0, 0.1, 0.1, SPEC_MESSAGE_DELAY + 0.1, 0.0, szMessage);
 }
