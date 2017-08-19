@@ -647,7 +647,7 @@ public OnMapStart(){
         int end = sizeof(g_saGrenadeWeaponNames);
         for (int i=0; i<end; i++) {
             int entindex = CreateEntityByName(g_saGrenadeWeaponNames[i]);
-            DispatchSpawn(entindex);
+            //DispatchSpawn(entindex);
             g_iaGrenadeOffsets[i] = GetEntProp(entindex, Prop_Send, "m_iPrimaryAmmoType");
             AcceptEntityInput(entindex, "Kill");
         }

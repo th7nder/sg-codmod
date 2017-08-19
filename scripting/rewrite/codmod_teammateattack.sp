@@ -2,7 +2,7 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <codmod301>
-#include "include/emitsoundany.inc"
+
 
 
 
