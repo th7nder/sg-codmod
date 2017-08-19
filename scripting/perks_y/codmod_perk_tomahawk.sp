@@ -15,8 +15,8 @@ public Plugin:myinfo = {
 	url = "http://th7.eu"
 };
 
-new const String:szClassName[NAME_LENGTH] = {"Tomahawk"};
-new const String:szDesc[DESC_LENGTH] = {"Posiadasz 5 noży do rzucania(1 nóz 50dmg)."};
+new const String:szClassName[NAME_LENGTH] = {"Wabikhawk"};
+new const String:szDesc[DESC_LENGTH] = {"Posiadasz 5 wabików do rzucania(1 wabik 50dmg)."};
 new g_iPerkId;
 
 
@@ -49,7 +49,7 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
 		return;
 
 	g_bHasItem[iClient] = true;
-	g_iKnives[iClient] = 5;
+	g_iKnives[iClient] = 300;
 
 }
 
@@ -63,7 +63,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 public CodMod_OnPlayerSpawn(iClient){
 	if(g_bHasItem[iClient]){
-		g_iKnives[iClient] = 5;
+		g_iKnives[iClient] = 300;
 	}
 }
 
@@ -91,7 +91,7 @@ stock ThrowKnife(client) {
 
 	new entity = CreateEntityByName("decoy_projectile");
 	if ((entity != -1) && DispatchSpawn(entity)) {
-		SetEntityModel(entity, KNIFE_MDL);
+		//SetEntityModel(entity, KNIFE_MDL);
 		SetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity", client);
 
 		new Float:eyes_angle[3];

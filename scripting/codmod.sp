@@ -49,6 +49,13 @@ char g_szSidGiveItem[][64] = {
 };
 
 int g_iaGrenadeOffsets[sizeof(g_saGrenadeWeaponNames)];
+char g_saGrenadeAmmoTypes[][] = {
+    "AMMO_TYPE_HEGRENADE",
+    "AMMO_TYPE_FLASHBANG",
+    "AMMO_TYPE_SMOKEGRENADE",
+    "AMMO_TYPE_MOLOTOV",
+    "AMMO_TYPE_DECOY"
+};
 
 Handle g_hWeaponCanUsePerk = INVALID_HANDLE;
 Handle g_hOnPerkSkillUsed = INVALID_HANDLE;
@@ -167,8 +174,9 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
 }
 
 UserMsg g_msgHudMsg;
-
+Handle g_hGameConf = INVALID_HANDLE;
 public OnPluginStart(){
+    g_hGameConf = LoadGameConfigFile("grenades.games");
     g_msgHudMsg = GetUserMessageId("HudMsg");
     g_iOffsetActiveWeapon = FindSendPropInfo("CBasePlayer", "m_hActiveWeapon");
 
@@ -700,13 +708,19 @@ public OnMapStart(){
     PrecacheFolder("models/serwery-go_zp/");
 
     if (!g_iaGrenadeOffsets[0]) {
-        int end = sizeof(g_saGrenadeWeaponNames);
+        g_iaGrenadeOffsets[0] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[1]); // flashbang
+        g_iaGrenadeOffsets[1] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[3]); // molotov
+        g_iaGrenadeOffsets[2] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[2]); // smokegrenade
+        g_iaGrenadeOffsets[3] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[0]); // hegrenade
+        g_iaGrenadeOffsets[4] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[4]); // decoy
+        g_iaGrenadeOffsets[5] = GetAmmoDef_Index(g_saGrenadeAmmoTypes[3]); // incgrenade
+        /*int end = sizeof(g_saGrenadeWeaponNames);
         for (int i=0; i<end; i++) {
             int entindex = CreateEntityByName(g_saGrenadeWeaponNames[i]);
             //DispatchSpawn(entindex);
             g_iaGrenadeOffsets[i] = GetEntProp(entindex, Prop_Send, "m_iPrimaryAmmoType");
             AcceptEntityInput(entindex, "Kill");
-        }
+        }*/
     }
 
     for(int i = 0; i < g_iBlockedWeaponPerksSize; i++){
@@ -3092,4 +3106,34 @@ HudMsg(iClient, iChannel, const Float:fPosition[2], const iColor1[4], const iCol
     EndMessage();
 
     return true;
+}
+
+int GetAmmoDef_Index(const char[] type)
+{
+    static Handle call = null;
+    if (call == null) {
+        StartPrepSDKCall(SDKCall_Raw);
+        PrepSDKCall_SetFromConf(g_hGameConf, SDKConf_Signature, "GetAmmoDef_Index");
+        PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
+        PrepSDKCall_AddParameter(SDKType_String, SDKPass_Pointer);
+        call = EndPrepSDKCall();
+        if (!call)
+            SetFailState("Can't load function call.");
+    }
+    return SDKCall(call, GetAmmoDef(), type);
+}
+
+any GetAmmoDef()
+{
+    static Handle call = null;
+    if (call == null) {
+        StartPrepSDKCall(SDKCall_Static);
+        PrepSDKCall_SetFromConf(g_hGameConf, SDKConf_Signature, "GetAmmoDef");
+        PrepSDKCall_SetReturnInfo(SDKType_PlainOldData, SDKPass_Plain);
+        // No args
+        call = EndPrepSDKCall();
+        if (!call)
+            SetFailState("Can't load function call.");
+    }
+    return SDKCall(call);
 }

@@ -95,7 +95,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
 }
 
 public void CodMod_OnWeaponCanUsePerk(int iClient, WeaponID iWeaponID, int &iCanUse, bool bBuy){
-    if(g_bHasItem[iClient] && g_iGiveWeapon == iWeaponID && !bBuy){
+    if(g_bHasItem[iClient] && (g_iGiveWeapon == iWeaponID || g_iGiveSecondWeapon == iWeaponID) && !bBuy){
         iCanUse = 2;
     }
 }
