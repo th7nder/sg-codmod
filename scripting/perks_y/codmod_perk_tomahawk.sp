@@ -49,7 +49,7 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
 		return;
 
 	g_bHasItem[iClient] = true;
-	g_iKnives[iClient] = 300;
+	g_iKnives[iClient] = 5;
 
 }
 
@@ -63,7 +63,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 public CodMod_OnPlayerSpawn(iClient){
 	if(g_bHasItem[iClient]){
-		g_iKnives[iClient] = 300;
+		g_iKnives[iClient] = 5;
 	}
 }
 

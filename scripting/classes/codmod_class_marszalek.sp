@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Marszałek"};
-char g_szDesc[256] = {"120HP, UMP-45, FiveSeven, Molotov \n 1/10 na odnowienie 5 naboi przy trafieniu\n Na codmod_skill przez 3 sec \n 20%% szans na uleczenie o 20%% \n przy zadawaniu dmg"};
+char g_szDesc[256] = {"120HP, UMP-45, FiveSeven, Molotov \n 1/10 na odnowienie 5 naboi przy trafieniu\n Na codmod_skill przez 3 sec \n  leczysz się o 20%% zadawanego dmg"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -31,9 +31,9 @@ int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
 bool g_bHealing[MAXPLAYERS+1] = {false};
-float g_fLastUsed[MAXPLAYERS+1] = {false};
+float g_fLastUsed[MAXPLAYERS+1] = {0};
 public void OnPluginStart(){
-    g_iWeapons[0] = WEAPON_GLOCK;
+    g_iWeapons[0] = WEAPON_FIVESEVEN;
     g_iWeapons[1] = WEAPON_UMP45;
     g_iWeapons[2] = WEAPON_MOLOTOV;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
@@ -72,12 +72,9 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 
         if(g_bHealing[iAttacker])
         {
-            if(GetRandomInt(1, 100) >= 80)
+            if(CodMod_Heal(iAttacker, iAttacker, RoundFloat(fDamage * 0.2)))
             {
-                if(CodMod_Heal(iAttacker, iAttacker, RoundFloat(fDamage * 0.2)))
-                {
-                    PrintToChat(iAttacker, "%s Uleczyłeś się o %d!", PREFIX_SKILL, RoundFloat(fDamage * 0.2));
-                }
+                PrintToChat(iAttacker, "%s Uleczyłeś się o %d!", PREFIX_SKILL, RoundFloat(fDamage * 0.2));
             }
         }
     }
