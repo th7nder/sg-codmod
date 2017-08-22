@@ -96,15 +96,22 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
     int iMaxMines = 3;
     if(g_iMines[iClient] + 1 <= iMaxMines){
-        g_iMines[iClient]++;
-        PrintToChat(iClient, "%s Postawiłeś minę! Zostały Ci %d miny", PREFIX_SKILL, iMaxMines - g_iMines[iClient]);
+
         int iColor[3];
         if(GetClientTeam(iClient) == CS_TEAM_T){
             iColor = {255, 127, 0};
         } else {
             iColor = {0, 127, 255};
         }
-        PlantClientLasermine(iClient, 1.0, 1000, 300, 0, iColor);
+        if(PlantClientLasermine(iClient, 1.0, 1000, 300, 0, iColor))
+        {
+            g_iMines[iClient]++;
+            PrintToChat(iClient, "%s Postawiłeś minę! Zostały Ci %d miny", PREFIX_SKILL, iMaxMines - g_iMines[iClient]);
+        }
+        else
+        {
+            PrintToChat(iClient, "%s Nie udało się postawić laserminy w tym miejscu.", PREFIX_SKILL);
+        }
     } else {
         PrintToChat(iClient, "%s Wykorzystałeś już %d min w tej rundzie!", PREFIX_SKILL, iMaxMines)
     }
