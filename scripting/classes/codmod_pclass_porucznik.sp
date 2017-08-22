@@ -52,6 +52,8 @@ public void SetWeaponToKnife(client){
     SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", weapon);
 }
 
+
+
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         //if(GetRandomInt(1, 100) >= 95)
@@ -125,6 +127,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
         }
 
         EquipPlayerWeapon(iClient, iNextEntity);
+        SetWeaponActive(iClient, iNextEntity);
     } else if(iWeaponID == g_iSecondWeaponID){
         if(iWeaponID == g_iSecondWeaponID){
             g_iWeaponAmmos[1] = GetEntProp(iCurrentEntity, Prop_Send, "m_iClip1");
@@ -143,6 +146,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
             SetEntProp(iNextEntity, Prop_Send, "m_iClip1", g_iWeaponAmmos[0]);
         }
         EquipPlayerWeapon(iClient, iNextEntity);
+        SetWeaponActive(iClient, iNextEntity);
     }
 }
 
