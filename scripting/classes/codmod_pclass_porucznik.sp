@@ -20,7 +20,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Porucznik [Premium]"};
-char g_szDesc[256] = {"110HP, AK47/M4A4, P250 \n Gdy ma AK47 1/8 na potrząśnięcie ekranem gdy M4A4 leczenie(50%% na +1/5 dmg) \n +15HP + magazynek per kill "};
+char g_szDesc[256] = {"110HP, AK47/M4A4, P250 \n Gdy ma AK47 1/8 na potrząśnięcie ekranem\n gdy M4A4 leczenie(50%% szans na uleczenie o 1/5 dmg) \n +15HP + magazynek per kill "};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 110;
 const int g_iArmor = 0;
@@ -71,9 +71,18 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 }
 
 
+public Action Timer_Refill(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+    if(iClient > 0)
+    {
+        Player_RefillClip(iClient, -1, 1);
+    }
+}
+
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasClass[iAttacker]){
-        Player_RefillClip(iAttacker, -1, 1);
+        CreateTimer(0.00, Timer_Refill, GetClientSerial(iAttacker));
         CodMod_Heal(iAttacker, iAttacker, 15);
 
 

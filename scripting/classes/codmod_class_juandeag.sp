@@ -77,15 +77,19 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     }
 }
 
-public void CodMod_OnPlayerDie(int attacker, int victim, bool headshot){
-    if(g_bHasClass[attacker]){
-        WeaponID iWeaponID = CodMod_GetClientWeaponID(attacker);
-        int iEntity = GetEntPropEnt(attacker, Prop_Send, "m_hActiveWeapon");
-        if(iWeaponID == WEAPON_DEAGLE) {
-            SetEntProp(iEntity, Prop_Send, "m_iClip1", 7);
-        } else if(iWeaponID != WEAPON_NONE){
-            SetEntProp(iEntity, Prop_Send, "m_iClip1", GetEntProp(iEntity, Prop_Send, "m_iClip1") + 10);
-        }
+public Action Timer_Refill(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+    if(iClient > 0)
+    {
+        Player_RefillClip(iClient, -1, 1);
+    }
+}
+
+
+public void CodMod_OnPlayerDie(int iAttacker, int victim, bool headshot){
+    if(g_bHasClass[iAttacker]){
+        CreateTimer(0.00, Timer_Refill, GetClientSerial(iAttacker));
     }
 }
 

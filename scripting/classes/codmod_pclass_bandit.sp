@@ -69,10 +69,20 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     }
 }*/
 
+public Action Timer_Refill(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+    if(iClient > 0)
+    {
+        Player_RefillClip(iClient, -1, 1);
+    }
+}
+
+
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasClass[iAttacker]){
         CodMod_Heal(iAttacker, iAttacker, 15);
-        Player_RefillClip(iAttacker, -1, 1);
+        CreateTimer(0.00, Timer_Refill, GetClientSerial(iAttacker));
     }
 }
 

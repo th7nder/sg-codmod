@@ -47,14 +47,19 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     g_bHasItem[iClient] = false;
 }
 
+public Action Timer_Refill(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+    if(iClient > 0)
+    {
+        Player_RefillClip(iClient, -1, 1);
+    }
+}
+
+
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasItem[iAttacker]){
         CodMod_Heal(iAttacker, iAttacker, 20);
-
-        int iEntity = GetEntPropEnt(iAttacker, Prop_Send, "m_hActiveWeapon");
-        WeaponID iWeaponID = CodMod_GetWeaponID(iEntity);
-        if(iWeaponID != WEAPON_NONE){
-            SetEntProp(iEntity, Prop_Send, "m_iClip1", GetEntProp(iEntity, Prop_Send, "m_iClip1") + 10);
-        }
+        CreateTimer(0.00, Timer_Refill, GetClientSerial(iAttacker));
     }
 }
