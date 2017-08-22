@@ -1508,6 +1508,8 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
 
 public Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
     new client = GetClientOfUserId(GetEventInt(event, "userid"));
+    if(!IsPlayerAlive(client)) return; // omg fix
+
     g_bIsDefusing[client] = false;
     if(Player_IsVIP(client)){
         g_isPlayerVip[client] = true;
@@ -1544,6 +1546,7 @@ public Action:Timer_OnPlayerSpawn(Handle:timer, any:client){
     if(client == 0 || !IsClientInGame(client))
         return Plugin_Stop;
 
+    if(!IsPlayerAlive(client)) return Plugin_Stop; //omg fix
     new classId = CodMod_GetClass(client);
     Call_StartForward(g_OnPlayerSpawnForward);
     Call_PushCell(client);
