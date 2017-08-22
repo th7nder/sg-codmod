@@ -2471,11 +2471,8 @@ stock SelectClass(client, classId){
 
     CS_SetClientClanTag(client, classes[classId][CLANTAG]);
 
+// moved
 
-    if(IsPlayerAlive(client)){
-        UpdateHealth(client) // STAT HP
-        UpdateWeapons(client);
-    }
 }
 
 public GetClassCallback(Handle:owner, Handle:result, const String:error[], any:client){
@@ -2532,6 +2529,11 @@ public GetClassCallback(Handle:owner, Handle:result, const String:error[], any:c
     CodMod_SetStat(client, INT, int_stat);
     CodMod_SetStat(client, STRENGTH, strength);
     CodMod_SetStat(client, GRAVITY, gravity);
+
+     if(IsPlayerAlive(client)){
+        UpdateHealth(client) // STAT HP
+        UpdateWeapons(client);
+    }
 }
 
 public int Native_GetMaxHP(Handle hPlugin, int iNumParams){
