@@ -3014,7 +3014,7 @@ public bool RadiusFreeze(int iEntity, int iRadius, float fTime)
     for (int iPlayer = 1; iPlayer <= MaxClients; iPlayer++)
     {
 
-        if (IsValidPlayer(iPlayer) && iPlayer != iOwner && GetClientTeam(iPlayer) != GetClientTeam(iOwner) )
+        if (IsValidPlayer(iPlayer) && IsPlayerAlive(iPlayer) && iPlayer != iOwner && GetClientTeam(iPlayer) != GetClientTeam(iOwner) )
         {
 
             GetClientAbsOrigin(iPlayer, pVictimOrigin);
