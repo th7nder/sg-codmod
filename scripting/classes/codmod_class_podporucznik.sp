@@ -117,7 +117,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
         int iCounter = 0;
         do {
             iTarget = GetRandomAliveTarget(iClient, iTargetTeam);
-            if(!IsValidPlayer(iTarget)) 
+            if(!IsValidPlayer(iTarget) || CodMod_GetImmuneToSkills(iTarget)) 
                 continue;
             GetClientAbsOrigin(iTarget, targetOrigin);
             GetClientAbsOrigin(iClient, currentOrigin);

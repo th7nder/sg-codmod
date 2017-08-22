@@ -51,7 +51,7 @@ public Action Timer_TakeMoney(Handle hTimer, int iClient){
 
 public Action Command_Respawn(int iClient, int iArgs){
 	if(IsClientInGame(iClient)){
-		if(!IsPlayerAlive(iClient)){
+		if(!IsPlayerAlive(iClient) && (GetClientTeam(iClient) == CS_TEAM_T || GetClientTeam(iClient) == CS_TEAM_CT)){
 			if(Player_IsVIP(iClient)){
 				int iMoney = GetEntProp(iClient, Prop_Send, "m_iAccount");
 				if(iMoney >= 32000){

@@ -38,6 +38,7 @@ public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = true;
+    CodMod_SetImmuneToSkills(iClient, true);
 }
 
 public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
@@ -45,6 +46,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = false;
+    CodMod_SetImmuneToSkills(iClient, false);
 }
 
 public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){

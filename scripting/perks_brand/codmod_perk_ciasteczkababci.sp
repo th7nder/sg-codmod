@@ -32,20 +32,21 @@ public OnClientPutInServer(iClient){
 	g_bHasItem[iClient] = false;
 }
 
-public CodMod_OnPerkEnabled(iClient, iPerkId){
-	if(iPerkId != g_iPerkId)
-		return;
 
-	g_bHasItem[iClient] = true;
+public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
+    if(iPerkId != g_iPerkId)
+        return;
 
+    g_bHasItem[iClient] = true;
+    CodMod_SetImmuneToSkills(iClient, true);
 }
-
 
 public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     if(iPerkId != g_iPerkId)
         return;
 
     g_bHasItem[iClient] = false;
+    CodMod_SetImmuneToSkills(iClient, false);
 }
 
 

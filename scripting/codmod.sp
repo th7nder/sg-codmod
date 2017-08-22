@@ -114,6 +114,7 @@ new g_bIsDefusing[MAXPLAYERS+1] = {false};
 
 new g_PlayersClassesLevelInfo[MAXPLAYERS+1][CLASS_LIMIT + 1];
 
+bool g_bImmuneToSkills[MAXPLAYERS+1] = {false};
 
 int g_iStatsSpeeds[] = {
     1,
@@ -170,7 +171,24 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
     CreateNative("CodMod_BlockSkill", Native_BlockSkill);
     CreateNative("CodMod_SetPerk", Native_SetPerk);
     CreateNative("CodMod_GetPerkName", Native_GetPerkName);
+    CreateNative("CodMod_SetImmuneToSkills", Native_SetImmuneToSkills);
+    CreateNative("CodMod_GetImmuneToSkills", Native_GetImmuneToSkills);
     return APLRes_Success;
+}
+
+public int Native_SetImmuneToSkills(Handle hPlugin, int iArgs)
+{
+    int iClient = GetNativeCell(1);
+    bool bValue = view_as<bool>(GetNativeCell(2));
+
+    g_bImmuneToSkills[iClient] = bValue;
+}
+
+public int Native_GetImmuneToSkills(Handle hPlugin, int iArgs)
+{
+    int iClient = GetNativeCell(1);
+
+    return g_bImmuneToSkills[iClient];
 }
 
 UserMsg g_msgHudMsg;
@@ -1081,6 +1099,7 @@ public void OnClientPutInServer(int client) {
     SDKHook(client, SDKHook_WeaponCanUse, SDK_OnWeaponEquip);
     SDKHook(client, SDKHook_PostThink, SDK_OnPostThinkPost);
 
+    g_bImmuneToSkills[client] = false;
     g_bFreezed[client] = false;
     g_bTradeBlockade[client] = false;
     g_isPlayerVip[client] = false;
