@@ -81,23 +81,23 @@ public void CodMod_OnPerkSkillUsed(int iClient){
     ShowEnemiesToClient(iClient);
     Handle hPack = CreateDataPack();
     WritePackCell(hPack, GetClientSerial(iClient));
-    WritePackCell(hPack, 150);
-    CreateTimer(0.02, Timer_ShowEnemies, hPack);
+    WritePackFloat(hPack, 3.0);
+    CreateTimer(0.1, Timer_ShowEnemies, hPack);
 
 }
 
 public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
     ResetPack(hPack);
     int iClient = GetClientFromSerial(ReadPackCell(hPack));
-    int iRemaining = ReadPackCell(hPack);
+    float fRemaining = ReadPackFloat(hPack);
 
     CloseHandle(hPack);
     if(!IsValidPlayer(iClient)){
         return Plugin_Stop;
     }
 
-    iRemaining--;
-    if(iRemaining < 0){
+    fRemaining -= 0.1;
+    if(fRemaining < 0){
         PrintToChat(iClient, "%s Twój radar się skończył!", PREFIX_SKILL);
         return Plugin_Stop;
     }
@@ -107,8 +107,8 @@ public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
 
     hPack = CreateDataPack();
     WritePackCell(hPack, GetClientSerial(iClient));
-    WritePackCell(hPack, iRemaining);
-    CreateTimer(0.02, Timer_ShowEnemies, hPack);
+    WritePackFloat(hPack, fRemaining);
+    CreateTimer(0.1, Timer_ShowEnemies, hPack);
 
     return Plugin_Stop;
 }
