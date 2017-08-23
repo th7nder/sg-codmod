@@ -1508,7 +1508,7 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
 
 public Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
     new client = GetClientOfUserId(GetEventInt(event, "userid"));
-    if(!IsPlayerAlive(client)) return; // omg fix
+    if(!IsPlayerAlive(client)) return Plugin_Stop; // omg fix
 
     g_bIsDefusing[client] = false;
     if(Player_IsVIP(client)){
@@ -1539,6 +1539,8 @@ public Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
 
 
     CreateTimer(1.7, Timer_OnPlayerSpawn, GetClientSerial(client));
+
+    return Plugin_Continue;
 }
 
 public Action:Timer_OnPlayerSpawn(Handle:timer, any:client){
