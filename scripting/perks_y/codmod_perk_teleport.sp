@@ -24,6 +24,7 @@ int g_iUsed[MAXPLAYERS+1] = {0};
 float g_fStartOrigin[MAXPLAYERS][3];
 public OnPluginStart(){
 	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+	HookEvent("round_end", Event_OnRoundStart);
 	HookEvent("round_start", Event_OnRoundStart);
 }
 

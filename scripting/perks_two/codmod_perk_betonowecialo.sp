@@ -66,3 +66,17 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
         }
     }
 }
+
+
+public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
+    if(g_bHasItem[iVictim] && iTH7Dmg == TH7_DMG_THROWINGKNIFE){
+        if(g_fLastReflected[iVictim] == 0.0){
+            g_fLastReflected[iVictim] = GetGameTime();
+            fDamage = 0.0;
+            PrintToChat(iVictim, "%s Damage został zredukowany!", PREFIX_SKILL);
+        } else if(GetGameTime() - g_fLastReflected[iVictim] > 0.0 && GetGameTime() - g_fLastReflected[iVictim] < 3.0){
+            fDamage = 0.0;
+            PrintToChat(iVictim, "%s Damage został redukowany!", PREFIX_SKILL);
+        }
+    }
+}
