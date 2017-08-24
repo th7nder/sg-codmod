@@ -53,3 +53,9 @@ public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID i
 		CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
 	}
 }
+
+public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
+    if(g_bHasItem[iVictim] && iTH7Dmg == TH7_DMG_THROWINGKNIFE){
+        CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
+    }
+}

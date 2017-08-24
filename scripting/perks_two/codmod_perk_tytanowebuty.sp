@@ -31,6 +31,7 @@ public void OnPluginEnd(){
 
 public void OnClientPutInServer(int iClient){
     g_bHasItem[iClient] = false;
+    SDKHook(iClient, SDKHook_OnTakeDamage, OnTakeDamage);
 }
 
 public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
@@ -55,3 +56,14 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
         fDamage *= 0.0;
     }
 }
+
+public Action:OnTakeDamage(client, &attacker, &inflictor, &Float:damage, &damagetype)
+{
+    if(!g_bHasItem[client]) return Plugin_Continue;
+    if (damagetype & DMG_FALL)
+    {
+        return Plugin_Handled;
+    }
+    return Plugin_Continue;
+}
+
