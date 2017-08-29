@@ -19,7 +19,6 @@ new const String:szDesc[DESC_LENGTH] = {"Zadajesz +30DMG w Plecy, oraz na starci
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
-
 public OnPluginStart(){
 	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
 }
@@ -32,11 +31,20 @@ public OnPluginEnd(){
 char g_szCTModel[128] = {"models/player/ctm_idf_variantD.mdl"};
 char g_szTTModel[128] = {"models/player/tm_leet_variantD.mdl"};
 
+float g_fBuyzoneCT[3];
+float g_fBuyzoneTT[3];
+bool g_bCTPos = false;
+bool g_bTTPos = false;
+
 
 public void OnMapStart(){
   PrecacheModel(g_szCTModel);
   PrecacheModel(g_szTTModel);
+  g_bCTPos = false;
+  g_bTTPos = false;
 }
+
+
 
 public OnClientPutInServer(iClient){
 	g_bHasItem[iClient] = false;
@@ -75,9 +83,19 @@ void UpdateModel(int iClient)
 
 public void CodMod_OnPlayerSpawn(int iClient)
 {
+        if(GetClientTeam(iClient) == CS_TEAM_CT)
+        {
+                GetClientAbsOrigin(iClient, g_fBuyzoneCT);
+                g_bCTPos = true;
+        }
+        else if(GetClientTeam(iClient) == CS_TEAM_T)
+        {
+                GetClientAbsOrigin(iClient, g_fBuyzoneTT);
+                g_bTTPos = true;
+        }
 	if(g_bHasItem[iClient])
 	{
-		if(GetRandomInt(1, 100) >= 87 && !RespawnAtEnemySpawn(iClient))
+		if(GetRandomInt(1, 100) >= 67 && !RespawnAtEnemySpawn(iClient))
 		{
 			CreateRespawnTimer(iClient);
 		}
@@ -134,7 +152,23 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
 		if(fOrigin[0] == 0.0 || fOrigin[1] == 0.0 || fOrigin[2] == 0.0) return false;
 
-		PrintToConsole(iClient, "%.1f %.1f %.1f", fOrigin[0], fOrigin[1], fOrigin[2]);
+                if(GetClientTeam(iClient) == CS_TEAM_CT && g_bTTPos)
+                {
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneTT) >= 600.0)
+                        {
+                                return false;
+                        }
+                }
+
+                if(GetClientTeam(iClient) == CS_TEAM_T && g_bCTPos)
+                {
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneCT) >= 600.0)
+                        {
+                                return false;
+                        }
+                }
+
+		//PrintToConsole(iClient, "%.1f %.1f %.1f", fOrigin[0], fOrigin[1], fOrigin[2]);
 		TeleportEntity(iClient, fOrigin, fAngle, NULL_VECTOR);
 
 		return true;

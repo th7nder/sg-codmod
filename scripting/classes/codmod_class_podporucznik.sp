@@ -117,8 +117,15 @@ public void CodMod_OnClassSkillUsed(int iClient){
         int iCounter = 0;
         do {
             iTarget = GetRandomAliveTarget(iClient, iTargetTeam);
-            if(!IsValidPlayer(iTarget) || CodMod_GetImmuneToSkills(iTarget)) 
+            if(CodMod_GetImmuneToSkills(iTarget))
+            {
+                iCounter++;
+                if(iCounter > 6){
+                    PrintToChat(iClient, "%s Nie znaleziono blisko odpowiedniego przeciwnika!", PREFIX_SKILL);
+                    return;
+                }
                 continue;
+            } 
             GetClientAbsOrigin(iTarget, targetOrigin);
             GetClientAbsOrigin(iClient, currentOrigin);
             iCounter++;
@@ -130,6 +137,11 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
         } while(GetVectorDistance(currentOrigin, targetOrigin) >= 700.0);
 
+        if(CodMod_GetImmuneToSkills(iTarget))
+        {
+            PrintToChat(iClient, "%s Nie znaleziono blisko odpowiedniego przeciwnika!", PREFIX_SKILL);
+            return;
+        }
         g_iSwitches[iClient]++;
         PrintToChat(iClient, "%s Zamieniłeś się miejscami! Zostało Ci %d zamian", PREFIX_SKILL, iMaxSwitches - g_iSwitches[iClient]);
         g_fLastUse[iClient] = GetGameTime();

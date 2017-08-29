@@ -155,6 +155,12 @@ public Action OnHegrenadeSpawned(int iEntity)
     int iOwner = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
     if(iOwner != -1 && g_bHasClass[iOwner])
     {
+        char szName[32];
+        GetEntPropString(iEntity, Prop_Data, "m_iName", szName, sizeof(szName));
+        if(StrEqual(szName, "cm_justicenade"))
+        {
+            return Plugin_Continue;
+        }
         DHookEntity(g_hDetonate, false, iEntity);
         BeamFollowFunction(iEntity, {75,75,255,255});
     }
@@ -172,13 +178,13 @@ public MRESReturn DHook_OnGrenadeDetonate(int iEntity)
 {
     CodMod_RadiusFreeze(iEntity, 300, 2.0);
     int iOwner = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
-    if(CodMod_GetPlayerInfo(iOwner, PERK) != g_iGranat)
+    if(CodMod_GetPlayerInfo(iOwner, PERK) == g_iGranat)
     {
-        CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
-        return MRES_Supercede;
+        return MRES_Ignored;
     }
 
-    return MRES_Ignored;
+    CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
+    return MRES_Supercede;
 }
 
 

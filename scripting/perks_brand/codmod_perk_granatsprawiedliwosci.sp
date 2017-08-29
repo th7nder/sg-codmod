@@ -175,10 +175,12 @@ stock int SpawnGrenade(int iOwner, float fOrigin[3])
 {
 	int iEntity = CreateEntityByName("hegrenade_projectile");
 	SetEntPropEnt(iEntity, Prop_Data, "m_hThrower", iOwner);
+  DispatchKeyValue(iEntity, "targetname", "cm_justicenade");
 	SetEntProp(iEntity, Prop_Data, "m_iTeamNum", GetClientTeam(iOwner));
 	SetEntPropFloat(iEntity, Prop_Data, "m_flDamage", 99.0);
 	SetEntPropFloat(iEntity, Prop_Data, "m_DmgRadius", 350.0);  
 	SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", iOwner);
+
 	DispatchSpawn(iEntity);  
 	AcceptEntityInput(iEntity, "InitializeSpawnFromWorld");  
 	TeleportEntity(iEntity, fOrigin, NULL_VECTOR, NULL_VECTOR);

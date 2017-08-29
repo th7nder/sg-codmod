@@ -8,8 +8,10 @@
 #include <codmod301>
 
 bool g_bGrenadeBlockade = false;
+bool g_bJuanBlockade = false;
 Handle g_hTimer = INVALID_HANDLE;
 int g_iCounter = 0;
+int g_iJuan = -1;
 public Plugin myinfo =
 {
 	name = "Grenade Blockade",
@@ -40,21 +42,21 @@ public Action Prethink(int iClient) {
 		int iWeapon = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
 
 		int iPlayerClassID = CodMod_GetPlayerInfo(iClient, CLASS)
-		int iClassID = CodMod_GetClassId("Juan Deag");
-		if(iPlayerClassID == iClassID) {
-			return;
+		int iTime = 15;
+		if(iPlayerClassID == g_iJuan) {
+			iTime = 5;
 		}
 
 		if(IsValidPlayer(iClient) && IsPlayerAlive(iClient)){
-			if(g_bGrenadeBlockade){
+			if((iPlayerClassID != g_iJuan && g_bGrenadeBlockade) || (iPlayerClassID == g_iJuan && g_bJuanBlockade)){
 				char szWeapon[64];
 				GetClientWeapon(iClient, szWeapon, sizeof(szWeapon));
-				if(/*StrEqual(szWeapon, "weapon_flashbang") || */StrEqual(szWeapon, "weapon_hegrenade")) {
+				if(StrEqual(szWeapon, "weapon_hegrenade")) {
 					if(iButtons & IN_ATTACK || iButtons & IN_ATTACK2){
 						if(iWeapon != -1 && IsValidEdict(iWeapon)){
 							SetEntProp(iClient, Prop_Data, "m_nButtons", iButtons & ~IN_ATTACK);
 							SetEntPropFloat(iWeapon, Prop_Send, "m_flNextSecondaryAttack", GetGameTime() + 999.0);
-							PrintHintText(iClient, "  Granaty będą dostępne za: \n  <font color='#00CC00'>%d</font> sekund!", 15 - g_iCounter);
+							PrintHintText(iClient, "  Granaty będą dostępne za: \n  <font color='#00CC00'>%d</font> sekund!", iTime - g_iCounter);
 						}
 					}
 				}
@@ -72,11 +74,13 @@ public Action Prethink(int iClient) {
 }
 
 public Action RoundStart(Handle hEvent, const char[] szName, bool bDontBroadcast) {
+	g_iJuan = CodMod_GetClassId("Juan Deag");
 	if(g_hTimer != INVALID_HANDLE){
 		KillTimer(g_hTimer);
 		g_hTimer = INVALID_HANDLE;
 	}
 	g_bGrenadeBlockade = true;
+	g_bJuanBlockade = true;
 	g_iCounter = 0;
 	g_hTimer = CreateTimer(1.0, Grenade_Blockade, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
 }
@@ -84,6 +88,10 @@ public Action RoundStart(Handle hEvent, const char[] szName, bool bDontBroadcast
 public Action Grenade_Blockade(Handle hTimer){
 	if(g_iCounter + 1 <= 15){
 		g_iCounter++;
+		if(g_iCounter >= 5)
+		{
+			g_bJuanBlockade = false;
+		}
 		return Plugin_Continue;
 	}
 
