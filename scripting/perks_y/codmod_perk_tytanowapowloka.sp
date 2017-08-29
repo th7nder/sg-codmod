@@ -47,6 +47,16 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 }
 
 
+public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
+    if(g_bHasItem[iVictim] && iTH7Dmg == TH7_DMG_THROWINGKNIFE)
+    {
+       fDamage = 0.0;
+    }
+
+}
+
+
+
 
 public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
 	if(g_bHasItem[iVictim] && iWeaponID == WEAPON_KNIFE){

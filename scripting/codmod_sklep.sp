@@ -211,13 +211,14 @@ public BuyItem(client, item){
 		PrintToChat(client, "%sKupiłeś ten przedmiot w tej rundzie!", PREFIX);
 		return;
 	}
-	SetMoney(client, GetMoney(client) - itemsPrices[item]);
-	bought[client] += itemsPrices[item];
-	itemBought[client][item] = true;
 	switch(item){
 		case 0:
 		{
-			CodMod_Heal(client, client, 50);
+			if(!CodMod_Heal(client, client, 50))
+			{
+				PrintToChat(client, "%sMasz całe HP! Nie udało się kupić morfiny.", PREFIX);
+				return;
+			}
 		}
 
 		case 1:
@@ -272,6 +273,10 @@ public BuyItem(client, item){
 
 
 	}
+
+	SetMoney(client, GetMoney(client) - itemsPrices[item]);
+	bought[client] += itemsPrices[item];
+	itemBought[client][item] = true;
 
 }
 

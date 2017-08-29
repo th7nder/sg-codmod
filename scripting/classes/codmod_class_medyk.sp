@@ -166,7 +166,7 @@ public Action Timer_Resurrect(Handle hTimer, Handle hPack){
     CS_RespawnPlayer(iTarget);
     RemoveEdict(iRagdoll);
     fPos[2] += 3.0;
-    if(IsValidPlayerPosEx(iTarget, fPos) != 0){
+    if(IsValidPlayerPosMedic(iTarget, fPos) != 0){
       TeleportEntity(iTarget, fPos, NULL_VECTOR, NULL_VECTOR);
     }
 

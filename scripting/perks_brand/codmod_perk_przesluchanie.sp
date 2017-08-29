@@ -53,8 +53,8 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
         ShowEnemiesToClient(iAttacker);
         Handle hPack = CreateDataPack();
         WritePackCell(hPack, GetClientSerial(iAttacker));
-        WritePackCell(hPack, 2);
-        CreateTimer(1.0, Timer_ShowEnemies, hPack);
+        WritePackFloat(hPack, 3.0);
+        CreateTimer(0.1, Timer_ShowEnemies, hPack);
     }
 }
 
@@ -62,15 +62,15 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
 public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
     ResetPack(hPack);
     int iClient = GetClientFromSerial(ReadPackCell(hPack));
-    int iRemaining = ReadPackCell(hPack);
+    float fRemaining = ReadPackFloat(hPack);
 
     CloseHandle(hPack);
     if(!IsValidPlayer(iClient)){
         return Plugin_Stop;
     }
 
-    iRemaining--;
-    if(iRemaining < 0){
+    fRemaining -= 0.1;
+    if(fRemaining < 0){
         return Plugin_Stop;
     }
 
@@ -79,8 +79,8 @@ public Action Timer_ShowEnemies(Handle hTimer, Handle hPack){
 
     hPack = CreateDataPack();
     WritePackCell(hPack, GetClientSerial(iClient));
-    WritePackCell(hPack, iRemaining);
-    CreateTimer(1.0, Timer_ShowEnemies, hPack);
+    WritePackFloat(hPack, fRemaining);
+    CreateTimer(0.1, Timer_ShowEnemies, hPack);
 
     return Plugin_Stop;
 }
@@ -90,16 +90,19 @@ public void ShowEnemiesToClient(int iClient){
     Handle hMessage = StartMessageOne("ProcessSpottedEntityUpdate", iClient, USERMSG_RELIABLE);
     Handle hEntityUpdates;
 
-    float fPos[3];
+    float fPos[3],  fAngles[3];
     for(int i = 1; i <= MaxClients; i++){
         if(IsClientInGame(i) && IsPlayerAlive(i)){
             hEntityUpdates = PbAddMessage(hMessage, "entity_updates");
+            SetEntProp(i, Prop_Send, "m_bSpotted", 1);
             GetClientAbsOrigin(i, fPos);
+            GetClientEyeAngles(i, fAngles);
             PbSetInt(hEntityUpdates, "entity_idx", i);
             PbSetInt(hEntityUpdates, "class_id", GetClientTeam(i));
             PbSetInt(hEntityUpdates, "origin_x", RoundFloat(fPos[0]));
             PbSetInt(hEntityUpdates, "origin_y", RoundFloat(fPos[1]));
             PbSetInt(hEntityUpdates, "origin_z", RoundFloat(fPos[2]));
+            PbSetInt(hEntityUpdates, "angle_y", RoundFloat(fAngles[1]));
         }
     }
     EndMessage();

@@ -18,6 +18,10 @@ public Plugin myinfo = {
 
 WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
+
+const WeaponID g_iFirstWeaponID = WEAPON_M4A1;
+const WeaponID g_iSecondWeaponID = WEAPON_AK47;
+int g_iWeaponAmmos[2] = {-1};
 bool g_bFrozen[MAXPLAYERS+1] = {false};
 
 int g_iBeamColor[] = {0,255,255,255}; 
@@ -58,6 +62,19 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
+
+        if(IsPlayerAlive(iClient))
+        {
+            g_iWeaponAmmos[0] = -1;
+            g_iWeaponAmmos[1] = -1;
+            int iCurrentEntity = GetPlayerWeaponSlot(iClient, 0);
+            if(iCurrentEntity == -1){
+                char szWeapon[64];
+                Format(STRING(szWeapon), "weapon_%s", weaponNames[g_iFirstWeaponID]);
+                GivePlayerItem(iClient, szWeapon);
+            }  
+        }
+
     }
 
 }
@@ -120,9 +137,7 @@ public Action Timer_Unfreeze(Handle hTimer, int iClient){
 }
 
 
-const WeaponID g_iFirstWeaponID = WEAPON_M4A1;
-const WeaponID g_iSecondWeaponID = WEAPON_AK47;
-int g_iWeaponAmmos[2] = {-1};
+
 
 public void OnClientPutInServer(int iClient){
     g_bFrozen[iClient] = false;

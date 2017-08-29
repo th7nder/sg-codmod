@@ -72,8 +72,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
         if(iWeaponID == WEAPON_KNIFE){
             if(GetClientButtons(iAttacker) & IN_ATTACK2)
             {
-                CodMod_DealDamage(iAttacker, iVictim, fDamage * 300.0, TH7_DMG_THROWINGKNIFE);
-                fDamage = 0.0;
+                fDamage *= 300.0;
             }
            /* fDamage += 100.0;
             if(GetClientButtons(iAttacker) & IN_ATTACK2 && isInFOV(iAttacker, iVictim) && !isInFOV(iVictim, iAttacker))

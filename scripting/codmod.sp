@@ -533,7 +533,7 @@ public int CodMod_OnGetWeaponIntID(Handle hPlugin, int iNumParams){
 public CodMod_OnAddExp(Handle:plugin, numParams){
     new client = GetNativeCell(1);
     new amount = GetNativeCell(2);
-    CodMod_AddExpFill(client, amount);
+    CodMod_AddExpFill(client, amount, true);
 }
 
 
@@ -564,11 +564,11 @@ stock bool Player_IsVIP(int iClient){
 	}
 }
 
-public CodMod_AddExpFill(client, amount){
+stock void CodMod_AddExpFill(client, amount, bool bOverride=false){
     if(CodMod_GetLevel(client) >= MAX_LEVEL)
         return;
 
-    if(GetPlayerCount() < 5) return;
+    if(GetPlayerCount() < 5 && !bOverride) return;
 
     float multiply = 1.0;
     Call_StartForward(g_OnGiveExpMultiply);
@@ -596,9 +596,6 @@ public CodMod_AddExpFill(client, amount){
 
     amount = RoundFloat(multiply * float(amount));
     PrintToChat(client, "%sOtrzymałeś \x04 %d doświadczenia\x04!", PREFIX_INFO, amount);
-    if(GetClientCount() < 7){
-        return;
-    }
     CodMod_SetExp(client, CodMod_GetCurrExp(client) + amount);
     new currExp = CodMod_GetCurrExp(client);
     new reqExp = CodMod_GetReqExp(client);
@@ -2714,11 +2711,11 @@ bool IsCommandoPerkBlocked(int perk){
 }
 
 stock SetPerk(int client, int perk, int armoramount){
-    if(perk != 0 && g_iCommandoID != -1 && CodMod_GetClass(client) == g_iCommandoID){
+    /*if(perk != 0 && g_iCommandoID != -1 && CodMod_GetClass(client) == g_iCommandoID){
         while(IsCommandoPerkBlocked(perk)){
           perk = GetRandomInt(1, registeredPerks);
         }
-    }
+    }*/
 
     while(CodMod_GetClass(client) == g_iElitSniperID && perk == g_iCamouflageMask){
         perk = GetRandomInt(1, registeredPerks)

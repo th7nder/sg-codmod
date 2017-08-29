@@ -134,7 +134,7 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
 		if(fOrigin[0] == 0.0 || fOrigin[1] == 0.0 || fOrigin[2] == 0.0) return false;
 
-		//PrintToConsole(iClient, "%.1f %.1f %.1f", fOrigin[0], fOrigin[1], fOrigin[2]);
+		PrintToConsole(iClient, "%.1f %.1f %.1f", fOrigin[0], fOrigin[1], fOrigin[2]);
 		TeleportEntity(iClient, fOrigin, fAngle, NULL_VECTOR);
 
 		return true;

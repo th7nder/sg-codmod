@@ -36,11 +36,13 @@ int g_iBeamSprite;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
 Handle g_hDetonate = null;
+int g_iGranat = -1;
 public void OnPluginStart()
 {
     g_hDetonate = DHookCreate(235, HookType_Entity, ReturnType_Void, ThisPointer_CBaseEntity, DHook_OnGrenadeDetonate);
     g_iWeapons[0] = WEAPON_DEAGLE;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
+    g_iGranat = CodMod_GetPerkId("Granat Sprawiedliwości");
 }
 
 public void OnMapStart()
@@ -169,8 +171,14 @@ void BeamFollowFunction(int iEntity, int iColor[4])
 public MRESReturn DHook_OnGrenadeDetonate(int iEntity)
 {
     CodMod_RadiusFreeze(iEntity, 300, 2.0);
-    CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
-    return MRES_Supercede;
+    int iOwner = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
+    if(CodMod_GetPlayerInfo(iOwner, PERK) != g_iGranat)
+    {
+        CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
+        return MRES_Supercede;
+    }
+
+    return MRES_Ignored;
 }
 
 

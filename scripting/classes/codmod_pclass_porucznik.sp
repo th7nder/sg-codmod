@@ -20,6 +20,10 @@ public Plugin myinfo = {
     url = "http://serwery-go.pl"
 };
 
+const WeaponID g_iFirstWeaponID = WEAPON_AK47;
+const WeaponID g_iSecondWeaponID = WEAPON_M4A4;
+int g_iWeaponAmmos[2] = {-1};
+
 WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 int g_iBeamColor[] = {0,255,0,255}; 
 
@@ -49,6 +53,19 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
+
+        if(IsPlayerAlive(iClient))
+        {
+            g_iWeaponAmmos[0] = -1;
+            g_iWeaponAmmos[1] = -1;
+            int iCurrentEntity = GetPlayerWeaponSlot(iClient, 0);
+            if(iCurrentEntity == -1){
+                char szWeapon[64];
+                Format(STRING(szWeapon), "weapon_%s", weaponNames[g_iFirstWeaponID]);
+                GivePlayerItem(iClient, szWeapon);
+            }  
+        }
+
     }
 
 }
@@ -119,9 +136,7 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     }
 }
 
-const WeaponID g_iFirstWeaponID = WEAPON_AK47;
-const WeaponID g_iSecondWeaponID = WEAPON_M4A4;
-int g_iWeaponAmmos[2] = {-1};
+
 
 public void CodMod_OnPlayerSpawn(int iClient){
     g_bOnFire[iClient] = false;
