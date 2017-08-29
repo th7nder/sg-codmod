@@ -281,6 +281,7 @@ public BuyItem(client, item){
 }
 
 stock Lotto(int iClient){
+	if(!IsPlayerAlive(iClient)) return;
 	new iRandom = GetRandomInt(1, 100);
 	PrintToChat(iClient, "%sMaszyna losująca ruszyła!", PREFIX_INFO);
 	if(iRandom > 55){
