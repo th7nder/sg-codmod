@@ -63,6 +63,17 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     } else {
         g_bHasClass[iClient] = true;
 
+        CreateTimer(0.5, Timer_GiveWeapon, GetClientSerial(iClient));
+    }
+
+}
+
+public Action Timer_GiveWeapon(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+
+    if(iClient > 0 && IsClientInGame(iClient))
+    {
         if(IsPlayerAlive(iClient))
         {
             g_iWeaponAmmos[0] = -1;
@@ -74,9 +85,7 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
                 GivePlayerItem(iClient, szWeapon);
             }  
         }
-
     }
-
 }
 
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
