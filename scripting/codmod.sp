@@ -173,7 +173,16 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
     CreateNative("CodMod_GetPerkName", Native_GetPerkName);
     CreateNative("CodMod_SetImmuneToSkills", Native_SetImmuneToSkills);
     CreateNative("CodMod_GetImmuneToSkills", Native_GetImmuneToSkills);
+    CreateNative("CodMod_SetWeaponID", Native_SetWeaponID);
     return APLRes_Success;
+}
+
+public int Native_SetWeaponID(Handle hPlugin, int iArgs)
+{
+    int iEntity = GetNativeCell(1);
+    WeaponID iWeaponID = view_as<WeaponID>(GetNativeCell(2));
+
+    g_iWeaponIDs[iEntity] = iWeaponID;
 }
 
 public int Native_SetImmuneToSkills(Handle hPlugin, int iArgs)
@@ -2458,10 +2467,11 @@ stock SelectClass(client, classId){
         Client_RemoveAllWeapons(client, "weapon_knife");
     }
 
+
+    CodMod_DropPerk(client);
     // quality change
     CodMod_SetClass(client, classId);
 
-    CodMod_DropPerk(client);
 
 
     decl String:auth[48];
