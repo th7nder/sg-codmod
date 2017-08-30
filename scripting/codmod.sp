@@ -2453,10 +2453,13 @@ stock SelectClass(client, classId){
     }
 
 
-    CodMod_SetClass(client, classId);
+    
     if(IsPlayerAlive(client)){
         Client_RemoveAllWeapons(client, "weapon_knife");
     }
+
+    // quality change
+    CodMod_SetClass(client, classId);
 
     CodMod_DropPerk(client);
 
