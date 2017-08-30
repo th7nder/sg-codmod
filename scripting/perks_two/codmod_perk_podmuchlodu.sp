@@ -52,22 +52,28 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 	g_bHasItem[iClient] = false;
 }
 
+
+public void CodMod_OnPlayerSpawn(int iClient)
+{
+        g_iUses[iClient] = 0;
+}
+
 public void CodMod_OnPerkSkillUsed(int iClient){
 	if(!IsValidPlayer(iClient) || !IsPlayerAlive(iClient) || !g_bHasItem[iClient])
 		return;
 
 	if(GetGameTime() - g_fLastUse[iClient] < 5.0){
-        PrintToChat(iClient, "%s Zamrożenia można używać co 5 sekundy!", PREFIX_SKILL);
-        return;
-    }
+                PrintToChat(iClient, "%s Zamrożenia można używać co 5 sekundy!", PREFIX_SKILL);
+                return;
+        }
 
 	if(g_iUses[iClient] + 1 <= MAXUSES){
-        g_fLastUse[iClient] = GetGameTime();
-        g_iUses[iClient]++;
-        PrintToChat(iClient, "%s Uzyłeś zamrożenia!", PREFIX_SKILL);
-        CodMod_RadiusFreeze(iClient, 600, 2.0);
+                g_fLastUse[iClient] = GetGameTime();
+                g_iUses[iClient]++;
+                PrintToChat(iClient, "%s Uzyłeś zamrożenia!", PREFIX_SKILL);
+                CodMod_RadiusFreeze(iClient, 600, 2.0);
 	} else {
-        PrintToChat(iClient, "%s Wykorzystałeś już %d zamrożeń w tej rundzie!", PREFIX_SKILL, MAXUSES)
-    }
+                PrintToChat(iClient, "%s Wykorzystałeś już %d zamrożeń w tej rundzie!", PREFIX_SKILL, MAXUSES)
+        }
 }
 	
