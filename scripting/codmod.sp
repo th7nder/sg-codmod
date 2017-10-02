@@ -2384,7 +2384,7 @@ stock GetAvailPoints(client){
         availablePoints = 25;
     }*/
 
-    availablePoints += (CodMod_GetLevel(client) * 2) - 1 - (hp + armor + dex + int_stat + strength + gravity);
+    availablePoints += (CodMod_GetLevel(client) * 2) - (hp + armor + dex + int_stat + strength + gravity);
     return availablePoints;
 }
 
