@@ -22,9 +22,9 @@ public Plugin myinfo = {
 
 
 char g_szClassName[128] = {"Bandit [Premium]"};
-char g_szDesc[256] = {"145HP, M4A1-S, P250 \n Po zabiciu magazynek, +15HP \n +1 skok, znika na nożu w bezruchu \n 3 rakiety(50 + 1.25 * int dmg)"};
+char g_szDesc[256] = {"120HP, M4A1-S, P250, +5dmg \n Po zabiciu magazynek, +15HP \n +1 skok, znika na nożu w bezruchu \n 3 rakiety(50 + 1.25 * int dmg)"};
 const int g_iHealth = 0;
-const int g_iStartingHealth = 110;
+const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
 const int g_iDexterity = 0;
 const int g_iIntelligence = 0;
@@ -63,11 +63,12 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 
 }
 
-/*public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
-        CodMod_Heal(iAttacker, iAttacker, GetRandomInt(1, 5));
+       // CodMod_Heal(iAttacker, iAttacker, GetRandomInt(1, 5));
+       fDamage+=5.0;
     }
-}*/
+}
 
 public Action Timer_Refill(Handle hTimer, int iSerial)
 {
