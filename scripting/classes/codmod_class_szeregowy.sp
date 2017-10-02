@@ -22,9 +22,9 @@ WeaponID g_iCurrentWeapon[MAXPLAYERS+1] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Szeregowy"};
-char g_szDesc[256] = {"110HP, Fiveseven, Co rundę losowa broń. 1/15 na obrócenie przeciwnika o 180 stopni, +20 DMG w plecy"};
+char g_szDesc[256] = {"120HP, Fiveseven(+7dmg), Co rundę losowa broń. 1/15 na obrócenie przeciwnika o 180 stopni, +20 DMG w plecy"};
 const int g_iHealth = 0;
-const int g_iStartingHealth = 110;
+const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
 const int g_iDexterity = 0;
 const int g_iIntelligence = 0;
@@ -33,7 +33,7 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 bool g_bRandomWeapon[MAXPLAYERS+1] = {true};
 
 public void OnPluginStart(){
-    g_iWeapons[0] = WEAPON_TEC9;
+    g_iWeapons[0] = WEAPON_FIVESEVEN;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
 }
 
@@ -93,6 +93,7 @@ public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, W
         {
            fDamage += 20.0;
         }
+        fDamage += 7.0;
     }
 }
 
