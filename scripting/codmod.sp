@@ -2632,6 +2632,9 @@ stock UpdateWeapons(client){
                 hasWeapon = true;
             }
         }
+        if(classesWeapons[classId][i] == WEAPON_HEALTHSHOT) {
+            hasWeapon = false;
+        }
 
 
         if(hasWeapon == false) {
