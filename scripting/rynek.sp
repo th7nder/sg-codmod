@@ -31,6 +31,7 @@ enum perkData
 	perkData_Price,
 	perkData_Seller,
 	perkData_SellerSerial,
+	perkData_SellerClassId,
 	String:perkData_Name[64]
 }
 
@@ -66,7 +67,9 @@ public int MenuHandler_Rynek(Menu hMenu, MenuAction:iAction, iClient, itemPos)
 
 				if (sellerSerial == GetClientSerial(iClient))
 				{
-					CodMod_SetPerk(iClient, CodMod_GetPerkId(g_ePerk[i][perkData_Name]), g_ePerk[i][perkData_Durability]);
+					if( g_ePerk[i][perkData_SellerClassId] == CodMod_GetPlayerInfo(i, CLASS)) {
+						CodMod_SetPerk(iClient, CodMod_GetPerkId(g_ePerk[i][perkData_Name]), g_ePerk[i][perkData_Durability]);
+					}
 
 
 					clientSoldCount[sellerID]--; // zmniejszenie liczby wystawionych przedmiotów na raz dla danego gracza
@@ -113,7 +116,7 @@ public int MenuHandler_Rynek(Menu hMenu, MenuAction:iAction, iClient, itemPos)
 			}
 		}
 	}
-    else if (iAction == MenuAction_End)
+	else if (iAction == MenuAction_End)
     {
         delete hMenu;
     }
@@ -161,6 +164,7 @@ public Action Command_Sprzedaj (int iClient, int args)
 					g_ePerk[i][perkData_Price] = iPrice;
 					g_ePerk[i][perkData_Seller] = iClient;
 					g_ePerk[i][perkData_SellerSerial] = GetClientSerial(iClient);
+					g_ePerk[i][perkData_SellerClassId] = CodMod_GetPlayerInfo(i, CLASS);
 
 					CodMod_SetPerk(iClient, 0, 0); //ustawienie "brak perku" dla sprzedającego, po wystawieniu na rynek
 					clientSoldCount[iClient]++; // zwiększenie liczby sprzedanych perków dla sprzedającego (max 2)
