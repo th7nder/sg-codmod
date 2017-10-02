@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"El Pistolero"};
-char g_szDesc[256] = {"120HP, Może kupić każdy pistolet \n Moduł Odrzutowy(CTRL + SPACE, co 5 sec) \n +5dmg do pistoli, 8%% redukcji obrażeń"};
+char g_szDesc[256] = {"120HP, Może kupić każdy pistolet \n Moduł Odrzutowy(CTRL + SPACE, co 5 sec) \n +5dmg do pistoli, 15%% redukcji obrażeń"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -79,7 +79,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     }
 
     if(g_bHasClass[iVictim]){
-        fDamage *= 0.92;
+        fDamage *= 0.85;
     }
 }
 
