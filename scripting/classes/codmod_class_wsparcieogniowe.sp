@@ -8,7 +8,7 @@
 #define _IN_CODMOD_CLASS 1
 #define ROCKETS 1
 #define MAX_ROCKETS 3 //+ (CodMod_GetWholeStat(iClient, INT) / 50)
-#define DAMAGE_ROCKET_FORMULA 55 + RoundFloat(float(CodMod_GetWholeStat(iClient, INT)) * 0.8)
+#define DAMAGE_ROCKET_FORMULA 65 + RoundFloat(float(CodMod_GetWholeStat(iClient, INT)))
 #include <codmod301>
 public Plugin myinfo = {
     name = "CodMod 301 - Class - Wsparcie Ogniowe",
@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Wsparcie Ogniowe"};
-char g_szDesc[128] = {"120HP, MP7(+5dmg), TEC-9 \n Posiada 3 rakiety(55dmg + 0,8/1 INT) \n 1/4 na podpalenie z rakiety(7dmg przez 3 sek)"};
+char g_szDesc[128] = {"120HP, UMP-45(+5dmg), CZ75-Auto \n Posiada 3 rakiety(65dmg + 1/1 INT) \n 1/4 na podpalenie z rakiety(7dmg przez 3 sek)\n 1/9 na 50% redukcji otrzymanego DMG w plecy"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -35,8 +35,8 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 int g_iRockets[MAXPLAYERS+1] = {0};
 float g_fLastUse[MAXPLAYERS+1] = {0.0};
 public void OnPluginStart(){
-    g_iWeapons[0] = WEAPON_MP7;
-    g_iWeapons[1] = WEAPON_TEC9;
+    g_iWeapons[0] = WEAPON_UMP45;
+    g_iWeapons[1] = WEAPON_CZ;
     g_iWeapons[2] = WEAPON_FLASHBANG;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
 }
@@ -79,5 +79,18 @@ public void CodMod_OnClassSkillUsed(int iClient){
         FireRocket(iClient);
     } else {
         PrintToChat(iClient, "%s Wykorzystałeś już %d rakiet tej rundzie!", PREFIX_SKILL, iMaxRockets)
+    }
+}
+
+public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+    if(g_bHasClass[iVictim])
+    {
+        if(GetRandomInt(1, 9) == 1)
+        {
+            if(isInFOV(iAttacker, iVictim) && !isInFOV(iVictim, iAttacker))
+            {
+               fDamage *= 0.5;
+            }
+        }
     }
 }
