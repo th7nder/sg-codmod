@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Wsparcie Ogniowe"};
-char g_szDesc[128] = {"120HP, UMP-45(+5dmg), CZ75-Auto \n Posiada 3 rakiety(65dmg + 1/1 INT) \n 1/4 na podpalenie z rakiety(7dmg przez 3 sek)\n 1/9 na 50% redukcji otrzymanego DMG w plecy"};
+char g_szDesc[160] = {"120HP, UMP-45(+5dmg), CZ75\nPosiada 3 rakiety(65dmg+INT)\n1/4 na podpalenie z rakiety(7dmg przez 3s)\n1/9 na 50% redukcji DMG w plecy"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
