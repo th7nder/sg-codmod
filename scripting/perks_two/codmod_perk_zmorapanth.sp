@@ -13,7 +13,7 @@ public Plugin myinfo = {
     url = "http://th7.eu"
 };
 
-char szClassName[] = {"Zmora Panthli0Nna"};
+char szClassName[] = {"Zmora Pathli0Nna"};
 char szDesc[] = {"Na początku rundy dostajesz SCAR-20 \n 1/11 na natychmiastowe zabójstwo."};
 int g_iPerkId;
 
