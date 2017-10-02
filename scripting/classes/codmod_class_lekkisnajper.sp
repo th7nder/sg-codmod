@@ -23,11 +23,11 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Lekki Snajper"};
-char g_szDesc[256] = {"100HP, Scout, FiveSeven \n 1/3 na potrójny damage ze scouta, \n Zmniejszona grawitacja \n 1 siły - 0.8dmg, 50%% widoczności"};
+char g_szDesc[256] = {"140HP, Scout, FiveSeven \n 1/3 na potrójny damage ze scouta, \n Zmniejszona grawitacja \n 1 siły - 0.8dmg, 50%% widoczności"};
 const int g_iHealth = 0;
-const int g_iStartingHealth = 100;
+const int g_iStartingHealth = 140;
 const int g_iArmor = 0;
-const int g_iDexterity = 0;
+const int g_iDexterity = 20;
 const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
