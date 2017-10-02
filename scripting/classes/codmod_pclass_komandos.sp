@@ -189,7 +189,9 @@ char g_szBlockedPerks[][] = {
     "tajemnica komandosa",
     "turbo milka",
     "sekret mrozza",
-    "obrona mahesvary"
+    "obrona mahesvary",
+    "Siatka Kamuflująca",
+    "Buty Luigiego"
 }
 
 const int g_iBlockedPerksSize = sizeof(g_szBlockedPerks);
@@ -202,7 +204,7 @@ public void OnMapStart(){
 }
 
 
-/*public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
+public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
     if(g_bHasClass[iClient]){
         CreateTimer(0.3, Timer_RemoveWeapon, iClient);
 
@@ -213,7 +215,7 @@ public void OnMapStart(){
             }
         }
     }
-}*/
+}
 
 public Action Timer_RemoveWeapon(Handle hTimer, int iClient){
     if(IsClientInGame(iClient) && IsPlayerAlive(iClient)){
