@@ -84,7 +84,7 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
             if(GetRandomInt(1, 100) >= 80 && g_DrugTimers[iVictim] == null){
                 PrintToChatAll("%s %N został naćpany przez Dragi Witboya!", PREFIX_SKILL, iVictim);
                 CreateDrug(iVictim);
-                CreateTimer(15.0, Timer_KillDrug, GetClientSerial(iVictim));
+                CreateTimer(5.0, Timer_KillDrug, GetClientSerial(iVictim));
             }
         }
     }
