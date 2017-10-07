@@ -63,7 +63,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 	if(!IsValidPlayer(iClient) || !IsPlayerAlive(iClient) || !g_bHasItem[iClient])
 		return;
 
-    if(g_iRadarUsed[iClient] + 1 > 3){
+    if(g_iRadarUsed[iClient] + 1 > 2){
         PrintToChat(iClient, "%s Możesz użyć tej umiejętności 2 razy na runde!", PREFIX_SKILL);
         return;
     }
