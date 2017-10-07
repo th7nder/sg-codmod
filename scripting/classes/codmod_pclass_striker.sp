@@ -23,9 +23,9 @@ int g_iHeals[MAXPLAYERS+1] = {0};
 
 
 char g_szClassName[128] = {"Striker [Premium]"};
-char g_szDesc[256] = {"100HP, Mac-10, P250 \n No-Recoil na MAC10, 15HP za killa \n +5dmg ze wszystkiego, codmod_special - heal o 65HP"};
+char g_szDesc[256] = {"120HP, Mac-10, P250 \n No-Recoil na MAC10, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
 const int g_iHealth = 0;
-const int g_iStartingHealth = 100;
+const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
 const int g_iDexterity = 0;
 const int g_iIntelligence = 0;
@@ -74,9 +74,20 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     }
 }
 
+public Action Timer_Refill(Handle hTimer, int iSerial)
+{
+    int iClient = GetClientFromSerial(iSerial);
+    if(iClient > 0)
+    {
+        Player_RefillClip(iClient, -1, 0);
+    }
+}
+
+
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasClass[iAttacker]){
-        CodMod_Heal(iAttacker, iAttacker, 15);
+        CodMod_Heal(iAttacker, iAttacker, 10);
+        CreateTimer(0.00, Timer_Refill, GetClientSerial(iAttacker));
     }
 }
 
@@ -98,7 +109,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     if(g_iHeals[iClient] + 1 <= iMaxHeals){
         g_iHeals[iClient]++;
         PrintToChat(iClient, "%s Uleczyłeś się! Zostało Ci %d uleczeń", PREFIX_SKILL, iMaxHeals - g_iHeals[iClient]);
-        CodMod_Heal(iClient, iClient, 65);
+        CodMod_Heal(iClient, iClient, 70);
     } else {
         PrintToChat(iClient, "%s Wykorzystałeś już wszystkie uleczenia w tej rundzie!", PREFIX_SKILL);
     }
