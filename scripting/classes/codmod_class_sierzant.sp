@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Sierżant"};
-char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 1,5s, odporność na granaty, \n1/8 szansy na 50% EXP więcej"};
+char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 1,5s, odporność na granaty, \n1/8 szansy na 50%% EXP więcej"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -98,6 +98,7 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
           TH7_DisableRenderColor(iClient);
         }
 
+        PrintToChat(iClient, "%s Znów jesteś widzialny!", PREFIX_SKILL)
         g_bInvisible[iClient] = false;
     }
 
@@ -135,11 +136,12 @@ public void CodMod_OnClassSkillUsed(int iClient){
     g_bWasInvisible[iClient] = true;
     TH7_SetRenderColor(iClient, 255, 255, 255, 10);
     CreateTimer(1.5, Timer_SetVisible, GetClientSerial(iClient));
+    PrintToChat(iClient, "%s Użyłeś swojej umiejętności!", PREFIX_SKILL)
     g_iUses[iClient]++;
 }
 
 public void CodMod_OnGiveExp(int iAttacker, int iVictim, int &iExp, bool bHeadshot){
-    if(g_bHasClass[iAttacker])
+    if(g_bHasClass[iAttacker] && GetRandomInt(1,8) == 1)
     {
        iExp = RoundToFloor(iExp*1.5);
     }
