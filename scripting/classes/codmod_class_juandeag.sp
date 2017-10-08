@@ -36,18 +36,16 @@ int g_iBeamSprite;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
 Handle g_hDetonate = null;
-int g_iGranat = -1;
 public void OnPluginStart()
 {
-    g_hDetonate = DHookCreate(235, HookType_Entity, ReturnType_Void, ThisPointer_CBaseEntity, DHook_OnGrenadeDetonate);
     g_iWeapons[0] = WEAPON_DEAGLE;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
-    g_iGranat = CodMod_GetPerkId("Granat Sprawiedliwości");
 }
 
 public void OnMapStart()
 {
     g_iBeamSprite = PrecacheModel("materials/sprites/laserbeam.vmt");
+    HookEvent("flashbang_detonate", Event_OnFlashDetoate)
 }
 
 public void OnPluginEnd()
@@ -104,7 +102,7 @@ public void CodMod_OnPlayerSpawn(int iClient)
     {
         if(!CodMod_GetPlayerNades(iClient, TH7_HE))
         {
-            GivePlayerItem(iClient, "weapon_hegrenade");
+            GivePlayerItem(iClient, "weapon_flashbang");
         }
     }
 }
@@ -144,7 +142,7 @@ public Action Timer_DisableSkill(Handle hTimer, Handle hData)
 
 public void OnEntityCreated(int iEntity, const char[] szClassname)
 {
-    if(StrEqual(szClassname, "hegrenade_projectile"))
+    if(StrEqual(szClassname, "flashbang_projectile"))
     {
         SDKHook(iEntity, SDKHook_SpawnPost, OnHegrenadeSpawned);
     }
@@ -161,7 +159,6 @@ public Action OnHegrenadeSpawned(int iEntity)
         {
             return Plugin_Continue;
         }
-        DHookEntity(g_hDetonate, false, iEntity);
         BeamFollowFunction(iEntity, {75,75,255,255});
     }
 }
@@ -174,14 +171,10 @@ void BeamFollowFunction(int iEntity, int iColor[4])
 	TE_SendToAll();
 }
 
-public MRESReturn DHook_OnGrenadeDetonate(int iEntity)
+public Event_OnFlashDetoate(Event hEvent, const char[] szBroadcast, bool bBroadcast)
 {
+    int iEntity = hEvent.GetInt("entityid");
     CodMod_RadiusFreeze(iEntity, 300, 2.0);
-    int iOwner = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
-    if(CodMod_GetPlayerInfo(iOwner, PERK) == g_iGranat)
-    {
-        return MRES_Ignored;
-    }
 
     CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
     return MRES_Supercede;
