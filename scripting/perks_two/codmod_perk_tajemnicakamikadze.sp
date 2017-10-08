@@ -115,7 +115,7 @@ public Action Timer_DisableFeatures(Handle hTimer, int iClient){
 }
 
 
-public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
+public void CodMod_OnTH7DmgPost(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
     if(g_bUsing[iVictim]){
         fDamage = 0.0;
     }
