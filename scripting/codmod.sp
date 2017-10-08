@@ -107,7 +107,7 @@ new Handle:g_specTimer;
 
 Handle g_hOnClassSkillUsed = INVALID_HANDLE;
 Handle g_hOnTH7Dmg = INVALID_HANDLE;
-
+Handle g_hOnTH7DmgPost = INVALID_HANDLE;
 
 
 new g_bIsDefusing[MAXPLAYERS+1] = {false};
@@ -222,6 +222,7 @@ public OnPluginStart(){
     g_hOnClassSkillUsed = CreateGlobalForward("CodMod_OnClassSkillUsed", ET_Ignore, Param_Cell);
     g_hOnPerkSkillUsed = CreateGlobalForward("CodMod_OnPerkSkillUsed", ET_Ignore, Param_Cell);
     g_hOnTH7Dmg = CreateGlobalForward("CodMod_OnTH7Dmg", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
+    g_hOnTH7DmgPost = CreateGlobalForward("CodMod_OnTH7DmgPost", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
 
 
     Format(classes[0][NAME], 128, "Brak klasy");
@@ -2766,8 +2767,8 @@ public ConnectCallback(Handle:owner, Handle:hndl, const String:error[], any:clie
         hDatabase = INVALID_HANDLE;
     } else {
         hDatabase = CloneHandle(hndl);
-        SQL_SetCharset(hDatabase, "utf8");
-        SQL_DirectQuery("CREATE TABLE IF NOT EXISTS `codmod` (`id` int(11) NOT NULL AUTO_INCREMENT, `player_name` varchar(255) DEFAULT NULL, `player_sid` varchar(255) DEFAULT NULL, `class_name` varchar(255) DEFAULT NULL, `exp` int(11) DEFAULT NULL, `level` int(8) DEFAULT NULL, `hp` int(8) DEFAULT NULL, `armor` int(8) DEFAULT NULL, `int` int(8) DEFAULT NULL, `dex` int(8) DEFAULT NULL, `strength` int(8) DEFAULT NULL, `gravity` int(8) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8");
+        SQL_SetCharset(hDatabase, "utf8mb4");
+        SQL_DirectQuery("CREATE TABLE IF NOT EXISTS `codmod` (`id` int(11) NOT NULL AUTO_INCREMENT, `player_name` varchar(255) DEFAULT NULL, `player_sid` varchar(255) DEFAULT NULL, `class_name` varchar(255) DEFAULT NULL, `exp` int(11) DEFAULT NULL, `level` int(8) DEFAULT NULL, `hp` int(8) DEFAULT NULL, `armor` int(8) DEFAULT NULL, `int` int(8) DEFAULT NULL, `dex` int(8) DEFAULT NULL, `strength` int(8) DEFAULT NULL, `gravity` int(8) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4");
     }
 }
 
@@ -2871,6 +2872,13 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
     }
 
     Call_StartForward(g_hOnTH7Dmg);
+    Call_PushCell(iVictim);
+    Call_PushCell(iAttacker);
+    Call_PushFloatRef(fDamage);
+    Call_PushCell(iTH7Dmg);
+    Call_Finish();
+
+    Call_StartForward(g_hOnTH7DmgPost);
     Call_PushCell(iVictim);
     Call_PushCell(iAttacker);
     Call_PushFloatRef(fDamage);
