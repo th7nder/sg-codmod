@@ -174,10 +174,12 @@ void BeamFollowFunction(int iEntity, int iColor[4])
 public Event_OnFlashDetoate(Event hEvent, const char[] szBroadcast, bool bBroadcast)
 {
     int iEntity = hEvent.GetInt("entityid");
-    CodMod_RadiusFreeze(iEntity, 300, 2.0);
+    int iOwner = GetClientOfUserId(hEvent.GetInt("userid"));
+    if(g_bHasClass[iOwner]) {
+        CodMod_RadiusFreeze(iEntity, 300, 2.0);
 
-    CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
-    return MRES_Supercede;
+        CreateTimer(0.1, Timer_RemoveEntity, EntIndexToEntRef(iEntity));
+    }
 }
 
 
