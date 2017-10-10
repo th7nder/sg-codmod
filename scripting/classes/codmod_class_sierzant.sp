@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Sierżant"};
-char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 1,5s, odporność na granaty, \n1/8 szansy na 50%% EXP więcej"};
+char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 3s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -33,6 +33,8 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
 bool g_bInvisible[MAXPLAYERS+1] = {false};
 bool g_bWasInvisible[MAXPLAYERS+1] = {false};
+
+float g_fLastUse[MAXPLAYERS+1] = {0.0}
 
 int g_iCamouflageMask = -1;
 int g_iUses[MAXPLAYERS] = 0;
@@ -68,6 +70,7 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     g_bInvisible[iClient] = false;
     g_bWasInvisible[iClient] = false;
     g_iUses[iClient] = 0;
+    g_fLastUse[iClient] = 0.0;
 }
 
 public void CodMod_OnPlayerSpawn(int iClient){
@@ -127,15 +130,23 @@ public void CodMod_OnClassSkillUsed(int iClient){
     if(!g_bHasClass[iClient] || !IsPlayerAlive(iClient) )
         return;
 
-    if(g_iUses[iClient] >= 1 || g_bWasInvisible[iClient]) {
-        PrintToChat(iClient, "%s Użyłeś już swojej umiejętności w tej rundzie!", PREFIX_SKILL)
+
+    if(g_iUses[iClient] >= 1) {
+        PrintToChat(iClient, "%s Użyłeś już swojej umiejętności 2 razy w tej rundzie!", PREFIX_SKILL)
         return;
     } 
 
+    if(GetGameTime() - g_fLastUse[iClient] <= 10.0)
+    {
+        PrintToChat(iClient, "%s Umiejętności możesz używać co 10 sec!", PREFIX_SKILL);
+        return;
+    }
+
+    g_fLastUse[iClient] = GetGameTime();
     g_bInvisible[iClient] = true;
     g_bWasInvisible[iClient] = true;
     TH7_SetRenderColor(iClient, 255, 255, 255, 10);
-    CreateTimer(1.5, Timer_SetVisible, GetClientSerial(iClient));
+    CreateTimer(3.0, Timer_SetVisible, GetClientSerial(iClient));
     PrintToChat(iClient, "%s Użyłeś swojej umiejętności!", PREFIX_SKILL)
     g_iUses[iClient]++;
 }
