@@ -38,7 +38,7 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
         if(iPerkId != g_iPerkId)
                 return;
 
-        if(GetRandomInt(1, 100) <= 80)
+        if(GetRandomInt(1, 100) <= 60)
         {
                 CodMod_DestroyPerk(iClient);
                 PrintToChat(iClient, "%s Otrzymałeś mass ress bez mocy wksrzeszania!", PREFIX_INFO);
