@@ -97,9 +97,8 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
     if(g_bInvisible[iClient] && IsPlayerAlive(iClient)){
         if(CodMod_GetPlayerInfo(iClient, PERK) == g_iCamouflageMask){
           TH7_SetRenderColor(iClient, 255, 255, 255, 76);
-        } else {
-          TH7_DisableRenderColor(iClient);
         }
+        TH7_SetVisible(iClient);
 
         PrintToChat(iClient, "%s Znów jesteś widzialny!", PREFIX_SKILL)
         g_bInvisible[iClient] = false;
@@ -145,7 +144,8 @@ public void CodMod_OnClassSkillUsed(int iClient){
     g_fLastUse[iClient] = GetGameTime();
     g_bInvisible[iClient] = true;
     g_bWasInvisible[iClient] = true;
-    TH7_SetRenderColor(iClient, 255, 255, 255, 10);
+    //TH7_SetRenderColor(iClient, 255, 255, 255, 10);
+    TH7_SetInvisible(iClient);
     CreateTimer(3.0, Timer_SetVisible, GetClientSerial(iClient));
     PrintToChat(iClient, "%s Użyłeś swojej umiejętności!", PREFIX_SKILL)
     g_iUses[iClient]++;
