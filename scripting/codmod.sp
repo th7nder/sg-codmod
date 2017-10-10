@@ -50,6 +50,8 @@ char g_szSidGiveItem[][64] = {
 };
 
 int g_iaGrenadeOffsets[sizeof(g_saGrenadeWeaponNames)];
+
+
 char g_saGrenadeAmmoTypes[][] = {
     "AMMO_TYPE_HEGRENADE",
     "AMMO_TYPE_FLASHBANG",
@@ -87,6 +89,8 @@ new classesIsVip[CLASS_LIMIT] = {false};
 
 new registeredPerks = 0;
 new String:perks[PERK_LIMIT][registerIdxs][256];
+
+int g_iCustomPerkPermission[MAXPLAYERS+1][PERK_LIMIT];
 
 
 new changedClass[MAXPLAYERS+1] = {0};
@@ -175,7 +179,30 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
     CreateNative("CodMod_SetImmuneToSkills", Native_SetImmuneToSkills);
     CreateNative("CodMod_GetImmuneToSkills", Native_GetImmuneToSkills);
     CreateNative("CodMod_SetWeaponID", Native_SetWeaponID);
+
+    CreateNative("CodMod_SetCustomPerkPermission", Native_SetCustomPerkPermission);
+    CreateNative("CodMod_GetCustomPerkPermission", Native_GetCustomPerkPermission);
+
     return APLRes_Success;
+}
+
+public int Native_SetCustomPerkPermission(Handle hPlugin, int iArgs)
+{
+    int iClient = GetNativeCell(1);
+    int iPerkId = GetNativeCell(2);
+    int iValue = GetNativeCell(3);
+
+    g_iCustomPerkPermission[iClient][iPerkId] = iValue;
+
+    return 0;
+}
+
+public int Native_GetCustomPerkPermission(Handle hPlugin, int iArgs)
+{
+    int iClient = GetNativeCell(1);
+    int iPerkId = GetNativeCell(2);
+
+    return g_iCustomPerkPermission[iClient][iPerkId];
 }
 
 public int Native_SetWeaponID(Handle hPlugin, int iArgs)
@@ -1026,6 +1053,14 @@ public CodMod_OnRegisterClass(Handle:plugin, numParams){
     return classId;
 }
 
+stock RemoveCustomPerkPermission(int iPerkId)
+{
+    for(int i = 0; i <= MaxClients; i++)
+    {
+        g_iCustomPerkPermission[i][iPerkId] = 0;
+    }
+}
+
 public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     new nameLen, descLen, perkId;
     new bool:usedId = false;
@@ -1052,6 +1087,7 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                     g_iTypowySeba = i;
                 }
 
+                RemoveCustomPerkPermission(i);
                 return i;
             }
             if(StrEqual(perks[i][NAME], "UNREG")){
@@ -1080,6 +1116,7 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     }
 
 
+    RemoveCustomPerkPermission(perkId);
     Format(perks[perkId][NAME], 128, currName);
     Format(perks[perkId][DESC], 128, currDesc);
 
@@ -1127,6 +1164,11 @@ public void OnClientPutInServer(int client) {
     SDKHook(client, SDKHook_OnTakeDamage, SDK_OnTakeDamage);
     SDKHook(client, SDKHook_WeaponCanUse, SDK_OnWeaponEquip);
     SDKHook(client, SDKHook_PostThink, SDK_OnPostThinkPost);
+
+    for(int i = 0; i <= registeredPerks; i++)
+    {
+        g_iCustomPerkPermission[client][i] = 0;
+    }
 
     g_bImmuneToSkills[client] = false;
     g_bFreezed[client] = false;

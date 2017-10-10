@@ -28,6 +28,11 @@ public OnPluginStart(){
 }
 
 
+stock bool HasPermission(int iClient)
+{
+    return (g_bHasItem[iClient] || CodMod_GetCustomPerkPermission(iClient, g_iPerkId));
+}
+
 public void OnMapStart()
 {
     g_iHaloSprite = PrecacheModel("materials/sprites/halo.vmt");
@@ -59,7 +64,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 }
 
 public void CodMod_OnPlayerSpawn(int iClient){
-    if(g_bHasItem[iClient]){
+    if(HasPermission(iClient)){
         if(CodMod_GetPlayerNades(iClient, TH7_FLASHBANG) < 2){
             GivePlayerItem(iClient, "weapon_flashbang");
         }
@@ -78,7 +83,7 @@ public void OnEntityCreated(int iEntity, const char[] szClassname)
 public Action OnFlashSpawned(int iEntity)
 {
     int iOwner = GetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity");
-    if(iOwner != -1 && g_bHasItem[iOwner])
+    if(iOwner != -1 && HasPermission(iOwner))
     {
         BeamFollowFunction(iEntity, {255,255,255,255});
     }
@@ -96,7 +101,7 @@ public Event_OnFlashDetoate(Event hEvent, const char[] szBroadcast, bool bBroadc
 {
     int iEntity = hEvent.GetInt("entityid");
     int iOwner = GetClientOfUserId(hEvent.GetInt("userid"));
-	if(!g_bHasItem[iOwner]) {
+	if(!HasPermission(iOwner)) {
 		return;
 	}
 

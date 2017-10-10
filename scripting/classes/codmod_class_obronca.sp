@@ -23,11 +23,11 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Obrońca"};
-char g_szDesc[128] = {"140HP, M249, Glock/HKP2000, Molotov \n codmod_skill - 3 worki \n Odporny na Miny"};
+char g_szDesc[128] = {"140HP, M249, Glock/HKP2000, Molotov \n codmod_skill - 3 worki \n Odporny na Miny, Granat EMP \n 15 kondycji"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 140;
 const int g_iArmor = 0;
-const int g_iDexterity = 0;
+const int g_iDexterity = 15;
 const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
