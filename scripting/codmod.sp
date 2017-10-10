@@ -85,7 +85,7 @@ new WeaponID:classesWeapons[CLASS_LIMIT][WEAPON_LIMIT];
 new classesIsVip[CLASS_LIMIT] = {false};
 
 new registeredPerks = 0;
-new String:perks[PERK_LIMIT][registerIdxs][128];
+new String:perks[PERK_LIMIT][registerIdxs][256];
 
 
 new changedClass[MAXPLAYERS+1] = {0};
@@ -540,10 +540,10 @@ public int CodMod_OnGetWeaponIntID(Handle hPlugin, int iNumParams){
 }
 
 
-public CodMod_OnAddExp(Handle:plugin, numParams){
+public int CodMod_OnAddExp(Handle:plugin, numParams){
     new client = GetNativeCell(1);
     new amount = GetNativeCell(2);
-    CodMod_AddExpFill(client, amount, true);
+    return CodMod_AddExpFill(client, amount, true);
 }
 
 
@@ -574,11 +574,11 @@ stock bool Player_IsVIP(int iClient){
 	}
 }
 
-stock void CodMod_AddExpFill(client, amount, bool bOverride=false){
+stock int CodMod_AddExpFill(client, amount, bool bOverride=false){
     if(CodMod_GetLevel(client) >= MAX_LEVEL)
-        return;
+        return -1;
 
-    if(GetPlayerCount() < 5 && !bOverride) return;
+    if(GetPlayerCount() < 5 && !bOverride) return -1;
 
     float multiply = 1.0;
     Call_StartForward(g_OnGiveExpMultiply);
@@ -625,6 +625,8 @@ stock void CodMod_AddExpFill(client, amount, bool bOverride=false){
     if(bLevelUP){
         BuildSelectClassMenu(client);
     }
+
+    return amount;
 }
 
 char g_szBlockedWeaponPerks[][] = {
