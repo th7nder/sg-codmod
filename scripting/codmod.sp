@@ -26,6 +26,7 @@ int g_iCommandoSecret = -1;
 int g_iNanoarmor = -1;
 int g_iTrykot = -1;
 int g_iPrzeszycie = -1;
+int g_iTypowySeba = -1;
 
 int g_iWeaponCanUse[MAXPLAYERS+1][2048 + 1];
 
@@ -758,6 +759,7 @@ public OnMapStart(){
     g_iNanoarmor = -1;
     g_iCamouflageMask = -1
     g_iPrzeszycie = -1;
+    g_iTypowySeba = -1;
     for(int i = 0; i < PERK_LIMIT; i++){
         if(StrEqual(perks[i][NAME], "Tajemnica Komandosa")){
             g_iCommandoSecret = i;
@@ -780,7 +782,12 @@ public OnMapStart(){
             g_iPrzeszycie = i;
         }
 
-        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1){
+        if(StrEqual(perks[i][NAME], "Typowy Seba"))
+        {
+            g_iTypowySeba = i;
+        }
+
+        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1 && g_iTypowySeba != -1){
             break;
         }
     }
@@ -1039,6 +1046,12 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                 {
                     g_iPrzeszycie = i;
                 }
+
+                if(StrEqual(currName, "Typowy Seba"))
+                {
+                    g_iTypowySeba = i;
+                }
+
                 return i;
             }
             if(StrEqual(perks[i][NAME], "UNREG")){
@@ -1059,6 +1072,13 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     {
         g_iPrzeszycie = perkId;
     }
+
+
+    if(StrEqual(currName, "Typowy Seba"))
+    {
+        g_iTypowySeba = perkId;
+    }
+
 
     Format(perks[perkId][NAME], 128, currName);
     Format(perks[perkId][DESC], 128, currDesc);
@@ -1464,6 +1484,12 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
     }
 
     if(iClassId == g_iCommandoID && iWeaponID != WEAPON_C4 && iWeaponID != WEAPON_KNIFE && iWeaponID != WEAPON_DEAGLE){
+        if(iWeaponID == WEAPON_TASER && CodMod_GetPerk(iClient) == g_iTypowySeba)
+        {
+            g_iWeaponCanUse[iClient][iWeapon] = 2;
+            return Plugin_Continue;
+        }
+        
         g_iWeaponCanUse[iClient][iWeapon] = 0;
         return Plugin_Handled;
     }
