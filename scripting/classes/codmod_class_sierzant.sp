@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Sierżant"};
-char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 3s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
+char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 2s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -146,7 +146,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     g_bWasInvisible[iClient] = true;
     //TH7_SetRenderColor(iClient, 255, 255, 255, 10);
     TH7_SetInvisible(iClient);
-    CreateTimer(3.0, Timer_SetVisible, GetClientSerial(iClient));
+    CreateTimer(2.0, Timer_SetVisible, GetClientSerial(iClient));
     PrintToChat(iClient, "%s Użyłeś swojej umiejętności!", PREFIX_SKILL)
     g_iUses[iClient]++;
 }
