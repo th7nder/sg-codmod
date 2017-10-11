@@ -22,7 +22,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"KGB"};
-char g_szDesc[256] = {"130HP, AK47, Glock \n 5HP za trafienie \n +5dmg do wszystkich broni"};
+char g_szDesc[256] = {"130HP, AK47, Glock \n 5HP za trafienie w ciało(10hp za HS) \n +5dmg do wszystkich broni"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -53,6 +53,12 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         fDamage += 5.0;
-        CodMod_Heal(iAttacker, iAttacker, 5);
+        if(iWeaponID == WEAPON_AK47) {
+            if(fDamage == CS_DMG_HEADSHOT) {
+                CodMod_Heal(iAttacker, iAttacker, 10);
+            } else {
+                CodMod_Heal(iAttacker, iAttacker, 5);
+            }
+        }
     }
 }
