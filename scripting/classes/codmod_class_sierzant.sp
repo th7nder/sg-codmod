@@ -82,7 +82,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
         if(CodMod_GetPlayerInfo(iClient, PERK) == g_iCamouflageMask){
           TH7_SetRenderColor(iClient, 255, 255, 255, 76);
         } else {
-          TH7_DisableRenderColor(iClient);
+          TH7_SetVisible(iClient);
         }
     }
 }
