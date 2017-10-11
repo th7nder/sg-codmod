@@ -107,23 +107,16 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
     return Plugin_Stop;
 }
 
-/*public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasClass[iAttacker] && iWeaponID == WEAPON_M4A1){
+public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+    if(g_bHasClass[iAttacker] && iWeaponID == WEAPON_AUG){
         fDamage += 5.0;
-    }
-
-    if(g_bHasClass[iVictim] && !g_bWasInvisible[iVictim]){
-        g_bInvisible[iVictim] = true;
-        g_bWasInvisible[iVictim] = true;
-        TH7_SetRenderColor(iVictim, 255, 255, 255, 10);
-        CreateTimer(1.5, Timer_SetVisible, GetClientSerial(iVictim));
     }
 
     if(g_bHasClass[iVictim] && g_bInvisible[iVictim] && (iWeaponID == WEAPON_MOLOTOV || iWeaponID == WEAPON_HEGRENADE || (iDamageType & DMG_BURN))){
         fDamage = 0.0;
     }
 
-}*/
+}
 
 public void CodMod_OnClassSkillUsed(int iClient){
     if(!g_bHasClass[iClient] || !IsPlayerAlive(iClient) )
