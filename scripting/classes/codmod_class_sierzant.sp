@@ -130,7 +130,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
         return;
 
 
-    if(g_iUses[iClient] >= 1) {
+    if(g_iUses[iClient] >= 2) {
         PrintToChat(iClient, "%s Użyłeś już swojej umiejętności 2 razy w tej rundzie!", PREFIX_SKILL)
         return;
     } 
