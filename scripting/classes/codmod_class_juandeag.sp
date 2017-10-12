@@ -72,6 +72,12 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 
 }
 
+public void CodMod_OnPlayerSpawn(int iClient)
+{
+    g_bUsed[iClient] = false;
+    g_bUsing[iClient] = false;
+}
+
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         fDamage += CodMod_GetWholeStat(iAttacker, STRENGTH) * ADDITIONAL_MULTIPLIER;
