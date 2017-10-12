@@ -78,11 +78,9 @@ public void CodMod_OnPlayerSpawn(int iClient){
         g_bInvisible[iClient] = false;
         g_bWasInvisible[iClient] = false;
         g_iUses[iClient] = 0;
-
+        TH7_SetVisible(iClient);
         if(CodMod_GetPlayerInfo(iClient, PERK) == g_iCamouflageMask){
           TH7_SetRenderColor(iClient, 255, 255, 255, 76);
-        } else {
-          TH7_SetVisible(iClient);
         }
     }
 }
