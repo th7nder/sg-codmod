@@ -61,14 +61,22 @@ public void OnPluginEnd(){
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     if(iPrevious == g_iClassId)
     {
-        CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 0);
+        if(g_iPerkId != -1)
+        {
+            CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 0);
+        }
+        
     }
 
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
-        CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 1);
+        if(g_iPerkId != -1)
+        {
+            CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 1);
+        }
+        
         g_fLastUse[iClient] = 0.0;
     }
 
