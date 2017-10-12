@@ -14,7 +14,7 @@ public Plugin:myinfo = {
         url = "http://th7.eu"
 };
 
-new const String:szClassName[NAME_LENGTH] = {"Mass Ress"};
+new const String:szClassName[NAME_LENGTH] = {"Błogosławieństwo"};
 new const String:szDesc[256] = {"Wskrzeszasz wszystkich martwych członków twojego teamu.\ndostajesz bazowe 800 expa + 100 za każdego kolejnego wskrzeszonego.\n Niszczy sie po użyciu."};
 new g_iPerkId;
 
