@@ -230,11 +230,14 @@ public int Native_GetImmuneToSkills(Handle hPlugin, int iArgs)
 
 UserMsg g_msgHudMsg;
 Handle g_hGameConf = INVALID_HANDLE;
+
+Handle g_hOnPerkRegistered = INVALID_HANDLE;
 public OnPluginStart(){
     g_hGameConf = LoadGameConfigFile("grenades.games");
     g_msgHudMsg = GetUserMessageId("HudMsg");
     g_iOffsetActiveWeapon = FindSendPropInfo("CBasePlayer", "m_hActiveWeapon");
 
+    g_hOnPerkRegistered = CreateGlobalForward("CodMod_OnPerkRegistered", ET_Ignore, Param_Cell, Param_String);
     g_OnChangeClass = CreateGlobalForward("CodMod_OnChangeClass", ET_Ignore, Param_Cell, Param_Cell, Param_Cell);
     g_DamageForward = CreateGlobalForward("CodMod_OnPlayerDamaged", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell, Param_Cell);
     g_hDamagePerkForward = CreateGlobalForward("CodMod_OnPlayerDamagedPerk", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell, Param_Cell);
@@ -1090,6 +1093,12 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                 }
 
                 RemoveCustomPerkPermission(i);
+
+                
+                Call_StartForward(g_hOnPerkRegistered);
+                Call_PushCell(perkId);
+                Call_PushString(currName);
+                Call_Finish();
                 return i;
             }
             if(StrEqual(perks[i][NAME], "UNREG")){
@@ -1121,6 +1130,11 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     RemoveCustomPerkPermission(perkId);
     Format(perks[perkId][NAME], 128, currName);
     Format(perks[perkId][DESC], 128, currDesc);
+
+    Call_StartForward(g_hOnPerkRegistered);
+    Call_PushCell(perkId);
+    Call_PushString(currName);
+    Call_Finish();
 
     return perkId;
 }

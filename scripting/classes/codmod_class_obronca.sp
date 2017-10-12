@@ -34,11 +34,23 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
 int g_iSandbags[MAXPLAYERS+1] = {0};
 float g_fLastUse[MAXPLAYERS+1] = {0.0};
+
+int g_iPerkId = -1;
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_M249;
     g_iWeapons[1] = WEAPON_STANDARDPISTOLS;
     g_iWeapons[2] = WEAPON_MOLOTOV;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
+
+    g_iPerkId = CodMod_GetPerkId("Granat EMP");
+}
+
+public void CodMod_OnPerkRegistered(int perkId, const char[] szName)
+{
+    if(StrEqual(szName, "Granat EMP"))
+    {
+        g_iPerkId = perkId;
+    }
 }
 
 public void OnPluginEnd(){
@@ -47,10 +59,16 @@ public void OnPluginEnd(){
 
 
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
+    if(iPrevious == g_iClassId)
+    {
+        CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 0);
+    }
+
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
+        CodMod_SetCustomPerkPermission(iClient, g_iPerkId, 1);
         g_fLastUse[iClient] = 0.0;
     }
 
