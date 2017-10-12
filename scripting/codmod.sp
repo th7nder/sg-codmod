@@ -658,7 +658,9 @@ stock int CodMod_AddExpFill(client, amount, bool bOverride=false){
 }
 
 char g_szBlockedWeaponPerks[][] = {
-    "zestaw rushera",
+    "buty luigiego",
+    "siatka kamuflująca"
+    /*"zestaw rushera",
     "zestaw paranoika",
     "brożu.exe",
     "karabin kaprala",
@@ -679,7 +681,7 @@ char g_szBlockedWeaponPerks[][] = {
     "SikorAwp",
     "sekret mrozza",
     "obrona mahesvary",
-    "zabawka egad'a"
+    "zabawka egad'a"*/
 }
 
 const int g_iBlockedWeaponPerksSize = sizeof(g_szBlockedWeaponPerks);
@@ -2798,11 +2800,11 @@ bool IsCommandoPerkBlocked(int perk){
 }
 
 stock SetPerk(int client, int perk, int armoramount){
-    /*if(perk != 0 && g_iCommandoID != -1 && CodMod_GetClass(client) == g_iCommandoID){
+    if(perk != 0 && g_iCommandoID != -1 && CodMod_GetClass(client) == g_iCommandoID){
         while(IsCommandoPerkBlocked(perk)){
           perk = GetRandomInt(1, registeredPerks);
         }
-    }*/
+    }
 
     while(CodMod_GetClass(client) == g_iElitSniperID && perk == g_iCamouflageMask){
         perk = GetRandomInt(1, registeredPerks)
