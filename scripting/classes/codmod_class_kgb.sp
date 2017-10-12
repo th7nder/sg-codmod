@@ -54,7 +54,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     if(g_bHasClass[iAttacker]){
         fDamage += 5.0;
         if(iWeaponID == WEAPON_AK47) {
-            if(fDamage == CS_DMG_HEADSHOT) {
+            if(iDamageType & CS_DMG_HEADSHOT) {
                 CodMod_Heal(iAttacker, iAttacker, 10);
             } else {
                 CodMod_Heal(iAttacker, iAttacker, 5);
