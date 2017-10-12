@@ -92,7 +92,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
         {
             fDamage += 5.0;
         }
-        if(GetRandomInt(1, 100) >= 60)
+        if(GetRandomInt(1, 100) >= 93)
         {
             if(GetGameTime() - g_fStunned[iVictim] >= 1.5)
             {
