@@ -68,7 +68,7 @@ public Action SDK_OnWeaponEvent(int iClient, int iWeapon)
     {
         if(GetPlayerWeaponSlot(iClient, 2) != iWeapon)
         {
-            SetEntPropFloat(iWeapon, Prop_Send, "m_flNextSecondaryAttack", fTime + (1.5 - (fTime - g_fStunned[iClient])));
+            SetEntPropFloat(iWeapon, Prop_Send, "m_flNextPrimaryAttack", fTime + (1.5 - (fTime - g_fStunned[iClient])));
         }
     }
 
@@ -102,7 +102,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
                     int iEntity = GetPlayerWeaponSlot(iVictim, i);
                     if(iEntity != -1 && IsValidEntity(iVictim))
                     {
-                        SetEntPropFloat(iEntity, Prop_Send, "m_flNextSecondaryAttack", g_fStunned[iVictim] + 1.5);
+                        SetEntPropFloat(iEntity, Prop_Send, "m_flNextPrimaryAttack", g_fStunned[iVictim] + 1.5);
                     }
                 }
 
