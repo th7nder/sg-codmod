@@ -94,7 +94,7 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
 public CodMod_OnPlayerSpawn(int iClient){
     g_iHeals[iClient] = 0;
     int iEntity = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
-    if(iEntity != -1 && CodMod_GetWeaponID(iEntity) == WEAPON_MAC10)
+    if(g_bHasClass[iClient] && iEntity != -1 && CodMod_GetWeaponID(iEntity) == WEAPON_MAC10)
     {
         SetClientNoRecoil(iClient);
     }
