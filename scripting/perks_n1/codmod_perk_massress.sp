@@ -64,7 +64,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
                 return;
 
         int iTeam = GetClientTeam(iClient);
-        int iExp = 800;
+        int iExp = 1200;
         PrintToChatAll("%s %N użył Mass Ressa!", PREFIX_INFO, iClient);
         int iExpAdded = 0;
         int iRessurected = 0;
@@ -75,7 +75,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
                         CS_RespawnPlayer(i);
                         iRessurected++;
                         iExpAdded += iExp;
-                        iExp += 100;
+                        //iExp += 100;
                 }
         }
 
