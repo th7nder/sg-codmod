@@ -628,12 +628,12 @@ stock int CodMod_AddExpFill(client, amount, bool bOverride=false){
         multiply += 0.2;
     }
 
-    FormatTime(time, 5, "%w", GetTime());
+    /*FormatTime(time, 5, "%w", GetTime());
     new day = StringToInt(time);
     if((day == 0 || day == 6 || (day == 5 && hour >= 18))) {
         if(g_isPlayerVip[client])
             multiply += 0.25;
-    }
+    }*/
 
     amount = RoundFloat(multiply * float(amount));
     PrintToChat(client, "%sOtrzymałeś \x04 %d doświadczenia\x04!", PREFIX_INFO, amount);
