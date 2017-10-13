@@ -15,7 +15,7 @@ CREATE TABLE `codmod_dogtags` (
   `name` varchar(128) DEFAULT NULL,
   `dogtags` int(10) DEFAULT NULL,
   PRIMARY KEY (`steamid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8; */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; */
 
 
 public Plugin myinfo =  {
