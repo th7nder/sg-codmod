@@ -41,7 +41,7 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
         if(GetRandomInt(1, 100) <= 60)
         {
                 CodMod_DestroyPerk(iClient);
-                PrintToChat(iClient, "%s Otrzymałeś mass ress bez mocy wksrzeszania!", PREFIX_INFO);
+                PrintToChat(iClient, "%s Otrzymałeś błogosławieństwo bez mocy wksrzeszania!", PREFIX_INFO);
         } else {
                 g_bHasItem[iClient] = true;
         }
@@ -65,7 +65,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 
         int iTeam = GetClientTeam(iClient);
         int iExp = 1200;
-        PrintToChatAll("%s %N użył Mass Ressa!", PREFIX_INFO, iClient);
+        PrintToChatAll("%s %N użył błogosławieństwa!", PREFIX_INFO, iClient);
         int iExpAdded = 0;
         int iRessurected = 0;
         for(int i = 1; i <= MaxClients; i++)
@@ -80,6 +80,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
         }
 
         CodMod_DestroyPerk(iClient);
+        CodMod_GiveExp(iClient, iExpAdded)
 
 
         PrintToChat(iClient, "%s Otrzymałeś %d expa za wksrzeszenie %d graczy!", PREFIX_INFO, CodMod_GiveExp(iClient, iExpAdded), iRessurected);
