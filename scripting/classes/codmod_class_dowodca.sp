@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Dowódca"};
-char g_szDesc[256] = {"130HP, M4A4, FiveSeven, Smoke\n 1/1 ze smoke'a, +30dmg w głowę\n NoFlash\nDostaje smoke co 20 sekund"};
+char g_szDesc[256] = {"130HP, M4A4, FiveSeven, Smoke\n 1/1 ze smoke'a, +30dmg w głowę\n NoFlash\nDostaje smoke co 15 sekund"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -89,7 +89,7 @@ public Action OnSmokeTouch(int iGrenade, int iClient){
 public Action SpawnPost_Smoke(int iGrenade) {
     int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
     if(IsValidPlayer(iOwner) && g_bHasClass[iOwner]) {
-        CreateTimer(20.0, Timer_GiveSmoke, GetClientSerial(iOwner), TIMER_FLAG_NO_MAPCHANGE);
+        CreateTimer(15.0, Timer_GiveSmoke, GetClientSerial(iOwner), TIMER_FLAG_NO_MAPCHANGE);
     }
 }
 

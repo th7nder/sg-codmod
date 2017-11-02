@@ -22,7 +22,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Specnaz"};
-char g_szDesc[256] = {"120HP, AK47, P250 \n HEGrenade + Smoke \n Podwójny skok \n 1/4 na 3x dmg z HE"};
+char g_szDesc[256] = {"120HP, AK47, P250 \n HEGrenade + Smoke \n Podwójny skok \n 1/3 na 3x dmg z HE"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -56,7 +56,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     if(g_bHasClass[iAttacker]){
         if(iWeaponID == WEAPON_HEGRENADE)
         {
-            if(GetRandomInt(1, 100) >= 75)
+            if(GetRandomInt(1, 100) >= 66)
             {
                 fDamage *= 3.0;
                 PrintToChat(iAttacker, "%s Potrójny damage z HE: %f!", PREFIX_SKILL, fDamage);
