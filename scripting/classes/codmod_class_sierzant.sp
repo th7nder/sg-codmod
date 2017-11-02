@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Sierżant"};
-char g_szDesc[256] = {"130HP, AUG(+5dmg), FiveSeven \n Pod codmod_skill niewidzialność na 2s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
+char g_szDesc[256] = {"130HP, AUG, FiveSeven \n Pod codmod_skill niewidzialność na 2s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -41,7 +41,7 @@ int g_iUses[MAXPLAYERS] = 0;
 
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_AUG;
-    g_iWeapons[1] = WEAPON_FIVESEVEN;
+    g_iWeapons[1] = WEAPON_USP;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
     HookEvent("player_blind", Event_OnFlashPlayer, EventHookMode_Pre);
 }
@@ -106,10 +106,6 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
 }
 
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasClass[iAttacker] && iWeaponID == WEAPON_AUG){
-        fDamage += 5.0;
-    }
-
     if(g_bHasClass[iVictim] && g_bInvisible[iVictim] && (iWeaponID == WEAPON_MOLOTOV || iWeaponID == WEAPON_HEGRENADE || (iDamageType & DMG_BURN))){
         fDamage = 0.0;
     }
@@ -126,9 +122,9 @@ public void CodMod_OnClassSkillUsed(int iClient){
         return;
     } 
 
-    if(GetGameTime() - g_fLastUse[iClient] <= 10.0)
+    if(GetGameTime() - g_fLastUse[iClient] <= 20.0)
     {
-        PrintToChat(iClient, "%s Umiejętności możesz używać co 10 sec!", PREFIX_SKILL);
+        PrintToChat(iClient, "%s Umiejętności możesz używać co 20 sec!", PREFIX_SKILL);
         return;
     }
 
