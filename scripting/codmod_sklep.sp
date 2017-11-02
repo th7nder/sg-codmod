@@ -82,7 +82,7 @@ stock SetMoney(client, amount){
 
 
 public Action:Shop(client, args) {
-	if(roundEnd || IsValidPlayer(client)){
+	if(roundEnd || !IsValidPlayer(client)){
 		return Plugin_Handled;
 	}
 
