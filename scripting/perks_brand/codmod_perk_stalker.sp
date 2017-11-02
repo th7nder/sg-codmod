@@ -95,7 +95,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
         return;
     }
     if(GetEngineTime() - g_fTried[iClient] < 10.0) {
-        PrintToChat(iClient, "%s Ostatnia próba się nie udała, spróbuj po 10 sekundach!")
+        PrintToChat(iClient, "%s Ostatnia próba się nie udała, spróbuj po 10 sekundach!", PREFIX_SKILL)
         return;
     }
     int iTries = 0;
