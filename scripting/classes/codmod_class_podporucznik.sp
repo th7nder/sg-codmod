@@ -126,6 +126,9 @@ public void CodMod_OnClassSkillUsed(int iClient){
                 }
                 continue;
             } 
+            if(!IsValidPlayer(iTarget)) {
+                continue;
+            }   
             GetClientAbsOrigin(iTarget, targetOrigin);
             GetClientAbsOrigin(iClient, currentOrigin);
             iCounter++;
