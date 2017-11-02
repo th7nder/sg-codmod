@@ -107,6 +107,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
                 }
 
                 PrintToChat(iVictim, "%s Zostałeś ogłuszony przez kaprala na 1.5s!", PREFIX_SKILL);
+                PrintToChat(iAttacker, "%s Gracz został przez Ciebie ogłuszony!", PREFIX_SKILL); 
             }
         }
 
