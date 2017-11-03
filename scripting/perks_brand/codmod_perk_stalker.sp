@@ -119,9 +119,6 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 
 public bool TeleportBehind(int iClient, int iTarget)
 {
-    if(IsValidPlayer(iTarget)) {
-        return false;
-    }
     float fEyes[3], fOrigin[3], fVelocity[3];
     GetClientEyeAngles(iTarget, fEyes);
     GetAngleVectors(fEyes, fVelocity, NULL_VECTOR, NULL_VECTOR);
