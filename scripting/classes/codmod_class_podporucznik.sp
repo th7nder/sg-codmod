@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Podporucznik"};
-char g_szDesc[256] = {"120 HP, Galil, Berrety, Molotov \n codmod_special - podmiana miejscami(1x + 1/25int) \n +10HP, +10dmg Beretty, +5dmg Galil per kill"};
+char g_szDesc[256] = {"120 HP, Galil, Berrety, Molotov \n codmod_skill - podmiana miejscami(1x + 1/25int) \n +10HP, +10dmg Beretty, +5dmg Galil per kill"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
