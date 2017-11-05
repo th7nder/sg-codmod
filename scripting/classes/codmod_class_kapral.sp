@@ -122,7 +122,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
             fDamage = 0.0;
         } else if(g_iDamageCount[iVictim] == 1)
         {
-            PrintToChat(iVictim, "%s Damage został zredukowany o 50%%!", PREFIX_SKILL);
+            PrintToChat(iVictim, "%s Damage został zredukowany o 25%%!", PREFIX_SKILL);
             fDamage *= 0.75
             g_iDamageCount[iVictim]++;
         }
