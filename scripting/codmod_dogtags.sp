@@ -102,7 +102,7 @@ public void Callback_Connect(Handle hOwner, Handle hResult, const char[] szError
 	}
 
 	g_hDatabase = CloneHandle(hResult);
-	SQL_SetCharset(g_hDatabase, "utf8");
+	SQL_SetCharset(g_hDatabase, "utf8mb4");
 
 	for(int i = 1; i <= MaxClients; i++)
 	{
