@@ -1348,9 +1348,9 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
                 weaponID = WEAPON_HEGRENADE;
             }
             attacker = iOwner;
-      } else {
-        attacker = 0;
-      }
+        } else {
+            attacker = 0;
+        }
     } else if(IsValidPlayer(attacker)){
         weaponID = CodMod_GetClientWeaponID(attacker);
         if(damagetype & DMG_BURN){
@@ -1599,7 +1599,7 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
 
 }
 
-public Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
+public Action Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
     new client = GetClientOfUserId(GetEventInt(event, "userid"));
     if(!IsPlayerAlive(client)) return Plugin_Stop; // omg fix
 
@@ -2629,7 +2629,7 @@ public GetClassCallback(Handle:owner, Handle:result, const String:error[], any:c
     CodMod_SetStat(client, STRENGTH, strength);
     CodMod_SetStat(client, GRAVITY, gravity);
 
-     if(IsPlayerAlive(client)){
+    if(IsPlayerAlive(client)){
         UpdateHealth(client) // STAT HP
         UpdateWeapons(client);
     }
@@ -2661,6 +2661,7 @@ stock UpdateHealth(client){
 
 
     SetEntityHealth(client, toSet);
+    SetEntProp(client, Prop_Data,"m_iMaxHealth", toSet);
     //SetEntData(client, g_iOffsetArmorValue, 100 + ((clientStats[client][ARMOR] + clientStats[client][ARMOR_PERK]) * ARMOR_MULTIPLIER));
 }
 
