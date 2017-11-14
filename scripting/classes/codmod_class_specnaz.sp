@@ -22,7 +22,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Specnaz"};
-char g_szDesc[256] = {"120HP, AK47, P250 \n HEGrenade + Smoke \n Podwójny skok \n 1/3 na 3x dmg z HE"};
+char g_szDesc[256] = {"120HP, AK47, P250 \n HEGrenade + Smoke co 15 sekund \n Podwójny skok \n 1/3 na 3x dmg z HE"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -71,4 +71,25 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fV
     }
 
     return Plugin_Continue;
+}
+
+
+public OnEntityCreated(int iEnt, const char[] szClassname){
+    if(StrEqual(szClassname, "smokegrenade_projectile")){
+        SDKHook(iEnt, SDKHook_SpawnPost, SpawnPost_Smoke)
+    }
+}
+
+public Action SpawnPost_Smoke(int iGrenade) {
+    int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
+    if(IsValidPlayer(iOwner) && g_bHasClass[iOwner]) {
+        CreateTimer(15.0, Timer_GiveSmoke, GetClientSerial(iOwner), TIMER_FLAG_NO_MAPCHANGE);
+    }
+}
+
+public Action Timer_GiveSmoke(Handle hTimer, int iSerial) {
+    int iClient = GetClientFromSerial(iSerial);
+    if(IsValidPlayer(iClient) && g_bHasClass[iClient]) {
+        GivePlayerItem(iClient, "weapon_smokegrenade");
+    }
 }
