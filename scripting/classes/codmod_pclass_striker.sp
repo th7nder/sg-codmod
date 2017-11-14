@@ -23,7 +23,7 @@ int g_iHeals[MAXPLAYERS+1] = {0};
 
 
 char g_szClassName[128] = {"Striker [Premium]"};
-char g_szDesc[256] = {"120HP, Mac-10, P250 \n No-Recoil na MAC10, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
+char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MAC10, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -36,7 +36,7 @@ Handle g_hGetInaccuracy = INVALID_HANDLE;
 public void OnPluginStart(){
     g_hGetInaccuracy = DHookCreate(FUNCTION_OFFSET, HookType_Entity, ReturnType_Float, ThisPointer_CBaseEntity, DHook_GetInaccuracy);
 
-    g_iWeapons[0] = WEAPON_MAC10;
+    g_iWeapons[0] = WEAPON_MP7;
     g_iWeapons[1] = WEAPON_P250;
     for(int i = 1; i<= MaxClients; i++)
     {
