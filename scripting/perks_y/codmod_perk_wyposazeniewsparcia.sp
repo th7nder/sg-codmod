@@ -12,11 +12,11 @@
 int g_iRockets[MAXPLAYERS+1] = {0};
 float g_fLastUse[MAXPLAYERS+1] = {0.0};
 public Plugin:myinfo = {
-	name = "Call of Duty Mod - Perk - Wyposazenie Wsparcia",
-	author = "th7nder",
-	description = "CODMOD's Perk",
-	version = "1.5",
-	url = "http://th7.eu"
+    name = "Call of Duty Mod - Perk - Wyposazenie Wsparcia",
+    author = "th7nder",
+    description = "CODMOD's Perk",
+    version = "1.5",
+    url = "http://th7.eu"
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Wyposażenie Wsparcia"};
@@ -27,47 +27,46 @@ new bool:g_bHasItem[MAXPLAYERS +1] = {false};
 
 
 public OnPluginStart(){
-	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+    g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
 }
 
 public OnPluginEnd(){
-	CodMod_UnregisterPerk(g_iPerkId);
+    CodMod_UnregisterPerk(g_iPerkId);
 }
 
 
 public void OnClientPutInServer(iClient){
-	g_bHasItem[iClient] = false;
+    g_bHasItem[iClient] = false;
 }
 
 public void CodMod_OnPerkEnabled(iClient, iPerkId){
-	if(iPerkId != g_iPerkId)
-		return;
+    if(iPerkId != g_iPerkId)
+        return;
 
-	g_bHasItem[iClient] = true;
+    g_bHasItem[iClient] = true;
     g_iRockets[iClient] = 0;
     g_fLastUse[iClient] = 0.0;
-
 }
 
 public void CodMod_OnPerkDisabled(iClient, iPerkId){
-	if(iPerkId != g_iPerkId)
-		return;
+    if(iPerkId != g_iPerkId)
+        return;
 
-	g_bHasItem[iClient] = false;
+    g_bHasItem[iClient] = false;
 
 }
 
 public void CodMod_OnPlayerSpawn(iClient){
-	if(g_bHasItem[iClient]){
+    if(g_bHasItem[iClient]){
         g_iRockets[iClient] = 0;
         g_fLastUse[iClient] = 0.0;
-	}
+    }
 }
 
 
 public void CodMod_OnPerkSkillUsed(int iClient){
-	if(!IsValidPlayer(iClient) || !IsPlayerAlive(iClient) || !g_bHasItem[iClient])
-		return;
+    if(!IsValidPlayer(iClient) || !IsPlayerAlive(iClient) || !g_bHasItem[iClient])
+        return;
 
     if(GetGameTime() - g_fLastUse[iClient] < 4.0){
         PrintToChat(iClient, "%s Rakiety można używać co 4 sekundy!", PREFIX_SKILL);
