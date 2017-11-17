@@ -23,7 +23,7 @@ int g_iHeals[MAXPLAYERS+1] = {0};
 
 
 char g_szClassName[128] = {"Striker [Premium]"};
-char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MAC10, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
+char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MP7, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -94,7 +94,7 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
 public CodMod_OnPlayerSpawn(int iClient){
     g_iHeals[iClient] = 0;
     int iEntity = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
-    if(g_bHasClass[iClient] && iEntity != -1 && CodMod_GetWeaponID(iEntity) == WEAPON_MAC10)
+    if(g_bHasClass[iClient] && iEntity != -1 && CodMod_GetWeaponID(iEntity) == WEAPON_MP7)
     {
         SetClientNoRecoil(iClient);
     }
@@ -141,7 +141,7 @@ void HookWeapon(int iClient, int iWeapon){
 
 
 public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
-    if(g_bHasClass[iClient] && CodMod_GetWeaponID(iWeapon) == WEAPON_MAC10)
+    if(g_bHasClass[iClient] && CodMod_GetWeaponID(iWeapon) == WEAPON_MP7)
     {
         SetClientNoRecoil(iClient);
         HookWeapon(iClient, iWeapon);
@@ -168,7 +168,7 @@ public MRESReturn DHook_GetInaccuracy(int pThis, Handle hReturn){
 public OnPostThinkPost(iClient){
     if(g_bHasClass[iClient] && IsPlayerAlive(iClient)){
         int iEntity = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
-        if(CodMod_GetWeaponID(iEntity) != WEAPON_MAC10) return;
+        if(CodMod_GetWeaponID(iEntity) != WEAPON_MP7) return;
         if(iEntity != -1 && IsValidEdict(iEntity)){
             SetEntPropFloat(iEntity, Prop_Send, "m_fAccuracyPenalty", 0.0);
         }
