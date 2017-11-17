@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Sierżant"};
-char g_szDesc[256] = {"130HP, AUG, FiveSeven \n Pod codmod_skill niewidzialność na 2s(2x na runde, 10sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
+char g_szDesc[256] = {"130HP, AUG, FiveSeven \n Pod codmod_skill niewidzialność na 2s(2x na runde, 20sec cooldown)\n, Odporność na granaty, 1/8 szansy na 50%% EXP więcej"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
