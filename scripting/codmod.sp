@@ -708,6 +708,10 @@ public OnMapStart(){
     g_iBeamSprite = PrecacheModel("materials/sprites/laserbeam.vmt");
 
     PrecacheModel(ROCKET_MODEL);
+    AddFileToDownloadsTable("models/serwery-go_diablo/serwery-go_fireball_smallv2.vvd")
+    AddFileToDownloadsTable("models/serwery-go_diablo/serwery-go_fireball_smallv2.mdl")
+    AddFileToDownloadsTable("models/serwery-go_diablo/serwery-go_fireball_smallv2.phy")
+    AddFileToDownloadsTable("models/serwery-go_diablo/serwery-go_fireball_smallv2.dx90.vtx")
 
     /*AddFileToDownloadsTable("models/serwery-go.pl_codmod/rakieta/rakieta_new.mdl");
     AddFileToDownloadsTable("models/serwery-go.pl_codmod/rakieta/rakieta_new.phy");
