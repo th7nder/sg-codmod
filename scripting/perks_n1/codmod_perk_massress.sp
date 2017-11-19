@@ -65,7 +65,9 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 
         int iTeam = GetClientTeam(iClient);
         int iExp = 1200;
-        PrintToChatAll("%s %N użył błogosławieństwa!", PREFIX_INFO, iClient);
+        char szName[64];
+        GetClientName(iClient, szName, sizeof(szName))
+        PrintToChatAll("%s %s użył błogosławieństwa!", PREFIX_INFO, szName);
         int iExpAdded = 0;
         int iRessurected = 0;
         for(int i = 1; i <= MaxClients; i++)
