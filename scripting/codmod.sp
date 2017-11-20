@@ -42,11 +42,10 @@ char g_saGrenadeWeaponNames[][] = {
 
 char g_szSidGiveItem[][64] = {
     "37282907", //Mahesvara
-    "42965933", //Bane
     "29118382", //th7
-    "28686758", //Zerciu
     "34914398", //Silver
-    "47438709" //Nobody
+    "47438709", //Nobody
+    "32549176", //arek
 };
 
 int g_iaGrenadeOffsets[sizeof(g_saGrenadeWeaponNames)];
