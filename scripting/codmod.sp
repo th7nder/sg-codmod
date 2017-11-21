@@ -2365,7 +2365,9 @@ public Exchange_Perk_To(from, to){
 
     decl String:clientIdString[3];
     IntToString(from, clientIdString, 3);
-    AddMenuItem(menu, clientIdString, "Tak");
+    AddMenuItem(menu, clientIdString, "Zastanów się", ITEMDRAW_DISABLED);
+    AddMenuItem(menu, clientIdString, "Zastanów się", ITEMDRAW_DISABLED);
+    AddMenuItem(menu, clientIdString, "Tak")
     AddMenuItem(menu, clientIdString, "Nie");
 
     SetMenuExitButton(menu, false);
@@ -2382,7 +2384,7 @@ public Menu_Exchange_Perk_Give_Handler(Handle:menu, MenuAction:action, client, p
     switch(action) {
         case MenuAction_Select:
         {
-            if(position == 0){
+            if(position == 2){
                 new perk = CodMod_GetPerk(client);
                 new perk_armor = CodMod_GetPerkArmor(client);
                 if(CodMod_GetPerk(giver) == 0 || perk == 0){
