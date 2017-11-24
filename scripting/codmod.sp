@@ -1808,10 +1808,23 @@ stock GiveExp(attacker, victim, Float:multiply = 1.0, bool bHeadshot){
     }
 
     int iLevel = CodMod_GetLevel(attacker);
-
+    int expForVictim = 0;
+    int expForLevel = CodMod_GetReqExp(attacker);
     int lowLevelBonus = (201 - iLevel) * 2;
-    new expForVictim = RoundFloat(float(CodMod_GetExpForKill(victim)) * multiply) + levelBonus;//CodMod_GetExpForKill(victim);
-    new expForLevel = CodMod_GetReqExp(attacker);
+    if(iLevel < 126)
+    {
+            expForVictim = RoundFloat(float(CodMod_GetExpForKill(victim)) * multiply) + levelBonus;//CodMod_GetExpForKill(victim);
+            
+    }
+    else if (iLevel >= 150)
+    {
+            expForVictim = bHeadshot ? 1200 : 1000;
+    }
+    else if(iLevel >= 126)
+    {  
+            expForVictim = bHeadshot ? 1000 : 800;
+    }
+
 
     if(iLevel < 50){
         lowLevelBonus *= 3;
