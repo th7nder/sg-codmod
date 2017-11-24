@@ -3,10 +3,9 @@
 #include <sdktools>
 #include <sdkhooks>
 
-#include "include/emitsoundany.inc"
+
 
 #define _IN_CODMOD_CLASS 1
-#define DOUBLE_JUMP 1
 #define DYNAMITES 1
 #define MAX_DYNAMITES 1
 #define DAMAGE_DYNAMITE_FORMULA 100 + (CodMod_GetWholeStat(iClient, INT) + (CodMod_GetWholeStat(iClient, INT) / 2))
@@ -50,10 +49,15 @@ public void OnPluginEnd(){
 
 
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
+    if(iPrevious == g_iClassId)
+    {
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 0);
+    }
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 1);
     }
 }
 
@@ -69,14 +73,6 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
             fDamage *= 300.0;
         }
     }
-}
-
-public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fVel[3], float fAngles[3], int &iWeapon) {
-    if(g_bHasClass[iClient]){
-        DoubleJump(iClient);
-    }
-
-    return Plugin_Continue;
 }
 
 public void CodMod_OnClassSkillUsed(int iClient){

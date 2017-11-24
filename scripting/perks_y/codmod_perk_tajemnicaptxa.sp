@@ -2,9 +2,6 @@
 #include <cstrike>
 #include <sdktools>
 #include <sdkhooks>
-
-
-#define DOUBLE_JUMP 1
 #include <codmod301>
 public Plugin:myinfo = {
 	name = "Call of Duty Mod - Perk - Tajemnica Ptxa",
@@ -32,21 +29,20 @@ public OnClientPutInServer(iClient){
 	g_bHasItem[iClient] = false;
 }
 
-public CodMod_OnPerkEnabled(iClient, iPerkId){
-	if(iPerkId != g_iPerkId)
-		return;
+public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
+    if(iPerkId != g_iPerkId)
+        return;
 
-	g_bHasItem[iClient] = true;
-
-
+    g_bHasItem[iClient] = true;
+    CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP_PERK, 1);
 }
 
-public CodMod_OnPerkDisabled(iClient, iPerkId){
-	if(iPerkId != g_iPerkId)
-		return;
+public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
+    if(iPerkId != g_iPerkId)
+        return;
 
-	g_bHasItem[iClient] = false;
-
+    g_bHasItem[iClient] = false;
+    CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP_PERK, 0);
 }
 
 public Action Timer_Refill(Handle hTimer, int iSerial)
@@ -66,10 +62,3 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
 }
 
 
-public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fVel[3], float fAngles[3], int &iWeapon) {
-    if(g_bHasItem[iClient]){
-        DoubleJump(iClient);
-    }
-
-    return Plugin_Continue;
-}
