@@ -81,6 +81,16 @@ public void OnMapStart(){
     g_iHaloSprite = PrecacheModel("materials/sprites/halo.vmt");
 }
 
+public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+    if(g_bHasClass[iAttacker])
+    {
+        if(iWeaponID == WEAPON_HEALTHSHOT)
+        {
+            LogMessage("HEALTHshotsiema");
+        }
+    }
+}
+
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;

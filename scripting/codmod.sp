@@ -1349,6 +1349,9 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
                 weaponID = WEAPON_MOLOTOV;
             } else if(StrEqual(szAttacker, "hegrenade_projectile")){
                 weaponID = WEAPON_HEGRENADE;
+            } else if(StrContains(szAttacker, "healthshot") != -1)
+            {
+                weaponID = WEAPON_HEALTHSHOT;
             }
             attacker = iOwner;
         } else {

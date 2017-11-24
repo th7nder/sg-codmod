@@ -52,8 +52,12 @@ const WeaponID g_iGiveWeapon = WEAPON_AK47;
 char g_szGiveWeapon[] = "weapon_ak47";
 const int g_iWeaponSlot = 0;
 public void CodMod_OnPlayerSpawn(int iClient){
+     g_bSlow[iClient] = false;
     if(g_bHasItem[iClient]){
-        g_bSlow[iClient] = false;
+        if(CodMod_GetPlayerNades(iClient, TH7_MOLOTOV) < 1){
+            GivePlayerItem(iClient, "weapon_molotov");
+        }
+       
         int iEntity = GetPlayerWeaponSlot(iClient, g_iWeaponSlot);
         if(iEntity != -1){
             WeaponID iWeaponID = CodMod_GetWeaponID(iEntity);
@@ -92,6 +96,11 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
                 CreateTimer(2.0, Timer_Unslow, hPack);
 
             }
+        }
+
+        if(iWeaponID == WEAPON_MOLOTOV)
+        {
+            fDamage *= 2.0;
         }
     }
 }
