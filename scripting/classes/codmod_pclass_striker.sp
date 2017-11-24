@@ -8,6 +8,8 @@
 #include <emitsoundany>
 
 bool g_bHooked[2048 + 1] = {false};
+#define ON_FIRE 1
+bool g_bOnFire[MAXPLAYERS+1] = {false};
 #define _IN_CODMOD_CLASS 1
 #include <codmod301>
 public Plugin myinfo = {
@@ -71,6 +73,13 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         fDamage += 5.0;
+    }
+
+    if(g_bHasClass[iAttacker] && !g_bOnFire[iVictim] && GetRandomInt(1, 100) >= 83){
+        g_bOnFire[iVictim] = true;
+        PrintToChat(iAttacker, "%s Podpaliłeś gracza!", PREFIX_SKILL);
+        PrintToChat(iVictim, "%s Zostałeś podpalony!", PREFIX_SKILL);
+        CodMod_Burn(iAttacker, iVictim, 5.0, 1.0, 10.0);
     }
 }
 
