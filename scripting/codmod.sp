@@ -1544,16 +1544,7 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
         return Plugin_Handled;
     }
 
-    if(iClassId == g_iCommandoID && iWeaponID != WEAPON_C4 && iWeaponID != WEAPON_KNIFE && iWeaponID != WEAPON_DEAGLE){
-        if(iWeaponID == WEAPON_TASER && CodMod_GetPerk(iClient) == g_iTypowySeba)
-        {
-            g_iWeaponCanUse[iClient][iWeapon] = 2;
-            return Plugin_Continue;
-        }
-        
-        g_iWeaponCanUse[iClient][iWeapon] = 0;
-        return Plugin_Handled;
-    }
+
 
 
     int canUseForward = 1;
@@ -1579,6 +1570,18 @@ public Action SDK_OnWeaponEquip(int iClient, int iWeapon){
     if(canUseForward == 2){
         g_iWeaponCanUse[iClient][iWeapon] = 2;
         return Plugin_Continue;
+    }
+
+    if(iClassId == g_iCommandoID && iWeaponID != WEAPON_C4 && iWeaponID != WEAPON_KNIFE && iWeaponID != WEAPON_DEAGLE)
+    {
+        if(iWeaponID == WEAPON_TASER && CodMod_GetPerk(iClient) == g_iTypowySeba)
+        {
+            g_iWeaponCanUse[iClient][iWeapon] = 2;
+            return Plugin_Continue;
+        }
+        
+        g_iWeaponCanUse[iClient][iWeapon] = 0;
+        return Plugin_Handled;
     }
 
     for(new i = 0; i < WEAPON_LIMIT; i++){
