@@ -1515,6 +1515,11 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
         }
     }
 
+    if(g_PlayersInfo[client][DOUBLE_JUMP])
+    {
+        DoubleJump(client);
+    }
+
     /*if(buttons & IN_ATTACK && !(g_iPreviousButtons[client] & IN_ATTACK) && g_fLastPistolShot[client] - GetGameTime() < 0.15){
         WeaponID iWeaponID = CodMod_GetClientWeaponID(client);
         if(WeaponIsPistol(iWeaponID)){
