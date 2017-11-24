@@ -6,7 +6,6 @@
 #include <emitsoundany>
 
 #define _IN_CODMOD_CLASS 1
-#define DOUBLE_JUMP 1
 #include <codmod301>
 public Plugin myinfo = {
     name = "CodMod 301 - Class - KGB",
@@ -44,10 +43,17 @@ public void OnPluginEnd(){
 
 
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
+    if(iPrevious == g_iClassId)
+    {
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 0);
+    }
+
+
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
     } else {
         g_bHasClass[iClient] = true;
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 1);
     }
 
 }
@@ -65,13 +71,6 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     }
 }
 
-public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fVel[3], float fAngles[3], int &iWeapon) {
-    if(g_bHasClass[iClient]){
-        DoubleJump(iClient);
-    }
-
-    return Plugin_Continue;
-}
 
 
 public OnEntityCreated(int iEnt, const char[] szClassname){

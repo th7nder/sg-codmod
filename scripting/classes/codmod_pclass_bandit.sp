@@ -6,7 +6,6 @@
 
 #include <emitsoundany>
 
-#define DOUBLE_JUMP 1
 #define _IN_CODMOD_CLASS 1
 #define ROCKETS 1
 #define MAX_ROCKETS 3 //+ (CodMod_GetWholeStat(iClient, INT) / 50)
@@ -54,11 +53,16 @@ public void OnClientDisconnect(int iClient){
 
 
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
+    if(iPrevious == g_iClassId)
+    {
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 0);
+    }
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
         TH7_SetVisible(iClient);
     } else {
         g_bHasClass[iClient] = true;
+        CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP, 1);
     }
 
 }
@@ -94,7 +98,6 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fV
             TH7_SetVisible(iClient);
         }
 
-        DoubleJump(iClient);
     }
 
     return Plugin_Continue;

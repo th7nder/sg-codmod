@@ -6,6 +6,7 @@
 #define _IN_CODMOD_ENGINE 1
 
 int g_iOffsetActiveWeapon = -1;
+#define DOUBLE_JUMP_FUNC 1
 #include <codmod301>
 #include <smlib>
 #include <emitsoundany>
@@ -1515,7 +1516,7 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
         }
     }
 
-    if(g_PlayersInfo[client][DOUBLE_JUMP])
+    if(g_PlayersInfo[client][DOUBLE_JUMP] || g_PlayersInfo[client][DOUBLE_JUMP_PERK])
     {
         DoubleJump(client);
     }

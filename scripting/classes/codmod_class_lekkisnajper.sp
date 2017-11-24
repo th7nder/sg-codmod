@@ -68,11 +68,3 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
         }
     }
 }
-
-/*public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fVel[3], float fAngles[3], int &iWeapon) {
-    if(g_bHasClass[iClient]){
-        DoubleJump(iClient);
-    }
-
-    return Plugin_Continue;
-}*/
