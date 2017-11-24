@@ -1438,10 +1438,10 @@ public OnEntityDestroyed(int iEntity)
 {
         char szName[32];
         GetEdictClassname(iEntity, szName, sizeof(szName));
-        if (!StrEqual(szName, "weapon_healthshot"))
+        if (StrEqual(szName, "weapon_healthshot"))
         {
             int iClient = g_iHealthshotOwners[iEntity];
-            if(IsClientInGame(iClient))
+            if(iClient > 0 && IsClientInGame(iClient))
             {
                 CodMod_Heal(iClient, iClient, GetRandomInt(1, 50));
             }
