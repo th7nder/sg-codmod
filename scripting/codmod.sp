@@ -22,6 +22,7 @@ bool g_bFreezed[MAXPLAYERS+1] = {false};
 /**************************************************/
 Handle g_hSelectClassMenus[MAXPLAYERS+1] = {INVALID_HANDLE};
 
+int g_iHealthshotOwners[2048 + 1] = {-1};
 int g_iCommandoSecret = -1;
 int g_iNanoarmor = -1;
 int g_iTrykot = -1;
@@ -38,7 +39,6 @@ char g_saGrenadeWeaponNames[][] = {
     "weapon_decoy",
     "weapon_incgrenade",
     "weapon_tagrenade"
-};
 
 char g_szSidGiveItem[][64] = {
     "37282907", //Mahesvara
@@ -1424,6 +1424,7 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
 public OnEntityCreated(iEnt, const String:szClassname[])
 {
     if(iEnt > 0 && iEnt < 2048 && StrContains(szClassname, "weapon_") != -1){
+        g_iHealthshotOwners[iEnt] = -1;
         for(int i = 1; i <= MaxClients; i++){
             g_iWeaponCanUse[i][iEnt] = -1;
         }
@@ -1432,6 +1433,21 @@ public OnEntityCreated(iEnt, const String:szClassname[])
 
     }
 }
+
+public OnEntityDestroyed(int iEntity)
+{
+        char szName[32];
+        GetEdictClassname(iEntity, szName, sizeof(szName));
+        if (!StrEqual(szName, "weapon_healthshot"))
+        {
+            int iClient = g_iHealthshotOwners[iEntity];
+            if(IsClientInGame(iClient))
+            {
+                CodMod_Heal(iClient, iClient, GetRandomInt(1, 50));
+            }
+        }
+}
+
 
 
 public CodMod_SetClass(client, class){
@@ -2751,6 +2767,10 @@ stock UpdateWeapons(client){
 
         if(hasWeapon == false) {
             int iEntity = GivePlayerItem(client, nameOfWeapon);
+            if(classesWeapons[classId][i] == WEAPON_HEALTHSHOT)
+            {
+                g_iHealthshotOwners[iEntity] = client;
+            }
             if(classesWeapons[classId][i] != WEAPON_STANDARDPISTOLS)
                 g_iWeaponIDs[iEntity] = classesWeapons[classId][i];
         }
