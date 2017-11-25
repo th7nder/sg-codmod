@@ -82,7 +82,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
     WeaponID iWeaponID = CodMod_GetWeaponID(iCurrentEntity);
 
     char szWeapon[64];
-    if(iWeaponID == g_iFirstWeaponID){
+    if((iWeaponID != g_iFirstWeaponID && iWeaponID != g_iSecondWeaponID) || iWeaponID == g_iFirstWeaponID){
         g_iWeaponAmmos[0] = GetEntProp(iCurrentEntity, Prop_Send, "m_iClip1");
 
         RemovePlayerItem(iClient, iCurrentEntity);
