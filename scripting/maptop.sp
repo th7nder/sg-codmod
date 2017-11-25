@@ -103,32 +103,33 @@ stock bool GiveAwards(bool bDebug = false)
         
         for(int i = 0; i < 3; i++)
         {
-                char szRewardMessage[128] = "\x08 TOP%d %s%s \x08Otrzymał %d expa i %d nieśmiertelników! Gratulujemy!";
+                char szRewardMessage[128] = "%s\x08 TOP%d %s%s \x08Otrzymał %d expa i %d nieśmiertelników! Gratulujemy!";
                 GetClientName(iScores[i][ScoreData_ClientIndex], szClientName, sizeof(szClientName));
-                Format(szRewardMessage, sizeof(szRewardMessage), szRewardMessage, i + 1, g_iRewards[i][RewardData_Color], szClientName, g_iRewards[i][RewardData_Exp], g_iRewards[i][RewardData_Dogtags]);
+                Format(szRewardMessage, sizeof(szRewardMessage), szRewardMessage, CHAT_PREFIX, i + 1, g_iRewards[i][RewardData_Color], szClientName, g_iRewards[i][RewardData_Exp], g_iRewards[i][RewardData_Dogtags]);
                 if(bDebug)
                 {       
-                        PrintToServer("[MapTop] %s", szRewardMessage);
+                        PrintToServer(szRewardMessage);
                 }
                 else
                 {
-                        PrintToChatAll("%s %s", CHAT_PREFIX, szRewardMessage);   
+                        PrintToChatAll(szRewardMessage);   
                 }
                 
         }
 
         int iRandom = GetRandomInt(3, n - 1);
-        char szRandomMessage[128] = "\x08 Losowy gracz %s%s \x08otrzymał %d expa i %d nieśmiertelników! Gratulujemy!";
+        char szRandomMessage[128] = "%s\x08 Losowy gracz %s%s \x08otrzymał %d expa i %d nieśmiertelników! Gratulujemy!";
         GetClientName(iScores[iRandom][ScoreData_ClientIndex], szClientName, sizeof(szClientName));
-        Format(szRandomMessage, sizeof(szRandomMessage), szRandomMessage, g_iRewards[3][RewardData_Color], szClientName, g_iRewards[3][RewardData_Exp], g_iRewards[3][RewardData_Dogtags]);
+        Format(szRandomMessage, sizeof(szRandomMessage), szRandomMessage, CHAT_PREFIX, g_iRewards[3][RewardData_Color], szClientName, g_iRewards[3][RewardData_Exp], g_iRewards[3][RewardData_Dogtags]);
         if(bDebug)
         {
-                PrintToServer("[MapTop] %s", szRandomMessage);
+                PrintToServer(szRandomMessage);
         }
         else
         {
-                PrintToChatAll("%s %s", CHAT_PREFIX, szRandomMessage);
+                PrintToChatAll(szRandomMessage);
         }
+
 
         if(!bDebug)
         {
