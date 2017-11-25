@@ -76,6 +76,58 @@ stock void Sort(int iArray[MAXPLAYERS+1][ScoreData], int n)
         }
 }
 
+public void QuickSort(int[][] iArray, int n)
+{
+        if(n <= 1) return;
+        int iPivot[ScoreData];
+        int[][] iLeft = new int[n - 1][ScoreData];
+        int[][] iRight = new int[n - 1][ScoreData];
+
+        iPivot[ScoreData_ClientIndex] = iArray[0][ScoreData_ClientIndex];
+        iPivot[ScoreData_ClientScore] = iArray[0][ScoreData_ClientScore];
+
+        int iLeftN = 0;
+        int iRightN = 0;
+        for(int i = 1; i < n; i++)
+        {
+                if(iArray[i][ScoreData_ClientScore] > iPivot[ScoreData_ClientScore])
+                {
+                        iLeft[iLeftN][ScoreData_ClientIndex] = iArray[i][ScoreData_ClientIndex];
+                        iLeft[iLeftN][ScoreData_ClientScore] = iArray[i][ScoreData_ClientScore];
+                        iLeftN++;
+                }
+                else
+                {
+                        iRight[iRightN][ScoreData_ClientIndex] = iArray[i][ScoreData_ClientIndex];
+                        iRight[iRightN][ScoreData_ClientScore] = iArray[i][ScoreData_ClientScore];
+                        iRightN++;
+                }
+        }
+
+        QuickSort(iLeft, iLeftN);
+        QuickSort(iRight, iRightN);
+
+        int i = 0;
+        for(int j = 0; j < iLeftN; j++)
+        {
+                iArray[i][ScoreData_ClientIndex] = iLeft[j][ScoreData_ClientIndex];
+                iArray[i][ScoreData_ClientScore] = iLeft[j][ScoreData_ClientScore];
+                i++;
+        }
+
+        iArray[i][ScoreData_ClientIndex] = iPivot[ScoreData_ClientIndex];
+        iArray[i][ScoreData_ClientScore] = iPivot[ScoreData_ClientScore];
+        i++;
+
+        for(int j = 0; j < iRightN; j++)
+        {
+                iArray[i][ScoreData_ClientIndex] = iRight[j][ScoreData_ClientIndex];
+                iArray[i][ScoreData_ClientScore] = iRight[j][ScoreData_ClientScore];
+                i++;
+        }
+
+}
+
 
 
 stock bool GiveAwards(bool bDebug = false)
@@ -97,7 +149,21 @@ stock bool GiveAwards(bool bDebug = false)
                 return false;
         }
 
-        Sort(iScores, n);
+        if(bDebug)
+        {
+                QuickSort(iScores, n);
+                for(int i = 0; i < n; i++)
+                {
+                        PrintToServer("%d# %d | %d ", i, iScores[i][ScoreData_ClientIndex], iScores[i][ScoreData_ClientScore]);
+                }
+
+        }
+        else
+        {
+                QuickSort(iScores, n);
+                //Sort(iScores, n);    
+        }
+        
 
         char szClientName[32];
         
