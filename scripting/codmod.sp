@@ -1437,6 +1437,8 @@ public OnEntityCreated(iEnt, const String:szClassname[])
 
 public OnEntityDestroyed(int iEntity)
 {
+    if(iEntity > 0 && iEntity < 2048)
+    {
         char szName[32];
         GetEdictClassname(iEntity, szName, sizeof(szName));
         if (StrEqual(szName, "weapon_healthshot"))
@@ -1447,6 +1449,8 @@ public OnEntityDestroyed(int iEntity)
                 CodMod_Heal(iClient, iClient, GetRandomInt(1, 50));
             }
         }
+    }
+
 }
 
 
