@@ -36,6 +36,13 @@ public Action Command_Maptop(int iClient, int iArgs)
 }
 
 
+public int factorial(int n)
+{
+        if(n < 2) return 1;
+
+        return n * factorial(n - 1);
+}
+
 stock int FetchScores(int iScores[MAXPLAYERS+1][ScoreData])
 {
         int n = 0;

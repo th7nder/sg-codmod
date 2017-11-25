@@ -133,8 +133,9 @@ public Action Timer_Unslow(Handle hTimer, Handle hPack)
                         PrintToChat(iClient, "%s Poruszasz sie juz normalnie", PREFIX_SKILL);
                 }       
 
-                CodMod_ChangeStat(iClient, DEX_PERK, 40);
         }
+
+        CodMod_ChangeStat(iClient, DEX_PERK, 40);
 
         return Plugin_Stop;
 }
