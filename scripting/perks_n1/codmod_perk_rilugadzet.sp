@@ -141,7 +141,7 @@ public Action Timer_Unslow(Handle hTimer, Handle hPack)
 
 
 
-public void CodMod_OnClassSkillUsed(int iClient){
+public void CodMod_OnPerkSkillUsed(int iClient){
     if(!g_bHasItem[iClient] || !IsPlayerAlive(iClient))
         return;
 
