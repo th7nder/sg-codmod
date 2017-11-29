@@ -19,8 +19,10 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 #define ADDITIONAL_MULTIPLIER 2.0 - STRENGTH_MULTIPLIER
 char g_szClassName[128] = {"Kapral"};
 char g_szDesc[128] = {"115HP,Galil(+5dmg),USP-S(+10dmg)\n \
-1/15 na ogłuszenie na 0.75s \n \ 
-2 pierwsze otrzymane DMG w rundzie redukuje(1-100%,2-25%)"};
+1/15 na ogłuszenie na 0.5s \n \ 
+100% redukcja 1 otrzymanego DMG w rundzie"};
+
+#define STUN_DURATION 0.5
 
 const int g_iHealth = 0;
 const int g_iStartingHealth = 115;
@@ -64,11 +66,11 @@ public void CodMod_OnClientPutInServer(int iClient)
 public Action SDK_OnWeaponEvent(int iClient, int iWeapon)
 {
     float fTime = GetGameTime();
-    if(fTime - g_fStunned[iClient] <= 0.75)
+    if(fTime - g_fStunned[iClient] <= STUN_DURATION)
     {
         if(GetPlayerWeaponSlot(iClient, 2) != iWeapon)
         {
-            SetEntPropFloat(iWeapon, Prop_Send, "m_flNextPrimaryAttack", fTime + (0.75 - (fTime - g_fStunned[iClient])));
+            SetEntPropFloat(iWeapon, Prop_Send, "m_flNextPrimaryAttack", fTime + (STUN_DURATION - (fTime - g_fStunned[iClient])));
         }
     }
 
@@ -94,7 +96,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
         }
         if(GetRandomInt(1, 100) >= 93)
         {
-            if(GetGameTime() - g_fStunned[iVictim] >= 0.75)
+            if(GetGameTime() - g_fStunned[iVictim] >= STUN_DURATION)
             {
                 g_fStunned[iVictim] = GetGameTime();
                 for(int i = 0; i < 2; i++)
@@ -102,11 +104,11 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
                     int iEntity = GetPlayerWeaponSlot(iVictim, i);
                     if(iEntity != -1 && IsValidEntity(iVictim))
                     {
-                        SetEntPropFloat(iEntity, Prop_Send, "m_flNextPrimaryAttack", g_fStunned[iVictim] + 0.75);
+                        SetEntPropFloat(iEntity, Prop_Send, "m_flNextPrimaryAttack", g_fStunned[iVictim] + STUN_DURATION);
                     }
                 }
 
-                PrintToChat(iVictim, "%s Zostałeś ogłuszony przez kaprala na 1.5s!", PREFIX_SKILL);
+                PrintToChat(iVictim, "%s Zostałeś ogłuszony przez kaprala na %.2fs!", PREFIX_SKILL, STUN_DURATION);
                 PrintToChat(iAttacker, "%s Gracz został przez Ciebie ogłuszony!", PREFIX_SKILL); 
             }
         }
@@ -120,11 +122,6 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
             PrintToChat(iVictim, "%s Damage został zredukowany o 100%%!", PREFIX_SKILL);
             g_iDamageCount[iVictim]++;
             fDamage = 0.0;
-        } else if(g_iDamageCount[iVictim] == 1)
-        {
-            PrintToChat(iVictim, "%s Damage został zredukowany o 25%%!", PREFIX_SKILL);
-            fDamage *= 0.75
-            g_iDamageCount[iVictim]++;
         }
     }
 }
