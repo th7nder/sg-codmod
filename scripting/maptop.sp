@@ -48,7 +48,7 @@ stock int FetchScores(int iScores[MAXPLAYERS+1][ScoreData])
         int n = 0;
         for(int i = 1; i <= MaxClients; i++)
         {
-                if(IsClientInGame(i))
+                if(IsClientInGame(i) && !IsFakeClient(i))
                 {
                         iScores[n][ScoreData_ClientIndex] = i;
                         iScores[n][ScoreData_ClientScore] = CS_GetClientContributionScore(i);
