@@ -25,7 +25,7 @@ int g_iHeals[MAXPLAYERS+1] = {0};
 
 
 char g_szClassName[128] = {"Striker [Premium]"};
-char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MP7, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP"};
+char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MP7, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP\n 1/6 na podpalenie 10dmg/s przez 5 sekund"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
