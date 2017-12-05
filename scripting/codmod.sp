@@ -3095,7 +3095,7 @@ public void Player_PerformEntityExplosion(int iEntity, int iOwner, float fDamage
     float fBaseDamage = fDamage;
     int iRandom = GetRandomInt(1,4);
     for (int i = 1; i <= MaxClients; ++i) {
-        if (!IsValidPlayer(i) || !IsPlayerAlive(i) || iTeam == GetClientTeam(i) || i == iOwner)
+        if (!IsValidPlayer(i) || !IsPlayerAlive(i) || iTeam == GetClientTeam(i) || i == iOwner || g_bImmuneToSkills[i])
             continue;
         fDamage = fBaseDamage;
 

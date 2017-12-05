@@ -94,7 +94,7 @@ public CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, We
         {
             fDamage += 5.0;
         }
-        if(GetRandomInt(1, 100) >= 93)
+        if(GetRandomInt(1, 100) >= 93 && !CodMod_GetImmuneToSkills(iVictim))
         {
             if(GetGameTime() - g_fStunned[iVictim] >= STUN_DURATION)
             {
