@@ -154,7 +154,7 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
                 if(GetClientTeam(iClient) == CS_TEAM_CT && g_bTTPos)
                 {
-                        if(GetVectorDistance(fOrigin, g_fBuyzoneTT) >= 600.0)
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneTT) >= 400.0)
                         {
                                 return false;
                         }
@@ -162,7 +162,7 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
                 if(GetClientTeam(iClient) == CS_TEAM_T && g_bCTPos)
                 {
-                        if(GetVectorDistance(fOrigin, g_fBuyzoneCT) >= 600.0)
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneCT) >= 400.0)
                         {
                                 return false;
                         }
@@ -226,18 +226,18 @@ public int FindFreeSpawn(char szClassname[64]){
     float fVecPos[3];
 
     int iEnt = -1;
-    int iValidSpawns[32] = {-1};
+    int iValidSpawns[64] = {-1};
     int iSpawnCounter = 0;
     while ((iEnt = FindEntityByClassname(iEnt, szClassname)) != -1) {
         GetEntPropVector(iEnt, Prop_Data, "m_vecOrigin", fVecPos);
-        if(IsValidSpawn(fVecPos) && fVecPos[0] != 0.0 && fVecPos[1] != 0.0 && fVecPos[2] != 0.0){
+        if(fVecPos[0] != 0.0 && fVecPos[1] != 0.0 && fVecPos[2] != 0.0){
             iValidSpawns[iSpawnCounter++] = iEnt;
         } 
     }
 
     if(!iSpawnCounter) return -1;
 
+    PrintToServer("found %d spawns", iSpawnCounter);
 
-
-    return iValidSpawns[GetRandomInt(0, iSpawnCounter)];
+    return iValidSpawns[GetRandomInt(0, iSpawnCounter - 1)];
 }
