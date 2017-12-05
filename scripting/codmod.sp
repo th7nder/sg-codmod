@@ -1202,6 +1202,8 @@ public void OnClientPutInServer(int client) {
     g_PlayersInfo[client][PERK_ARMOR] = 0;
 
     g_PlayersInfo[client][HP_OVERRIDE] = 0;
+    g_PlayersInfo[client][DOUBLE_JUMP] = 0;
+    g_PlayersInfo[client][DOUBLE_JUMP_PERK] = 0;
 
 
     new String:sAuth[32];
