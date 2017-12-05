@@ -12,6 +12,8 @@ bool g_bJuanBlockade = false;
 Handle g_hTimer = INVALID_HANDLE;
 int g_iCounter = 0;
 int g_iJuan = -1;
+
+#define BLOCKADE_TIME 10
 public Plugin myinfo =
 {
 	name = "Grenade Blockade",
@@ -42,7 +44,7 @@ public Action Prethink(int iClient) {
 		int iWeapon = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
 
 		int iPlayerClassID = CodMod_GetPlayerInfo(iClient, CLASS)
-		int iTime = 15;
+		int iTime = BLOCKADE_TIME;
 		if(iPlayerClassID == g_iJuan) {
 			iTime = 5;
 		}
@@ -86,7 +88,7 @@ public Action RoundStart(Handle hEvent, const char[] szName, bool bDontBroadcast
 }
 
 public Action Grenade_Blockade(Handle hTimer){
-	if(g_iCounter + 1 <= 15){
+	if(g_iCounter + 1 <= BLOCKADE_TIME){
 		g_iCounter++;
 		if(g_iCounter >= 5)
 		{
