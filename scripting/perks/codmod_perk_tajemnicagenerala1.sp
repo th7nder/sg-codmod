@@ -13,7 +13,7 @@ public Plugin myinfo = {
     url = "http://th7.eu"
 };
 
-char szClassName[] = {"Tajemnica Generała"};
+char szClassName[] = {"Tajemnica Generała 1"};
 char szDesc[] = {"Otrzymujesz HE na początku rundy. \n Masz z niego 1/3 na natychmiastowe zabicie"};
 int g_iPerkId;
 

@@ -13,7 +13,7 @@ public Plugin myinfo = {
     url = "http://th7.eu"
 };
 
-char szClassName[] = {"Tajemnica Generała"};
+char szClassName[] = {"Tajemnica Generała 2"};
 char szDesc[] = {"Dostajesz HE, który zadaje 100dmg +1/1INT, 2x większy zasięg oraz zamraża na 5sec."};
 int g_iPerkId;
 
