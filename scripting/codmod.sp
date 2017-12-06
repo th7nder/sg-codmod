@@ -3014,6 +3014,7 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
       return -1;
     }
 
+
     Call_StartForward(g_hOnTH7Dmg);
     Call_PushCell(iVictim);
     Call_PushCell(iAttacker);
@@ -3027,7 +3028,6 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
     Call_PushFloatRef(fDamage);
     Call_PushCell(iTH7Dmg);
     Call_Finish();
-
     if(fDamage != 0.0){
         Handle hPack = CreateDataPack();
         WritePackCell(hPack, GetClientSerial(iVictim));
@@ -3036,12 +3036,32 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
         } else {
           WritePackCell(hPack, GetClientSerial(iAttacker));
         }
+        
 
         WritePackFloat(hPack, fDamage);
+        WritePackCell(hPack, iTH7Dmg);
         CreateTimer(0.02, Timer_DealDamageNative, hPack);
     }
 
     return 0;
+}
+
+
+stock int SpawnGrenade(int iOwner, float fOrigin[3])
+{
+    int iEntity = CreateEntityByName("hegrenade_projectile");
+    SetEntPropEnt(iEntity, Prop_Data, "m_hThrower", iOwner);
+    DispatchKeyValue(iEntity, "targetname", "cm_justicenade");
+    SetEntProp(iEntity, Prop_Data, "m_iTeamNum", GetClientTeam(iOwner));
+    SetEntPropFloat(iEntity, Prop_Data, "m_flDamage", 99.0);
+    SetEntPropFloat(iEntity, Prop_Data, "m_DmgRadius", 350.0);  
+    SetEntPropEnt(iEntity, Prop_Send, "m_hOwnerEntity", iOwner);
+
+    DispatchSpawn(iEntity);  
+    AcceptEntityInput(iEntity, "InitializeSpawnFromWorld");  
+    TeleportEntity(iEntity, fOrigin, NULL_VECTOR, NULL_VECTOR);
+
+    return iEntity;
 }
 
 public Action Timer_DealDamageNative(Handle hTimer, Handle hPack){
@@ -3049,17 +3069,24 @@ public Action Timer_DealDamageNative(Handle hTimer, Handle hPack){
     int iVictim = GetClientFromSerial(ReadPackCell(hPack));
     int iAttacker = GetClientFromSerial(ReadPackCell(hPack));
     float fDamage = ReadPackFloat(hPack);
+    int iTH7Dmg = ReadPackCell(hPack);
     CloseHandle(hPack);
 
     int iArmor = GetEntData(iVictim, g_iOffsetArmorValue);
     SetEntData(iVictim, g_iOffsetArmorValue, 0, _, true);
-    if(IsValidPlayer(iAttacker) && !IsPlayerAlive(iAttacker)){
-        //SetEntProp(iAttacker, Prop_Data, "m_lifeState", 1);
-        SDKHooks_TakeDamage(iVictim, iAttacker, iAttacker, fDamage);
-        //SetEntProp(iAttacker, Prop_Send, "m_lifeState", 0);
-    } else {
+    if(iTH7Dmg == TH7_DMG_HE)
+    {
+        float fPos[3] = {0.0, 0.0, 0.0};
+        int iEntity = SpawnGrenade(iAttacker, fPos);
+        SDKHooks_TakeDamage(iVictim, iAttacker, iAttacker, fDamage, iEntity);
+        RemoveEdict(iEntity);
+    }
+    else
+    {
         SDKHooks_TakeDamage(iVictim, iAttacker, iAttacker, fDamage);
     }
+    
+    
 
 
     SetEntData(iVictim, g_iOffsetArmorValue, iArmor, _, true);

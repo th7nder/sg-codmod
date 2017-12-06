@@ -64,8 +64,15 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
         {
             if(GetRandomInt(1, 100) >= 66)
             {
+                
                 fDamage *= 3.0;
+                CodMod_DealDamage(iAttacker, 
+                                iVictim, 
+                                fDamage, 
+                                TH7_DMG_HE);
                 PrintToChat(iAttacker, "%s Potrójny damage z HE: %f!", PREFIX_SKILL, fDamage);
+
+                fDamage = 0.0;
             }
         }
     }
