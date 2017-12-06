@@ -12,7 +12,7 @@ int g_iOffsetActiveWeapon = -1;
 #include <emitsoundany>
 
 #define CLASS_LIMIT 35
-#define PERK_LIMIT 140
+#define PERK_LIMIT 200
 #define INFO_LIMIT 19
 
 
