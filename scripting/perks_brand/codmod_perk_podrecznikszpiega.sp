@@ -154,7 +154,7 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
                 if(GetClientTeam(iClient) == CS_TEAM_CT && g_bTTPos)
                 {
-                        if(GetVectorDistance(fOrigin, g_fBuyzoneTT) >= 400.0)
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneTT) >= 1200.0)
                         {
                                 return false;
                         }
@@ -162,7 +162,7 @@ stock bool RespawnAtEnemySpawn(int iClient)
 
                 if(GetClientTeam(iClient) == CS_TEAM_T && g_bCTPos)
                 {
-                        if(GetVectorDistance(fOrigin, g_fBuyzoneCT) >= 400.0)
+                        if(GetVectorDistance(fOrigin, g_fBuyzoneCT) >= 1200.0)
                         {
                                 return false;
                         }
