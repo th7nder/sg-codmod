@@ -22,7 +22,7 @@ WeaponID g_iCurrentWeapon[MAXPLAYERS+1] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Szeregowy"};
-char g_szDesc[256] = {"120HP, Fiveseven(+7dmg), Co rundę losowa broń. 1/15 na obrócenie przeciwnika o 180 stopni, +20 DMG w plecy"};
+char g_szDesc[256] = {"120HP, Fiveseven, Co rundę losowa broń, +5 dmg\n 1/15 na obrócenie przeciwnika o 180 stopni, +20 DMG w plecy"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -93,7 +93,7 @@ public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, W
         {
            fDamage += 20.0;
         }
-        fDamage += 7.0;
+        fDamage += 5.0;
     }
 }
 
