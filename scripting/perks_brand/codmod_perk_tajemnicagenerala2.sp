@@ -68,7 +68,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if(iWeaponID == WEAPON_HEGRENADE){
-            fDamage = 100.0 + float(CodMod_GetWholeStat(iAttacker, INT));
+            fDamage += 100.0 + float(CodMod_GetWholeStat(iAttacker, INT));
 
             if(GetEntityMoveType(iVictim) != MOVETYPE_NONE){
                 SetEntityMoveType(iVictim, MOVETYPE_NONE);
