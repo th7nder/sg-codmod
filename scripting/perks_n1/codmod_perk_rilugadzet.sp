@@ -109,7 +109,7 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
             }
         }
 
-        if(iWeaponID == WEAPON_MOLOTOV)
+        if(iWeaponID == WEAPON_MOLOTOV || iDamageType == DMG_BURN)
         {
             fDamage *= 2.0;
         }
