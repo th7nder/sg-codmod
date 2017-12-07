@@ -1442,7 +1442,7 @@ public OnEntityDestroyed(int iEntity)
     if(iEntity > 0 && iEntity < 2048)
     {
         char szName[32];
-        GetEdictClassname(iEntity, szName, sizeof(szName));
+        GetEntityClassname(iEntity, szName, sizeof(szName));
         if (StrEqual(szName, "weapon_healthshot"))
         {
             int iClient = g_iHealthshotOwners[iEntity];
