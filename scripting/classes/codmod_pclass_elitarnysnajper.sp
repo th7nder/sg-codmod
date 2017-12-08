@@ -106,7 +106,8 @@ public void CodMod_OnPlayerSpawn(int iClient){
         g_bNoRecoil[iClient] = false;
         g_iNoRecoils[iClient] = 0;
         TH7_DisableNoRecoil(iClient);
-
+        TH7_DisableRenderColor(iClient)
+        TH7_SetRenderColor(iClient, 255, 255, 255, 150);
     }
 }
 
