@@ -1439,7 +1439,7 @@ public OnEntityCreated(iEnt, const String:szClassname[])
 
 public OnEntityDestroyed(int iEntity)
 {
-    if(iEntity > 0 && iEntity < 2048)
+    if(IsValidEntity(iEntity))
     {
         char szName[32];
         GetEntityClassname(iEntity, szName, sizeof(szName));
