@@ -99,6 +99,7 @@ new changedClass[MAXPLAYERS+1] = {0};
 
 
 Handle g_hDamagePerkForward = INVALID_HANDLE;
+Handle g_hOnHealthShotUsed = INVALID_HANDLE;
 new Handle:g_DamageForward;
 new Handle:g_WeaponUseForward;
 new Handle:g_OnPlayerDieForward;
@@ -258,6 +259,8 @@ public OnPluginStart(){
     g_hOnPerkSkillUsed = CreateGlobalForward("CodMod_OnPerkSkillUsed", ET_Ignore, Param_Cell);
     g_hOnTH7Dmg = CreateGlobalForward("CodMod_OnTH7Dmg", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
     g_hOnTH7DmgPost = CreateGlobalForward("CodMod_OnTH7DmgPost", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
+    g_hOnHealthShotUsed = CreateGlobalForward("CodMod_OnHealthshotUsed", ET_Ignore, Param_Cell);
+
 
 
     Format(classes[0][NAME], 128, "Brak klasy");
@@ -1475,6 +1478,9 @@ public OnEntityDestroyed(int iEntity)
             if(iClient > 0 && IsClientInGame(iClient))
             {
                 CodMod_Heal(iClient, iClient, GetRandomInt(1, 50));
+                Call_StartForward(g_hOnHealthShotUsed);
+                Call_PushCell(iClient);
+                Call_Finish();
             }
         }
     }

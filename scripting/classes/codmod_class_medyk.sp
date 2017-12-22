@@ -45,7 +45,6 @@ public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_MP9;
     g_iWeapons[1] = WEAPON_GLOCK;
     g_iWeapons[2] = WEAPON_HEALTHSHOT;
-    g_iWeapons[3] = WEAPON_HEALTHSHOT;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
 }
 
