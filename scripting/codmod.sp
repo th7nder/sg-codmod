@@ -47,6 +47,7 @@ char g_szSidGiveItem[][64] = {
     "34914398", //Silver
     "47438709", //Nobody
     "26958529", //dray
+    "121662520" // strajker
 };
 
 int g_iaGrenadeOffsets[sizeof(g_saGrenadeWeaponNames)];
@@ -3001,7 +3002,14 @@ public int Native_PerformEntityExplosion(Handle hPlugin, int iNumParams){
         return 0;
     }
 
-    Player_PerformEntityExplosion(iEntity, iOwner, view_as<float>(GetNativeCell(3)), GetNativeCell(4), view_as<float>(GetNativeCell(5)), GetNativeCell(6));
+    Player_PerformEntityExplosion(
+                                iEntity, 
+                                iOwner, 
+                                view_as<float>(GetNativeCell(3)), 
+                                GetNativeCell(4), 
+                                view_as<float>(GetNativeCell(5)), 
+                                GetNativeCell(6), 
+                                view_as<bool>(GetNativeCell(7)));
 
     return 0;
 }
@@ -3097,7 +3105,7 @@ public Action Timer_DealDamageNative(Handle hTimer, Handle hPack){
 }
 
 
-public void Player_PerformEntityExplosion(int iEntity, int iOwner, float fDamage, int iRadius, float fIgniteTime, int iTH7Dmg){
+public void Player_PerformEntityExplosion(int iEntity, int iOwner, float fDamage, int iRadius, float fIgniteTime, int iTH7Dmg, bool bExplosionAnimation){
     if(!IsValidPlayer(iOwner) || !IsValidEntity(iEntity))
         return;
 
@@ -3106,18 +3114,28 @@ public void Player_PerformEntityExplosion(int iEntity, int iOwner, float fDamage
     if(StrContains(szEntityName, "cm") == -1)
         return;*/
 
+
     float fVec[3];
     GetEntPropVector(iEntity, Prop_Send, "m_vecOrigin", fVec);
 
     int iColor[4]={188, 220 ,255, 200};
 
-    TE_SetupExplosion(fVec, g_iExplosionSprite, 10.0, 1, 0, iRadius, 5000);
-    TE_SendToAll();
+    if(bExplosionAnimation)
+    {
+         TE_SetupExplosion(fVec, g_iExplosionSprite, 10.0, 1, 0, iRadius, 5000);
+        TE_SendToAll();   
+    }
+
     TE_SetupBeamRingPoint(fVec, 10.0, float(iRadius), g_iFire, g_iHaloSprite, 0, 10, 0.6, 10.0, 0.5, iColor, 10, 0);
     TE_SendToAll();
-    fVec[2] += 10.0;
-    TE_SetupExplosion(fVec, g_iExplosionSprite, 10.0, 1, 0, iRadius, 5000);
-    TE_SendToAll();
+
+    if(bExplosionAnimation)
+    {
+        fVec[2] += 10.0;
+        TE_SetupExplosion(fVec, g_iExplosionSprite, 10.0, 1, 0, iRadius, 5000);
+        TE_SendToAll();
+    }
+
 
     int iTeam = GetClientTeam(iOwner);
 

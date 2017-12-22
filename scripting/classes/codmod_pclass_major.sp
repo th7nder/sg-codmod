@@ -42,7 +42,8 @@ public void OnPluginStart(){
 
 public Action Command_TestMajor(int iClient, int iArgs)
 {
-    CodMod_PerformEntityExplosion(iClient, iClient, 20.0 + float(CodMod_GetWholeStat(iClient, INT)) * 0.5, 250, 0.0, TH7_DMG_EXPLODE);
+    CodMod_PerformEntityExplosion(iClient, iClient, 20.0 + float(CodMod_GetWholeStat(iClient, INT)) * 0.5, 300, 0.0, TH7_DMG_EXPLODE, iArgs == 1 ? true : false);
+    PrintToChatAll("wybuchnelo go");
 }
 
 public void OnPluginEnd(){
@@ -68,7 +69,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     if(g_bHasClass[iAttacker]){
         if(GetRandomInt(1, 100) >= 90){
            //CodMod_PerformEntityExplosion(int iEntity, int iOwner, float fDamage, int iRadius, float fIgniteTime, int iTH7Dmg);
-            CodMod_PerformEntityExplosion(iVictim, iAttacker, 20.0 + float(CodMod_GetWholeStat(iAttacker, INT)) * 0.5, 250, 0.0, TH7_DMG_EXPLODE);
+            CodMod_PerformEntityExplosion(iVictim, iAttacker, 20.0 + float(CodMod_GetWholeStat(iAttacker, INT)) * 0.5, 300, 0.0, TH7_DMG_EXPLODE, false);
 
         }
     }
