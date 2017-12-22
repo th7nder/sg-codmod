@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Wsparcie Ogniowe"};
-char g_szDesc[160] = {"120HP, UMP-45(+5dmg), CZ75\nPosiada 3 rakiety(65dmg+INT)\n1/4 na podpalenie z rakiety(7dmg przez 3s)\n1/9 na 50% redukcji DMG w plecy"};
+char g_szDesc[160] = {"120HP, UMP-45(+5dmg), CZ75\nPosiada 3 rakiety(65dmg+INT)\n1/4 na podpalenie z rakiety(7dmg przez 3s)\n1/8 na 50% redukcjo/odbicie DMG w plecy"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -79,18 +79,5 @@ public void CodMod_OnClassSkillUsed(int iClient){
         FireRocket(iClient);
     } else {
         PrintToChat(iClient, "%s Wykorzystałeś już %d rakiet tej rundzie!", PREFIX_SKILL, iMaxRockets)
-    }
-}
-
-public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasClass[iVictim])
-    {
-        if(GetRandomInt(1, 9) == 1)
-        {
-            if(isInFOV(iAttacker, iVictim) && !isInFOV(iVictim, iAttacker))
-            {
-               fDamage *= 0.5;
-            }
-        }
     }
 }

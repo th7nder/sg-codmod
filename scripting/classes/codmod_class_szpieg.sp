@@ -20,9 +20,9 @@ public Plugin myinfo = {
 WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 char g_szClassName[128] = {"Szpieg"};
-char g_szDesc[256] = {"110HP, USP-S, 2x Flashbang \n 1/6 na 2x dmg, 0.45dmg/1str USP Cichy Chód \n +5 dmg do wszystkich broni \n Niewidoczny na radarze"};
+char g_szDesc[256] = {"120HP, USP-S, 2x Flashbang \n 1/5 na 2x dmg, 0.45dmg/1str USP Cichy Chód \n +5 dmg do wszystkich broni \n Niewidoczny na radarze"};
 const int g_iHealth = 0;
-const int g_iStartingHealth = 110;
+const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
 const int g_iDexterity = 30;
 const int g_iIntelligence = 0;
@@ -96,7 +96,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
           fDamage += (float(CodMod_GetWholeStat(iAttacker, STRENGTH)) * 0.15);
         }
 
-        if(iWeaponID == WEAPON_USP && GetRandomInt(1, 100) >= 84){
+        if(iWeaponID == WEAPON_USP && GetRandomInt(1, 100) >= 80){
             fDamage *= 2.0;
         }
 

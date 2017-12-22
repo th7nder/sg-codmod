@@ -698,6 +698,7 @@ const int g_iBlockedWeaponPerksSize = sizeof(g_szBlockedWeaponPerks);
 int g_iBlockedWeaponPerks[g_iBlockedWeaponPerksSize];
 int g_iCommandoID = -1;
 int g_iElitSniperID = -1
+int g_iWsparcie = -1;
 int g_iCamouflageMask = -1
 int g_iRoundIndex = -1;
 int g_iBeamSprite = -1;
@@ -843,6 +844,8 @@ public OnMapStart(){
     g_iCommandoID = CodMod_GetClassId("Komandos [Premium]");
     g_iElitSniperID = -1
     g_iElitSniperID = CodMod_GetClassId("Elitarny Snajper [Premium]")
+    g_iWsparcie = -1;
+    g_iWsparcie = CodMod_GetClassId("Wsparcie Ogniowe");
 }
 
 public OnMapEnd(){
@@ -1440,10 +1443,21 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
         damage = 10000.0;
     }
 
+    if(CodMod_GetClass(victim) == g_iWsparcie)
+    {
+        if(GetRandomInt(1, 8) == 1)
+        {
+            CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
+            damage *= 0.5;
+        }
+    }
+
     if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
     }
+
+
 
 
     attacker = iRealAttacker;
