@@ -39,6 +39,7 @@ int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
 int g_iMedkits[MAXPLAYERS+1] = {0};
+int g_iHealthshotUsed[MAXPLAYERS+1] = {0};
 
 
 public void OnPluginStart(){
@@ -99,11 +100,13 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 
     g_iMedkits[iClient] = 0;
     g_iRessurected[iClient] = 0;
+    g_iHealthshotUsed[iClient] = 0;
     KillSkillTimer(iClient);
 }
 
 public void CodMod_OnPlayerSpawn(int iClient){
     if(g_bHasClass[iClient]){
+        g_iHealthshotUsed[iClient] = 0;
         g_iMedkits[iClient] = 0;
         g_iRessurected[iClient] = 0;
     }
@@ -210,4 +213,17 @@ public void CodMod_OnWeaponCanUse(client, WeaponID iWeaponID, &canUse, bool bBuy
         }
     }
     
+}
+
+
+public void CodMod_OnHealthshotUsed(int iClient)
+{
+    if(g_bHasClass[iClient])
+    {
+        g_iHealthshotUsed[iClient]++;
+        if(g_iHealthshotUsed[iClient] + 1 <= 2)
+        {
+            GivePlayerItem(iClient, "weapon_healthshot");
+        }
+    }
 }
