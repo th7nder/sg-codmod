@@ -21,9 +21,22 @@ int g_iPerkId;
 bool g_bHasItem[MAXPLAYERS +1] = {false};
 
 
-public void OnPluginStart(){
-    g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+public OnPluginStart(){
+
+    if(LibraryExists(COD_LIBRARY_NAME))
+    {
+        g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+    }
 }
+
+public void OnLibraryAdded(const char[] szName)
+{
+    if(StrEqual(szName, COD_LIBRARY_NAME))
+    {
+        g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+    }
+}
+
 
 public void OnPluginEnd(){
     CodMod_UnregisterPerk(g_iPerkId);

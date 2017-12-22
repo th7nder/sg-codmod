@@ -20,7 +20,19 @@ new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
 public OnPluginStart(){
-	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+
+    if(LibraryExists(COD_LIBRARY_NAME))
+    {
+    	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+    }
+}
+
+public void OnLibraryAdded(const char[] szName)
+{
+    if(StrEqual(szName, COD_LIBRARY_NAME))
+    {
+        g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+    }
 }
 
 

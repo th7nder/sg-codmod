@@ -35,7 +35,14 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_SG556;
     g_iWeapons[1] = WEAPON_P250;
-    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, ADMFLAG_SLAY, g_iStartingHealth);
+    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0/*ADMFLAG_SLAY*/, g_iStartingHealth);
+
+    RegConsoleCmd("test_major", Command_TestMajor);
+}
+
+public Action Command_TestMajor(int iClient, int iArgs)
+{
+    CodMod_PerformEntityExplosion(iClient, iClient, 20.0 + float(CodMod_GetWholeStat(iClient, INT)) * 0.5, 250, 0.0, TH7_DMG_EXPLODE);
 }
 
 public void OnPluginEnd(){
