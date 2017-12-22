@@ -46,7 +46,7 @@ char g_szSidGiveItem[][64] = {
     "29118382", //th7
     "34914398", //Silver
     "47438709", //Nobody
-    "32549176", //arek
+    "26958529", //dray
 };
 
 int g_iaGrenadeOffsets[sizeof(g_saGrenadeWeaponNames)];
@@ -182,6 +182,8 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
 
     CreateNative("CodMod_SetCustomPerkPermission", Native_SetCustomPerkPermission);
     CreateNative("CodMod_GetCustomPerkPermission", Native_GetCustomPerkPermission);
+
+    RegPluginLibrary("codmod301");
 
     return APLRes_Success;
 }
