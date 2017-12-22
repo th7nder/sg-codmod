@@ -24,6 +24,19 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 int g_iHeals[MAXPLAYERS+1] = {0};
 
 
+int g_iBeamColor[] = {255, 265, 0, 255};
+
+
+int g_iBeamSprite = -1;
+int g_iHaloSprite = -1;
+
+
+public void OnMapStart()
+{
+    g_iBeamSprite = PrecacheModel("materials/sprites/laserbeam.vmt");
+    g_iHaloSprite = PrecacheModel("materials/sprites/halo.vmt");
+}
+
 char g_szClassName[128] = {"Striker [Premium]"};
 char g_szDesc[256] = {"120HP, MP7, P250 \n No-Recoil na MP7, 10HP za killa oraz ammo \n +5dmg ze wszystkiego, codmod_special - heal o 70HP\n 1/6 na podpalenie 10dmg/s przez 5 sekund"};
 const int g_iHealth = 0;
@@ -80,6 +93,14 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
         PrintToChat(iAttacker, "%s Podpaliłeś gracza!", PREFIX_SKILL);
         PrintToChat(iVictim, "%s Zostałeś podpalony!", PREFIX_SKILL);
         CodMod_Burn(iAttacker, iVictim, 5.0, 1.0, 10.0);
+
+        float fPosition[3], fTargetPosition[3];
+        GetClientEyePosition(iAttacker, fPosition);
+        GetClientEyePosition(iVictim, fTargetPosition);
+        fPosition[2] -= 10.0;
+        fTargetPosition[2] -= 10.0;
+        TE_SetupBeamPoints(fPosition, fTargetPosition, g_iBeamSprite, g_iHaloSprite, 0, 66, 1.0, 1.0, 20.0, 1, 0.0, g_iBeamColor, 5);
+        TE_SendToAll();
     }
 }
 

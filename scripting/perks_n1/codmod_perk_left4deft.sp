@@ -99,7 +99,7 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
             fDamage += 10.0;
         }
 
-        if(g_bHasItem[iAttacker] && !g_bOnFire[iVictim] && GetRandomInt(1, 100) >= 93){
+        if(g_bHasItem[iAttacker] && !g_bOnFire[iVictim] && GetRandomInt(1, 100) >= 87){
             g_bOnFire[iVictim] = true;
             PrintToChat(iAttacker, "%s Podpaliłeś gracza!", PREFIX_SKILL);
             PrintToChat(iVictim, "%s Zostałeś podpalony!", PREFIX_SKILL);
