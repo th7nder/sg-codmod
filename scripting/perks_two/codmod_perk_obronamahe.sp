@@ -66,6 +66,7 @@ const WeaponID g_iGiveWeapon = WEAPON_M249;
 char g_szGiveWeapon[] = "weapon_m249";
 const int g_iWeaponSlot = 0;
 public void CodMod_OnPlayerSpawn(int iClient){
+    g_fLastUse[iClient] = 0.0;
     if(g_bHasItem[iClient]){
         int iEntity = GetPlayerWeaponSlot(iClient, g_iWeaponSlot);
         if(iEntity != -1){
