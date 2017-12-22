@@ -137,7 +137,8 @@ public Action Timer_Resurrect(Handle hTimer, Handle hPack){
 
     PrintToChatAll("%s %N został wskrzeszony przez %N!", PREFIX_SKILL, iTarget, iClient);
     int iRandom = GetRandomInt(50, 150);
-    PrintToChat(iClient, "%s Otrzymałeś %d expa za wskrzeszenie!", PREFIX_SKILL, iRandom);
+    PrintToChat(iClient, "%s Otrzymałeś %d expa za wskrzeszenie i 1 nieśmiertelnik!", PREFIX_SKILL, iRandom);
+    
     CodMod_GiveExp(iClient, iRandom);
     CodMod_SetDogtagCount(iClient, CodMod_GetDogtagCount(iClient) + 1);
     g_iRessurected[iClient]++;
