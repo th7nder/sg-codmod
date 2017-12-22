@@ -36,14 +36,6 @@ public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_SG556;
     g_iWeapons[1] = WEAPON_P250;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0/*ADMFLAG_SLAY*/, g_iStartingHealth);
-
-    RegConsoleCmd("test_major", Command_TestMajor);
-}
-
-public Action Command_TestMajor(int iClient, int iArgs)
-{
-    CodMod_PerformEntityExplosion(iClient, iClient, 20.0 + float(CodMod_GetWholeStat(iClient, INT)) * 0.5, 300, 0.0, TH7_DMG_EXPLODE, iArgs == 1 ? true : false);
-    PrintToChatAll("wybuchnelo go");
 }
 
 public void OnPluginEnd(){
@@ -68,7 +60,6 @@ public CodMod_OnPlayerSpawn(int iClient){
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         if(GetRandomInt(1, 100) >= 90){
-           //CodMod_PerformEntityExplosion(int iEntity, int iOwner, float fDamage, int iRadius, float fIgniteTime, int iTH7Dmg);
             CodMod_PerformEntityExplosion(iVictim, iAttacker, 20.0 + float(CodMod_GetWholeStat(iAttacker, INT)) * 0.5, 300, 0.0, TH7_DMG_EXPLODE, false);
 
         }
