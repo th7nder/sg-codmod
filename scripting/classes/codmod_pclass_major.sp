@@ -35,7 +35,7 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_SG556;
     g_iWeapons[1] = WEAPON_P250;
-    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0/*ADMFLAG_SLAY*/, g_iStartingHealth);
+    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, ADMFLAG_SLAY, g_iStartingHealth);
 }
 
 public void OnPluginEnd(){
