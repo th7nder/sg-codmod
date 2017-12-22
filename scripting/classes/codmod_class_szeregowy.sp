@@ -255,3 +255,11 @@ public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
         }
     }
 }
+
+
+public void CodMod_OnPerkDisabled(int iClient, int iPerkId)
+{
+    if(g_bHasClass[iClient]){
+        g_bRandomWeapon[iClient] = true;
+    }
+}
