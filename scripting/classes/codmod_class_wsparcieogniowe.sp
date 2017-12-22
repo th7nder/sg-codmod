@@ -87,6 +87,6 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasClass[iVictim]){
-        CodMod_PerformEntityExplosion(iVictim, iVictim, 60.0 + (CodMod_GetWholeStat(iVictim, INT)), 200, 0.0, TH7_DMG_EXPLODE);
+        CodMod_PerformEntityExplosion(iVictim, iVictim, 60.0 + (CodMod_GetWholeStat(iVictim, INT)), 320, 0.0, TH7_DMG_EXPLODE);
     }
 }

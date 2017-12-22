@@ -1445,11 +1445,15 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
 
     if(CodMod_GetClass(victim) == g_iWsparcie)
     {
-        if(GetRandomInt(1, 8) == 1)
+        if(isInFOV(attacker, victim) && !isInFOV(victim, attacker))
         {
-            CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
-            damage *= 0.5;
+            if(GetRandomInt(1, 8) == 1)
+            {
+                CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
+                damage *= 0.5;
+            }
         }
+
     }
 
     if(iVictimPerk == g_iHitynowaPowloka)
