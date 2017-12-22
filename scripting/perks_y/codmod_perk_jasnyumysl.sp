@@ -26,9 +26,21 @@ bool g_bTagged[MAXPLAYERS+1][MAXPLAYERS+1];
 
 public OnPluginStart()
 {
-	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+	if(LibraryExists(COD_LIBRARY_NAME))
+	{
+		g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+	}
+	
 }
 
+
+public void OnLibraryAdded(const char[] szName)
+{
+	if(StrEqual(szName, COD_LIBRARY_NAME))
+	{
+		g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
+	}
+}
 
 
 public OnPluginEnd(){
