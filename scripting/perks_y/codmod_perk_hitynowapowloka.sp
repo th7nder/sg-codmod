@@ -48,14 +48,3 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 
 
-public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, iDamageType){
-	if(g_bHasItem[iVictim]){
-		CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
-	}
-}
-
-public void CodMod_OnTH7Dmg(int iVictim, int iAttacker, float &fDamage, int iTH7Dmg){
-    if(g_bHasItem[iVictim] && (iTH7Dmg == TH7_DMG_THROWINGKNIFE || iTH7Dmg == TH7_DMG_SMOKE)){
-        CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
-    }
-}

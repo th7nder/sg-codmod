@@ -29,6 +29,7 @@ int g_iNanoarmor = -1;
 int g_iTrykot = -1;
 int g_iPrzeszycie = -1;
 int g_iTypowySeba = -1;
+int g_iHitynowaPowloka = -1;
 
 int g_iWeaponCanUse[MAXPLAYERS+1][2048 + 1];
 
@@ -309,7 +310,7 @@ public OnPluginStart(){
     RegConsoleCmd("codmod_perk", Command_OnCodModPerk);
     RegConsoleCmd("codmod_special_perk", Command_OnCodModPerk);
 
-    RegAdminCmd("th7perk", Command_GivePerk, ADMFLAG_CUSTOM6);
+    RegConsoleCmd("th7perk", Command_GivePerk);
 
     HookUserMessage(GetUserMessageId("SayText2"), SayText2, true);
     g_iOffsetLaggedMovementValue = FindSendPropInfo("CBasePlayer", "m_flLaggedMovementValue");
@@ -826,7 +827,12 @@ public OnMapStart(){
             g_iTypowySeba = i;
         }
 
-        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1 && g_iTypowySeba != -1){
+        if(StrEqual(perks[i][NAME], "Hitynowa Powłoka"))
+        {
+            g_iHitynowaPowloka = i;
+        }
+
+        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1 && g_iTypowySeba != -1 && g_iHitynowaPowloka != -1){
             break;
         }
     }
@@ -1099,6 +1105,11 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                     g_iTypowySeba = i;
                 }
 
+                if(StrEqual(currName, "Hitynowa Powłoka"))
+                {
+                    g_iHitynowaPowloka = i;
+                }
+
                 RemoveCustomPerkPermission(i);
 
                 
@@ -1131,6 +1142,11 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     if(StrEqual(currName, "Typowy Seba"))
     {
         g_iTypowySeba = perkId;
+    }
+
+    if(StrEqual(currName, "Hitynowa Powłoka"))
+    {
+        g_iHitynowaPowloka = perkId;
     }
 
 
@@ -1415,8 +1431,15 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
         damage = 0.0;
     }
 
+
+
     if(damage >= 10000.0){
         damage = 10000.0;
+    }
+
+    if(iVictimPerk == g_iHitynowaPowloka)
+    {
+        CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
     }
 
 
@@ -3038,6 +3061,18 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
     Call_PushFloatRef(fDamage);
     Call_PushCell(iTH7Dmg);
     Call_Finish();
+
+
+    if(CodMod_GetPerk(iVictim) == g_iHitynowaPowloka)
+    {
+        if(iTH7Dmg == TH7_DMG_THROWINGKNIFE || iTH7Dmg == TH7_DMG_SMOKE)
+        {
+            CodMod_DealDamage(iVictim, iAttacker, fDamage * 0.5, TH7_DMG_REFLECT);
+        }
+    }
+
+
+
     if(fDamage != 0.0){
         Handle hPack = CreateDataPack();
         WritePackCell(hPack, GetClientSerial(iVictim));
