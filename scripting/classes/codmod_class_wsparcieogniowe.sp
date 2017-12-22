@@ -26,7 +26,7 @@ char g_szClassName[128] = {"Wsparcie Ogniowe"};
 char g_szDesc[200] = {"120HP, UMP-45(+5dmg), CZ75\n \
                             3 rakiety(65dmg+INT)\n1/4 na podpalenie z rakiety(7dmg *3s)\n \
                             1/8 na odbicie 50% dmg w plecy\n \ 
-                            Po śmierci wybucha 60dmg"};
+                            Po śmierci wybucha 60dmg(+INT)"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;

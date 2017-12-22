@@ -7,7 +7,6 @@
 #include <emitsoundany>
 
 #define _IN_CODMOD_CLASS 1
-#define DOUBLE_JUMP 1
 #include <codmod301>
 public Plugin myinfo = {
     name = "CodMod 301 - Class - Najemnik",
@@ -22,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Najemnik"};
-char g_szDesc[256] = {"120HP\n Dostęp do każdej broni(oprócz XM i Autokampy)\n 1/10 na 3x dmg"};
+char g_szDesc[256] = {"120HP\n Dostęp do każdej broni(oprócz XM i Autokampy)\n 1/10 na 3x dmg\n+5000$ na starcie"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -51,7 +50,7 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 
 public void CodMod_OnPlayerSpawn(int iClient){
     if(g_bHasClass[iClient]){
-        SetEntProp(iClient, Prop_Send, "m_iAccount", GetEntProp(iClient, Prop_Send, "m_iAccount") + 2000);
+        SetEntProp(iClient, Prop_Send, "m_iAccount", GetEntProp(iClient, Prop_Send, "m_iAccount") + 5000);
     }
 }
 
