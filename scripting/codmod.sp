@@ -3063,6 +3063,8 @@ public int Native_PerformEntityExplosion(Handle hPlugin, int iNumParams){
         return 0;
     }
 
+    bool bAnim = iNumParams <= 6 ? true : view_as<bool>(GetNativeCell(7));
+
     Player_PerformEntityExplosion(
                                 iEntity, 
                                 iOwner, 
@@ -3070,7 +3072,7 @@ public int Native_PerformEntityExplosion(Handle hPlugin, int iNumParams){
                                 GetNativeCell(4), 
                                 view_as<float>(GetNativeCell(5)), 
                                 GetNativeCell(6), 
-                                view_as<bool>(GetNativeCell(7)));
+                                bAnim);
 
     return 0;
 }
