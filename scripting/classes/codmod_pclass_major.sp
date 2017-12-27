@@ -64,14 +64,6 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 
         }
     }
-
-    if(g_bHasClass[iVictim]){
-        if(GetRandomInt(1, 15) == 1) {
-            CodMod_DealDamage(iVictim, iAttacker, fDamage, TH7_DMG_REFLECT);
-            fDamage = 0.0;
-            PrintToChat(iVictim, "%s Pocisk został odbity!", PREFIX_SKILL);
-        }
-    }
 }
 
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){

@@ -698,6 +698,7 @@ const int g_iBlockedWeaponPerksSize = sizeof(g_szBlockedWeaponPerks);
 int g_iBlockedWeaponPerks[g_iBlockedWeaponPerksSize];
 int g_iCommandoID = -1;
 int g_iElitSniperID = -1
+int g_iMajor = -1;
 int g_iWsparcie = -1;
 int g_iCamouflageMask = -1
 int g_iRoundIndex = -1;
@@ -846,6 +847,8 @@ public OnMapStart(){
     g_iElitSniperID = CodMod_GetClassId("Elitarny Snajper [Premium]")
     g_iWsparcie = -1;
     g_iWsparcie = CodMod_GetClassId("Wsparcie Ogniowe");
+    g_iMajor = -1;
+    g_iMajor = CodMod_GetClassId("Major [Premium]");
 }
 
 public OnMapEnd(){
@@ -1443,7 +1446,8 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
         damage = 10000.0;
     }
 
-    if(CodMod_GetClass(victim) == g_iWsparcie)
+    int iVictimClass = CodMod_GetClass(victim);
+    if(iVictimClass == g_iWsparcie)
     {
         if(isInFOV(attacker, victim) && !isInFOV(victim, attacker))
         {
@@ -1456,7 +1460,15 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
 
     }
 
-    if(iVictimPerk == g_iHitynowaPowloka)
+    if(iVictimClass == g_iMajor)
+    {
+        if(GetRandomInt(1, 15) == 1)
+        {
+            CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
+            PrintToChat(victim, "%s Odbiłeś damage!", PREFIX_SKILL);
+        }
+    } 
+    else if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
     }
