@@ -134,7 +134,7 @@ stock bool GiveAwards(bool bDebug = false)
 {
         int iScores[MAXPLAYERS+1][ScoreData];
         int n = FetchScores(iScores);
-        if(n <= g_iPlayersRequired)
+        if(n < g_iPlayersRequired)
         {
                 char szMessage[128] = {"Nagrody za TOP4 najlepszych graczy nie zostaną rozdane. Jest %d/%d graczy"};
                 Format(szMessage, sizeof(szMessage), szMessage, n, g_iPlayersRequired);
