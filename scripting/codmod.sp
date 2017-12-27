@@ -31,6 +31,7 @@ int g_iPrzeszycie = -1;
 int g_iTypowySeba = -1;
 int g_iHitynowaPowloka = -1;
 int g_iWyszkolenie = -1;
+int g_iKomandor = -1;
 
 int g_iWeaponCanUse[MAXPLAYERS+1][2048 + 1];
 
@@ -847,14 +848,11 @@ public OnMapStart(){
             break;
         }
     }
-    g_iCommandoID = -1;
     g_iCommandoID = CodMod_GetClassId("Komandos [Premium]");
-    g_iElitSniperID = -1
     g_iElitSniperID = CodMod_GetClassId("Elitarny Snajper [Premium]")
-    g_iWsparcie = -1;
     g_iWsparcie = CodMod_GetClassId("Wsparcie Ogniowe");
-    g_iMajor = -1;
     g_iMajor = CodMod_GetClassId("Major [Premium]");
+    g_iKomandor = CodMod_GetClassId("Komandor [Premium]");
 }
 
 public OnMapEnd(){
@@ -1474,9 +1472,20 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
             }
         }
 
-    }
+    } 
+    else if(iVictimClass == g_iKomandor)
+    {
+        if(GetRandomInt(1, 15) == 1)
+        {
+            if(isInFOV(attacker, victim) && !isInFOV(victim, attacker))
+            {
+                CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
+                PrintToChat(victim, "%s Odbiłeś %.2f damage'u Komandorze!", PREFIX_SKILL);
+            }
+        }
 
-    if(iVictimClass == g_iMajor)
+    }
+    else if(iVictimClass == g_iMajor)
     {
         if(GetRandomInt(1, 15) == 1)
         {
