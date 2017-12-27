@@ -38,7 +38,7 @@ public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = true;
-    CodMod_SetStat(iClient, DEX_PERK, CodMod_GetStat(iClient, ARMOR_PERK) + 50);
+    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) + 50);
 }
 
 public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
@@ -46,7 +46,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = false;
-    CodMod_SetStat(iClient, DEX_PERK, CodMod_GetStat(iClient, ARMOR_PERK) - 50);
+    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) - 50);
 }
 
 const WeaponID g_iGiveWeapon = WEAPON_SAWEDOFF;
