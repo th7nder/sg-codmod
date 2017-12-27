@@ -81,7 +81,7 @@ public void CodMod_OnPlayerSpawn(int iClient)
 public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker])
     {
-        if(GetRandomInt(1, 10) == 1)
+        if(CodMod_GetImmuneToSkills(iVictim) && GetRandomInt(1, 10) == 1)
         {
             float fAngles[3];
             GetClientEyeAngles(iVictim, fAngles);
