@@ -1768,6 +1768,8 @@ public Action:Event_OnPlayerDie(Handle:event, const String:name[], bool:broadcas
     if(!IsClientInGame(attacker))
         return Plugin_Handled;
 
+
+
     if(!CodMod_GetClass(attacker))
         return Plugin_Handled;
 
