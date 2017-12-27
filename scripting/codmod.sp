@@ -30,6 +30,7 @@ int g_iTrykot = -1;
 int g_iPrzeszycie = -1;
 int g_iTypowySeba = -1;
 int g_iHitynowaPowloka = -1;
+int g_iWyszkolenie = -1;
 
 int g_iWeaponCanUse[MAXPLAYERS+1][2048 + 1];
 
@@ -837,7 +838,12 @@ public OnMapStart(){
             g_iHitynowaPowloka = i;
         }
 
-        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1 && g_iTypowySeba != -1 && g_iHitynowaPowloka != -1){
+        if(StrEqual(perks[i][NAME], "Wyszkolenie SEALa"))
+        {
+            g_iWyszkolenie = i;
+        }
+
+        if(g_iCommandoSecret != -1 && g_iNanoarmor != -1 && g_iTrykot != -1 && g_iPrzeszycie != -1 && g_iTypowySeba != -1 && g_iHitynowaPowloka != -1 && g_iWyszkolenie != -1){
             break;
         }
     }
@@ -1119,6 +1125,11 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                     g_iHitynowaPowloka = i;
                 }
 
+                if(StrEqual(currName, "Wyszkolenie SEALa"))
+                {
+                    g_iWyszkolenie = i;
+                }
+
                 RemoveCustomPerkPermission(i);
 
                 
@@ -1156,6 +1167,11 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     if(StrEqual(currName, "Hitynowa Powłoka"))
     {
         g_iHitynowaPowloka = perkId;
+    }
+
+    if(StrEqual(currName, "Wyszkolenie SEALa"))
+    {
+        g_iWyszkolenie = perkId;
     }
 
 
@@ -1471,6 +1487,14 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     else if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
+    }
+    else if(iVictimPerk == g_iWyszkolenie)
+    {
+        if(GetRandomInt(1, 100) >= 50)
+        {
+            damage = 0.0;
+            PrintToChat(victim, "%s Zredukowałeś damage!", PREFIX_SKILL); 
+        }
     }
 
 

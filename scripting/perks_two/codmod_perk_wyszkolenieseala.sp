@@ -46,11 +46,3 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 
     g_bHasItem[iClient] = false;
 }
-
-public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasItem[iVictim] && iWeaponID == WEAPON_AWP && GetRandomInt(1, 100) >= 50){
-        PrintToChat(iVictim, "%s Damage odbity!", PREFIX_SKILL);
-        //CodMod_DealDamage(iVictim, iAttacker, fDamage, TH7_DMG_REFLECT);
-        fDamage = 0.0;
-    }
-}
