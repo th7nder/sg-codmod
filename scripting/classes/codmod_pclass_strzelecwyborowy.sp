@@ -169,6 +169,16 @@ public void CodMod_OnPlayerSpawn(int iClient){
             Format(STRING(szWeapon), "weapon_%s", weaponNames[g_iFirstWeaponID]);
             GivePlayerItem(iClient, szWeapon);
         }
+
+        if(g_iWeaponAmmos[0] >= 0)
+        {
+            g_iWeaponAmmos[0] = g_iWeaponClip[int*(g_iFirstWeaponID)][0];
+        }
+
+        if(g_iWeaponAmmos[1] >= 1)
+        {
+            g_iWeaponAmmos[1] = g_iWeaponClip[int*(g_iSecondWeaponID)][1];
+        }
     }
 }
 
