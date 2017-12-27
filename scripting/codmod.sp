@@ -3074,6 +3074,7 @@ public CodMod_OnDealDamage(Handle hPlugin, int iNumParams){
     }
 
 
+
     Call_StartForward(g_hOnTH7Dmg);
     Call_PushCell(iVictim);
     Call_PushCell(iAttacker);
