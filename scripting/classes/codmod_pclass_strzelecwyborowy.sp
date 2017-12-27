@@ -177,7 +177,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
 
         if(g_iWeaponAmmos[1] >= 1)
         {
-            g_iWeaponAmmos[1] = g_iWeaponClip[int*(g_iSecondWeaponID)][1];
+            g_iWeaponAmmos[1] = g_iWeaponClip[int*(g_iSecondWeaponID)][0];
         }
     }
 }
