@@ -80,7 +80,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 	g_bUsed[iClient] = true;
 
  	SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
-    SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 5);
+    	SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 5);
 	CreateTimer(5.0, Timer_Reset, GetClientSerial(iClient));
 }
 

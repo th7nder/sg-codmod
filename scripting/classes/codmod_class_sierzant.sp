@@ -92,6 +92,8 @@ public Action Timer_SetVisible(Handle hTimer, int iClient){
         return Plugin_Stop;
     }
 
+    SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", 0.0);
+    SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 0);
     if(g_bInvisible[iClient] && IsPlayerAlive(iClient)){
         if(CodMod_GetPlayerInfo(iClient, PERK) == g_iCamouflageMask){
           TH7_SetRenderColor(iClient, 255, 255, 255, 76);
@@ -124,7 +126,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
     if(GetGameTime() - g_fLastUse[iClient] <= 20.0)
     {
-        PrintToChat(iClient, "%s Umiejętności możesz używać co 20 sec!", PREFIX_SKILL);
+        PrintToChat(iClient, "%s Możesz użyć umiejętności za %.1fs!", PREFIX_SKILL, 20.0 - (GetGameTime() - g_fLastUse[iClient]));
         return;
     }
 
@@ -135,6 +137,10 @@ public void CodMod_OnClassSkillUsed(int iClient){
     TH7_SetInvisible(iClient);
     CreateTimer(2.0, Timer_SetVisible, GetClientSerial(iClient));
     PrintToChat(iClient, "%s Użyłeś swojej umiejętności!", PREFIX_SKILL)
+
+    SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
+    SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 2);
+
     g_iUses[iClient]++;
 }
 
