@@ -22,6 +22,12 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 #define ADDITIONAL_MULTIPLIER 0.50 - STRENGTH_MULTIPLIER
 
 
+float g_fLastSwapTime[MAXPLAYERS+1] = {0.0};
+int g_iLastSwapper[MAXPLAYERS+1] = {-1};
+const float SWAP_EXP_TIME = 3.0;
+const int SWAP_EXP = 160;
+
+
 char g_szClassName[128] = {"Podporucznik"};
 char g_szDesc[256] = {"120 HP, Galil, Berrety, Molotov \n codmod_skill - podmiana miejscami(1x + 1/25int) \n +10HP, +10dmg Beretty, +5dmg Galil per kill"};
 const int g_iHealth = 0;
@@ -58,6 +64,12 @@ public void OnMapStart(){
 }
 
 
+public void OnClientPutInServer(int iClient)
+{
+    g_fLastSwapTime[iClient] = 0.0;
+    g_iLastSwapper[iClient] = -1;
+}
+
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
     if(iNext != g_iClassId) {
         g_bHasClass[iClient] = false;
@@ -88,6 +100,16 @@ public void CodMod_OnPlayerDie(int attacker, int victim, bool headshot){
     if(g_bHasClass[attacker]){
         CodMod_Heal(attacker, attacker, 10);
         g_iKillCounter[attacker]++;
+    }
+
+    if(GetGameTime() - g_fLastSwapTime[victim] <= SWAP_EXP_TIME)
+    {
+        int iSwapper = GetClientFromSerial(g_iLastSwapper[victim]);
+        if(IsValidPlayer(iSwapper))
+        {
+            PrintToChat(iSwapper, "%s Dostałeś %d expa za umożliwenie zabójstwa swoją zamianą!", PREFIX_SKILL, SWAP_EXP);
+            CodMod_GiveExp(iSwapper, SWAP_EXP);
+        }
     }
 }
 
@@ -181,5 +203,8 @@ public void SwitchPlaces(int iClient, int iTarget){
         TeleportEntity(iTarget, currentOrigin, NULL_VECTOR, NULL_VECTOR);
         PrintToChat(iClient, "%sZostałeś zamieniony miejscami!", PREFIX);
         PrintToChat(iTarget, "%sZostałeś zamieniony miejscami!", PREFIX);
+
+        g_fLastSwapTime[iTarget] = GetGameTime();
+        g_iLastSwapper[iTarget] = GetClientSerial(iClient);
     }
 }
