@@ -45,7 +45,7 @@ public void OnPluginStart()
 {
     g_iWeapons[0] = WEAPON_G3SG1;
     g_iWeapons[1] = WEAPON_CZ;
-    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
+    g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, ADMFLAG_CUSTOM2, g_iStartingHealth);
 }
 
 public void OnPluginEnd()
