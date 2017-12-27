@@ -107,7 +107,7 @@ public void CodMod_OnPlayerSpawn(int iClient)
         }
 	if(g_bHasItem[iClient])
 	{
-		if(GetRandomInt(1, 100) >= 1 && !RespawnAtEnemySpawn(iClient))
+		if(GetRandomInt(1, 100) >= 67 && !RespawnAtEnemySpawn(iClient))
 		{
 			CreateRespawnTimer(iClient);
 		}
