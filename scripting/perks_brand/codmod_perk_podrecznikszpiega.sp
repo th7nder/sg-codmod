@@ -107,7 +107,7 @@ public void CodMod_OnPlayerSpawn(int iClient)
         }
 	if(g_bHasItem[iClient])
 	{
-		if(GetRandomInt(1, 100) >= 67 && !RespawnAtEnemySpawn(iClient))
+		if(GetRandomInt(1, 100) >= 1 && !RespawnAtEnemySpawn(iClient))
 		{
 			CreateRespawnTimer(iClient);
 		}
@@ -243,13 +243,14 @@ public int FindFreeSpawn(char szClassname[64]){
     while ((iEnt = FindEntityByClassname(iEnt, szClassname)) != -1) {
         GetEntPropVector(iEnt, Prop_Data, "m_vecOrigin", fVecPos);
         if(fVecPos[0] != 0.0 && fVecPos[1] != 0.0 && fVecPos[2] != 0.0){
-            iValidSpawns[iSpawnCounter++] = iEnt;
+            if(IsValidSpawn(fVecPos))
+            {
+               iValidSpawns[iSpawnCounter++] = iEnt; 
+            }
         } 
     }
 
     if(!iSpawnCounter) return -1;
-
-    PrintToServer("found %d spawns", iSpawnCounter);
 
     return iValidSpawns[GetRandomInt(0, iSpawnCounter - 1)];
 }
