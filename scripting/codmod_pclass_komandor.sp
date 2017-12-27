@@ -27,7 +27,7 @@ char g_szDesc[256] = {"130HP, G3SG1, CZetka(+5dmg)\n\
                         codmod_skill (15hp/1s przez 10s)\n\
                         +500$ za zabójstwo\n\
                         1/15 na spowolnienie przeciwnika o 40% na 2 sec\n\
-                        1/15 na odbicie pocisku w plecy"};
+                        1/10 na odbicie pocisku w plecy"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -157,7 +157,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     WritePackCell(hPack, CodMod_GetRoundIndex());
     WritePackCell(hPack, AMOUNT_HEAL_REPEAT);
 
-    CreateTimer(HEAL_INTERVAL, Timer_Healing, hPack, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
+    CreateTimer(HEAL_INTERVAL, Timer_Healing, hPack);
 
     SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
     SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", AMOUNT_HEAL_REPEAT);
@@ -169,6 +169,7 @@ public Action Timer_Healing(Handle hTimer, Handle hPack){
     int iSerial = ReadPackCell(hPack);
     int iRoundIndex = ReadPackCell(hPack);
     int iTimesExecuted = ReadPackCell(hPack);
+    delete hPack;
 
     int iClient = GetClientFromSerial(iSerial)
     if(!IsValidPlayer(iClient) || iRoundIndex != CodMod_GetRoundIndex() || iTimesExecuted <= 0){
@@ -177,7 +178,7 @@ public Action Timer_Healing(Handle hTimer, Handle hPack){
             SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", 0.0);
             SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 0);
         }
-        delete hPack;
+
         return Plugin_Stop;
     }
 
@@ -186,5 +187,12 @@ public Action Timer_Healing(Handle hTimer, Handle hPack){
     CodMod_Heal(iClient, iClient, AMOUNT_HEAL);
     iTimesExecuted--;
 
-    return Plugin_Continue;
+    hPack = CreateDataPack();
+    WritePackCell(hPack, GetClientSerial(iClient));
+    WritePackCell(hPack, CodMod_GetRoundIndex());
+    WritePackCell(hPack, iTimesExecuted);
+
+    CreateTimer(HEAL_INTERVAL, Timer_Healing, hPack);
+
+    return Plugin_Stop;
 }
