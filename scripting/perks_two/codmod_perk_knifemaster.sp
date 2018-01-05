@@ -14,7 +14,7 @@ public Plugin myinfo = {
 };
 
 char szClassName[] = {"Knife Master"};
-char szDesc[] = {"Masz 1/4 na odbicie obrażeń zadawanych Ci nożem."};
+char szDesc[] = {"Masz 1/3 na odbicie obrażeń zadawanych Ci nożem."};
 int g_iPerkId;
 
 
@@ -48,7 +48,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 }
 
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasItem[iVictim] && iWeaponID == WEAPON_KNIFE && GetRandomInt(1, 100) >= 75){
+    if(g_bHasItem[iVictim] && iWeaponID == WEAPON_KNIFE && GetRandomInt(1, 100) >= 66){
         PrintToChat(iVictim, "%s Damage odbity!", PREFIX_SKILL);
         CodMod_DealDamage(iVictim, iAttacker, fDamage, TH7_DMG_REFLECT);
         fDamage = 0.0;

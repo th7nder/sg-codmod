@@ -14,7 +14,7 @@ public Plugin myinfo = {
 };
 
 char szClassName[] = {"Naboje Ninjy"};
-char szDesc[] = {"Leczysz się o 10%% obrażeń."};
+char szDesc[] = {"Leczysz się o 15%% obrażeń."};
 int g_iPerkId;
 
 
@@ -49,6 +49,6 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
-        CodMod_Heal(iAttacker, iAttacker, RoundFloat(0.1 * fDamage));
+        CodMod_Heal(iAttacker, iAttacker, RoundFloat(0.15 * fDamage));
     }
 }

@@ -6,7 +6,7 @@
 
 #define ROCKETS 1
 #define MAX_ROCKETS 2 //+ (CodMod_GetWholeStat(iClient, INT) / 50)
-#define DAMAGE_ROCKET_FORMULA 50 + RoundFloat(float(CodMod_GetWholeStat(iClient, INT)) * 0.5)
+#define DAMAGE_ROCKET_FORMULA 60 + RoundFloat(float(CodMod_GetWholeStat(iClient, INT)) * 0.5)
 #include <codmod301>
 
 int g_iRockets[MAXPLAYERS+1] = {0};
@@ -20,7 +20,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Wyposażenie Wsparcia"};
-new const String:szDesc[DESC_LENGTH] = {"Posiadasz 2 rakiety zadające +50dmg + 0.5/1 INT(codmod_perk)."};
+new const String:szDesc[DESC_LENGTH] = {"Posiadasz 2 rakiety zadające +60dmg + 0.5/1 INT(codmod_perk)."};
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};

@@ -14,7 +14,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Tytanowa Głowa"};
-new const String:szDesc[DESC_LENGTH] = {"Masz 1/8s na odbicie headshota!"};
+new const String:szDesc[DESC_LENGTH] = {"Masz 1/4s na odbicie headshota!"};
 new g_iPerkId;
 
 
@@ -49,7 +49,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 
 public CodMod_OnPlayerDamagedPerk(iAttacker, iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-	if(g_bHasItem[iVictim] && GetRandomInt(1, 100) > 87 && (iDamageType & DMG_HEADSHOT)){
+	if(g_bHasItem[iVictim] && GetRandomInt(1, 100) >= 75 && (iDamageType & DMG_HEADSHOT)){
 		CodMod_DealDamage(iVictim, iAttacker, fDamage, TH7_DMG_REFLECT);
 		fDamage = 0.0;
 	}

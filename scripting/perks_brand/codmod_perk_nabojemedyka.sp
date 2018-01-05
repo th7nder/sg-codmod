@@ -20,7 +20,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Naboje Medyka"};
-new const String:szDesc[DESC_LENGTH] = {"Gdy strzelasz do swoich leczysz ich o 3HP. +3dmg do wszystkich broni."};
+new const String:szDesc[DESC_LENGTH] = {"Gdy strzelasz do swoich leczysz ich o 6HP. +3dmg do wszystkich broni."};
 int g_iPerkId;
 
 bool g_bHasItem[MAXPLAYERS +1] = {false};
@@ -80,7 +80,7 @@ public Action SDK_OnTakeDamage(int victim, int &attacker, int &inflictor, float 
 {
     if(attacker != 0 && attacker < MAXPLAYERS && GetClientTeam(attacker) == GetClientTeam(victim) && g_bHasItem[attacker])
     {
-        CodMod_Heal(attacker, victim, 3);
+        CodMod_Heal(attacker, victim, 6);
     }
 
     return Plugin_Continue;
