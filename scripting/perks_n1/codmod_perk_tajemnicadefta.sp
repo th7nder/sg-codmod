@@ -44,8 +44,6 @@ public void OnClientPutInServer(int iClient){
 
 
 
-
-
 public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
         if(iPerkId != g_iPerkId)
                 return;
@@ -104,13 +102,13 @@ public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamag
 
 
 
-public void CodMod_OnClassSkillUsed(int iClient){
+public void CodMod_OnPerkSkillUsed(int iClient){
     if(!g_bHasItem[iClient] || !IsPlayerAlive(iClient))
         return;
 
     if(g_iUsed[iClient] + 1 > MAX_HEALING_TIMES)
     {
-        PrintToChat(iClient, "%s Nie możesz użyć leczenia więcej niż %d raz na runde!", MAX_HEALING_TIMES);
+        PrintToChat(iClient, "%s Nie możesz użyć leczenia więcej niż %d raz na runde!", PREFIX_SKILL, MAX_HEALING_TIMES);
         return;
     }
     if(g_bHealing[iClient]){
@@ -119,6 +117,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     }
 
 
+    CodMod_Heal(iClient, iClient, 50);
     PrintToChat(iClient, "%s Rozpocząłeś leczenie!", PREFIX_SKILL);
     g_bHealing[iClient] = true;
     g_iUsed[iClient] += 1;

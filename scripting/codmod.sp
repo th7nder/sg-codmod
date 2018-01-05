@@ -1565,14 +1565,14 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
-        PrintToChat(victim, "%s Odbiłeś %.2f damage'u!", PREFIX_SKILL, damage);
+        PrintToChat(victim, "%s Odbiłeś %.2f damage'u!", PREFIX_SKILL, damage * 0.5);
     }
     else if(iVictimPerk == g_iWyszkolenie)
     {
-        if(GetRandomInt(1, 100) >= 50)
+        if(weaponID == WEAPON_AWP && GetRandomInt(1, 100) >= 50)
         {
-            damage = 0.0;
-            PrintToChat(victim, "%s Zredukowałeś damage!", PREFIX_SKILL); 
+            CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
+            PrintToChat(victim, "%s Odbiłeś %.2f damage'u!", PREFIX_SKILL, damage);
         }
     }
 

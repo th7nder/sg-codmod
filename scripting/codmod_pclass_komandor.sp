@@ -140,7 +140,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
     if(g_iUsed[iClient] + 1 > MAX_HEALING_TIMES)
     {
-        PrintToChat(iClient, "%s Nie możesz użyć leczenia więcej niż %d raz na runde!", MAX_HEALING_TIMES);
+        PrintToChat(iClient, "%s Nie możesz użyć leczenia więcej niż %d raz na runde!", PREFIX_SKILL, MAX_HEALING_TIMES);
         return;
     }
     if(g_bHealing[iClient]){
