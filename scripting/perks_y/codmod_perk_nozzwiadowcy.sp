@@ -57,7 +57,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 public Hook_WeaponSwitchPost(iClient, iWeapon){
 	if(g_bHasItem[iClient]){
-		if(CodMod_GetWeaponID(iWeapon) == WEAPON_KNIFE){
+		if(CodMod_GetWeaponID(iWeapon) == WEAPON_KNIFE && !g_bHadStat[iClient]){
 			CodMod_ChangeStat(iClient, DEX_PERK, 60);
 			g_bHadStat[iClient] = true;
 		} else if(g_bHadStat[iClient]){

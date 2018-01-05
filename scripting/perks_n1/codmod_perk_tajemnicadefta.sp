@@ -59,6 +59,8 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
         if(iPerkId != g_iPerkId)
                 return;
 
+
+        g_bHasItem[iClient] = false;
         CodMod_SetPlayerInfo(iClient, DOUBLE_JUMP_PERK, 0);
 }
 
