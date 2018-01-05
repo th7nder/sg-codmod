@@ -33,6 +33,12 @@ public void OnPluginStart(){
     g_iWeapons[1] = WEAPON_FLASHBANG;
     g_iWeapons[2] = WEAPON_FLASHBANG;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
+
+    Handle hArray = CreateArray(64);
+    PushArrayString(hArray, "Puchowe Buty");
+    CodMod_SetBlockedPerks(g_iClassId, hArray);
+
+    delete hArray;
 }
 
 public void OnPluginEnd(){

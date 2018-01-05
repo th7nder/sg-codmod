@@ -94,6 +94,10 @@ new classesStats[CLASS_LIMIT][statsIdxs];
 new WeaponID:classesWeapons[CLASS_LIMIT][WEAPON_LIMIT];
 new classesIsVip[CLASS_LIMIT] = {false};
 
+Handle g_hClassesBlockedPerks[CLASS_LIMIT] = {null};
+
+StringMap g_smPerksIds = null;
+
 new registeredPerks = 0;
 new String:perks[PERK_LIMIT][registerIdxs][256];
 
@@ -190,10 +194,21 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
 
     CreateNative("CodMod_SetCustomPerkPermission", Native_SetCustomPerkPermission);
     CreateNative("CodMod_GetCustomPerkPermission", Native_GetCustomPerkPermission);
+    CreateNative("CodMod_SetBlockedPerks", Native_SetBlockedPerks);
 
     RegPluginLibrary("codmod301");
 
     return APLRes_Success;
+}
+
+public int Native_SetBlockedPerks(Handle hPlugin, int iArgs)
+{
+    int iClassId = GetNativeCell(1);
+    Handle hSourceArray = view_as<Handle>(GetNativeCell(2));
+
+    g_hClassesBlockedPerks[iClassId] = CloneArray(hSourceArray);
+
+    return 0;
 }
 
 public int Native_SetCustomPerkPermission(Handle hPlugin, int iArgs)
@@ -243,6 +258,8 @@ Handle g_hGameConf = INVALID_HANDLE;
 
 Handle g_hOnPerkRegistered = INVALID_HANDLE;
 public OnPluginStart(){
+    g_smPerksIds = new StringMap();
+
     g_hGameConf = LoadGameConfigFile("grenades.games");
     g_msgHudMsg = GetUserMessageId("HudMsg");
     g_iOffsetActiveWeapon = FindSendPropInfo("CBasePlayer", "m_hActiveWeapon");
@@ -885,6 +902,9 @@ public OnPluginEnd(){
         KillTimer(g_specTimer);
 
     CloseHandle(hDatabase);
+
+    g_smPerksIds.Clear();
+    delete g_smPerksIds;
 }
 
 
@@ -1151,6 +1171,8 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
                 Call_PushCell(perkId);
                 Call_PushString(currName);
                 Call_Finish();
+
+                g_smPerksIds.SetValue(currName, i, true);
                 return i;
             }
             if(StrEqual(perks[i][NAME], "UNREG")){
@@ -1189,6 +1211,9 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
     }
 
 
+    g_smPerksIds.SetValue(currName, perkId, true);
+
+
     RemoveCustomPerkPermission(perkId);
     Format(perks[perkId][NAME], 128, currName);
     Format(perks[perkId][DESC], 128, currDesc);
@@ -1209,6 +1234,13 @@ public CodMod_OnUnregisterClass(Handle:plugin, numParams){
     {
         g_iStrzelec = -1;
     }
+
+    if(g_hClassesBlockedPerks[classId] != null)
+    {
+        delete g_hClassesBlockedPerks[classId];
+        g_hClassesBlockedPerks[classId] = null;
+    }
+
 
     if(classId > 0){
         Format(classes[classId][NAME], 128, "UNREG");
@@ -3005,7 +3037,39 @@ bool IsCommandoPerkBlocked(int perk){
   return false;
 }
 
+bool IsPerkBlocked(int iPerkId, int iClassId, int iArraySize)
+{
+    char szName[64];
+    for(int i = 0; i < iArraySize; i++)
+    {
+        GetArrayString(g_hClassesBlockedPerks[iClassId], i, szName, sizeof(szName));
+        int iBlockedId;
+        g_smPerksIds.GetValue(szName, iBlockedId);
+        if(iPerkId == iBlockedId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 stock SetPerk(int client, int perk, int armoramount){
+    int iClass = CodMod_GetClass(client);
+    if(g_hClassesBlockedPerks[iClass] != null)
+    {
+        int iSize = GetArraySize(g_hClassesBlockedPerks[iClass]);
+        if(iSize)
+        {
+            while(IsPerkBlocked(perk, iClass, iSize))
+            {
+                perk = GetRandomInt(1, registeredPerks);
+            }
+        }
+    }
+
+
+
     if(perk != 0 && g_iCommandoID != -1 && CodMod_GetClass(client) == g_iCommandoID){
         while(IsCommandoPerkBlocked(perk)){
           perk = GetRandomInt(1, registeredPerks);
