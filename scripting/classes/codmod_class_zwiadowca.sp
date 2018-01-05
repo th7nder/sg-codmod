@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Zwiadowca"};
-char g_szDesc[128] = {"120HP, PP-Bizon, P250\n codmod_skill - teleport na spawn i odnawia 50% hp,\n +10 kondycji "};
+char g_szDesc[128] = {"120HP, PP-Bizon, P250\n codmod_skill - teleport na spawn i odnawia 50% hp,\n +10 kondycji, +5dmg do wszystkich broni "};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
