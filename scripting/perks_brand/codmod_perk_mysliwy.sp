@@ -34,8 +34,9 @@ public Plugin:myinfo = {
 	url = "http://th7.eu"
 };
 
+const int g_iStatAmount = 2;
 new const String:szClassName[NAME_LENGTH] = {"Myśliwy"};
-new const String:szDesc[DESC_LENGTH] = {"Po zabiciu wroga dostajesz +8 losowej statystyki - na jedną rundę."};
+new const String:szDesc[DESC_LENGTH] = {"Po zabiciu wroga dostajesz +2 losowej statystyki - na czas trwania perku."};
 int g_iPerkId;
 
 bool g_bHasItem[MAXPLAYERS +1] = {false};
@@ -45,7 +46,6 @@ int g_iGivenStatistics[MAXPLAYERS+1][statsIdxs];
 public void OnPluginStart()
 {
 	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
-    HookEvent("round_start", Event_OnRoundStart);
 }
 
 
@@ -89,26 +89,20 @@ public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot)
 {
     if(g_bHasItem[iAttacker])
     {
-        statsIdxs targetStat = view_as<statsIdxs>(GetRandomInt(view_as<int>(HP_PERK), view_as<int>(GRAVITY_PERK)));
-        CodMod_SetStat(iAttacker, targetStat, CodMod_GetStat(iAttacker, targetStat) + 8);
-        g_iGivenStatistics[iAttacker][targetStat] += 8;
+        statsIdxs targetStat;
+        // it assumes that there is no possibility of 20 20 20 20 
+        do
+        {
+            targetStat = view_as<statsIdxs>(GetRandomInt(view_as<int>(HP_PERK), view_as<int>(STRENGTH_PERK)));
+        } while(g_iGivenStatistics[iAttacker][targetStat] == 20);
+        
+        CodMod_SetStat(iAttacker, targetStat, CodMod_GetStat(iAttacker, targetStat) + g_iStatAmount);
+        g_iGivenStatistics[iAttacker][targetStat] += g_iStatAmount;
         if(targetStat == HP_PERK)
         {
-            SetEntityHealth(iAttacker, GetClientHealth(iAttacker) + (8 * HP_MULTIPLIER));
+            SetEntityHealth(iAttacker, GetClientHealth(iAttacker) + (g_iStatAmount * HP_MULTIPLIER));
         }
-        PrintToChat(iAttacker, "%s Dostałeś +8 do %s", PREFIX_INFO, g_szStatsNames[targetStat]);
-    }
-}
-
-
-public Action Event_OnRoundStart(Event hEvent, const char[] szBroadcast, bool bBroadcast)
-{
-    for(int iClient = 1; iClient <= MaxClients; iClient++)
-    {
-        if(IsClientInGame(iClient))
-        {
-            TakeStats(iClient);
-        }
+        PrintToChat(iAttacker, "%s Dostałeś +%d do %s", PREFIX_INFO, g_iStatAmount, g_szStatsNames[targetStat]);
     }
 }
 
