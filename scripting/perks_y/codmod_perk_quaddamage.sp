@@ -13,8 +13,9 @@ public Plugin:myinfo = {
 	url = "http://th7.eu"
 };
 
+const int g_iDurationTime = 4;
 new const String:szClassName[NAME_LENGTH] = {"Quad Damage"};
-new const String:szDesc[DESC_LENGTH] = {"Po użyciu(codmod_perk) przez 5 sec zadajesz 4x więcej obrażeń."};
+new const String:szDesc[DESC_LENGTH] = {"Po użyciu(codmod_perk) przez 4 sec zadajesz 4x więcej obrażeń."};
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
@@ -80,8 +81,8 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 	g_bUsed[iClient] = true;
 
  	SetEntPropFloat(iClient, Prop_Send, "m_flProgressBarStartTime", GetGameTime());
-    	SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", 5);
-	CreateTimer(5.0, Timer_Reset, GetClientSerial(iClient));
+    	SetEntProp(iClient, Prop_Send, "m_iProgressBarDuration", g_iDurationTime);
+	CreateTimer(float(g_iDurationTime), Timer_Reset, GetClientSerial(iClient));
 }
 
 

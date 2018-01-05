@@ -14,7 +14,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Defibrylator"};
-new const String:szDesc[DESC_LENGTH] = {"Masz 1/5 szansy na zreanimowanie losowego członka drużyny po zabiciu wroga."};
+new const String:szDesc[DESC_LENGTH] = {"Masz 1/3 szansy na zreanimowanie losowego członka drużyny po zabiciu wroga."};
 int g_iPerkId;
 
 bool g_bHasItem[MAXPLAYERS +1] = {false};
@@ -64,7 +64,7 @@ int GetRandomTarget(int iExclude, int iTeam){
 
 public void CodMod_OnPlayerDie(int iAttacker, int iVictim, bool bHeadshot){
     if(g_bHasItem[iAttacker]){
-        if(GetRandomInt(1, 100) >= 80)
+        if(GetRandomInt(1, 100) >= 66)
         {
         	int iTarget = GetRandomTarget(iAttacker, GetClientTeam(iAttacker));
         	if(iTarget != -1)

@@ -14,7 +14,7 @@ public Plugin myinfo = {
 };
 
 char szClassName[] = {"Lucky Luke"};
-char szDesc[] = {"Posiadasz R8 Revolver i 1/4 na zabójstwo z niego."};
+char szDesc[] = {"Posiadasz R8 Revolver i 1/3 na zabójstwo z niego."};
 int g_iPerkId;
 
 
@@ -79,7 +79,7 @@ public void CodMod_OnWeaponCanUsePerk(int iClient, WeaponID iWeaponID, int &iCan
 
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
-        if(GetRandomInt(1, 100) >= 75 && iWeaponID == g_iGiveWeapon){
+        if(GetRandomInt(1, 100) >= 66 && iWeaponID == g_iGiveWeapon){
             fDamage *= 300.0;
         }
     }

@@ -14,7 +14,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Człowiek Flash"};
-new const String:szDesc[DESC_LENGTH] = {"Po wciśnięciu codmod_perk, oślepia przeciwników w danym promieniu(co 15 sec)"};
+new const String:szDesc[DESC_LENGTH] = {"Po wciśnięciu codmod_perk, oślepia przeciwników(2.5sec) w danym promieniu(co 15 sec)"};
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
