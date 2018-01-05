@@ -18,6 +18,8 @@ new const String:szDesc[DESC_LENGTH] = {"Na początku rundy dostajesz smoke'a, g
 new g_iPerkId;
 
 
+
+const float g_fNextGrenadeTime = 20.0;
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
 
 
@@ -63,8 +65,45 @@ public CodMod_OnPlayerSpawn(iClient){
 
 public OnEntityCreated(iEntity, const String:szClassname[]){
 	if(StrEqual(szClassname, "smokegrenade_projectile")){
+		SDKHook(iEntity, SDKHook_Spawn, OnSpawn);
 		SDKHook(iEntity, SDKHook_StartTouch, OnSmokeTouch);
 	}
+}
+
+public Action OnSpawn(int iGrenade)
+{
+	int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
+	if(IsValidPlayer(iOwner) && g_bHasItem[iOwner]){
+		Handle hPack = CreateDataPack();
+		WritePackCell(hPack, GetClientSerial(iOwner));
+		WritePackCell(hPack, CodMod_GetRoundIndex());
+		CreateTimer(g_fNextGrenadeTime, Timer_GiveGrenade, hPack);
+	}
+}
+
+public Action Timer_GiveGrenade(Handle hTimer, Handle hPack)
+{
+	ResetPack(hPack);
+	int iSerial = ReadPackCell(hPack);
+	int iRoundIndex = ReadPackCell(hPack);
+	delete hPack;
+
+	
+	if(CodMod_GetRoundIndex() != iRoundIndex)
+	{
+		return Plugin_Stop;
+	}
+
+	int iClient = GetClientFromSerial(iSerial);
+	if(!IsValidPlayer(iClient) || CodMod_GetPlayerNades(iClient, TH7_SMOKE))
+	{
+		return Plugin_Stop;
+	}
+
+	GivePlayerItem(iClient, "weapon_smokegrenade");
+
+
+	return Plugin_Stop;
 }
 
 public OnSmokeTouch(iGrenade, iClient){
@@ -76,3 +115,4 @@ public OnSmokeTouch(iGrenade, iClient){
 		}
 	}
 }
+

@@ -7,7 +7,6 @@
 #include <emitsoundany>
 
 #define _IN_CODMOD_CLASS 1
-#define DOUBLE_JUMP 1
 #include <codmod301>
 public Plugin myinfo = {
     name = "CodMod 301 - Class - Lekki Snajper",

@@ -14,11 +14,12 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Nóż zwiadowcy"};
-new const String:szDesc[DESC_LENGTH] = {"Gdy zmienisz broń na nóż jesteś bardzo szybki."};
+new const String:szDesc[DESC_LENGTH] = {"Gdy zmienisz broń na nóż jesteś bardzo szybki\n(+60kondycji)."};
 new g_iPerkId;
 
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
+bool g_bHadStat[MAXPLAYERS+1] = {false};
 public OnPluginStart(){
 	g_iPerkId = CodMod_RegisterPerk(szClassName, szDesc);
 }
@@ -46,7 +47,7 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 
 	if(g_bHasItem[iClient]){
 		SDKUnhook(iClient, SDKHook_WeaponSwitchPost, Hook_WeaponSwitchPost);
-		CodMod_SetStat(iClient, DEX_PERK, 0);
+		if(g_bHadStat[iClient]) CodMod_ChangeStat(iClient, DEX_PERK, -60);
 	}
 	g_bHasItem[iClient] = false;
 }
@@ -54,9 +55,11 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 public Hook_WeaponSwitchPost(iClient, iWeapon){
 	if(g_bHasItem[iClient]){
 		if(CodMod_GetWeaponID(iWeapon) == WEAPON_KNIFE){
-			CodMod_SetStat(iClient, DEX_PERK, 60);
-		} else {
-			CodMod_SetStat(iClient, DEX_PERK, 0);
+			CodMod_ChangeStat(iClient, DEX_PERK, 60);
+			g_bHadStat[iClient] = true;
+		} else if(g_bHadStat[iClient]){
+			g_bHadStat[iClient] = false;
+			CodMod_ChangeStat(iClient, DEX_PERK, -60);
 		}
 	}
 }
