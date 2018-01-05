@@ -1573,6 +1573,7 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
         {
             CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
             PrintToChat(victim, "%s Odbiłeś %.2f damage'u!", PREFIX_SKILL, damage);
+            damage = 0.0;
         }
     }
 

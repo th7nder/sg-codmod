@@ -14,7 +14,7 @@ public Plugin myinfo = {
 };
 
 char szClassName[] = {"Wyszkolenie SEALa"};
-char szDesc[] = {"Masz 1/2 szans na odbicie obrażeń z AWP"};
+char szDesc[] = {"Masz 1/2 szans na odbicie  i redukcje obrażeń z AWP"};
 int g_iPerkId;
 
 
