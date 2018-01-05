@@ -27,7 +27,7 @@ bool g_bFrozen[MAXPLAYERS+1] = {false};
 int g_iBeamColor[] = {0,255,255,255}; 
 
 char g_szClassName[128] = {"Strzelec Wyborowy [Premium]"};
-char g_szDesc[256] = {"120HP, AK47/M4A1-S, USP \n 1/6 na zredukowanie 90%% damage'u, 1/10 na zamrożenie na 1.5s \n +6dmg z każdej broni"};
+char g_szDesc[256] = {"120HP, AK47/M4A1-S, USP \n 1/9 na zredukowanie 90%% damage'u, 1/10 na zamrożenie na 1.5s \n +6dmg z każdej broni"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -107,7 +107,7 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
         }
     }
 
-    if(g_bHasClass[iVictim] && GetRandomInt(1, 6) == 1){
+    if(g_bHasClass[iVictim] && GetRandomInt(1, 9) == 1){
         fDamage *= 0.1;
         PrintToChat(iVictim, "%s Damage został zredukowany!", PREFIX_SKILL);
         float fPosition[3];

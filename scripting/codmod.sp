@@ -1500,6 +1500,7 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
+        PrintToChat(victim, "%s Odbiłeś %.2f damage'u!", PREFIX_SKILL, damage);
     }
     else if(iVictimPerk == g_iWyszkolenie)
     {
