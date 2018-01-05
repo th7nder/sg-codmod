@@ -807,6 +807,8 @@ public OnMapStart(){
     g_iCamouflageMask = -1
     g_iPrzeszycie = -1;
     g_iTypowySeba = -1;
+    g_iHitynowaPowloka = -1;
+    g_iWyszkolenie = -1;
     for(int i = 0; i < PERK_LIMIT; i++){
         if(StrEqual(perks[i][NAME], "Tajemnica Komandosa")){
             g_iCommandoSecret = i;
@@ -1493,7 +1495,9 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
             PrintToChat(victim, "%s Odbiłeś damage!", PREFIX_SKILL);
         }
     } 
-    else if(iVictimPerk == g_iHitynowaPowloka)
+
+
+    if(iVictimPerk == g_iHitynowaPowloka)
     {
         CodMod_DealDamage(victim, attacker, damage * 0.5, TH7_DMG_REFLECT);
     }

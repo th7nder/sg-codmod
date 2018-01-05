@@ -105,6 +105,9 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fV
         }*/
         char szWeapon[64];
         GetClientWeapon(iClient, STRING(szWeapon));
+        int iEntity = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
+
+        if(iEntity != -1) GetRealWeaponName(iEntity, STRING(szWeapon));
         if(iButtons & IN_DUCK && StrContains(szWeapon, "knife") != -1)
         {
             TH7_SetRenderColor(iClient, 255, 255, 255, 15);
@@ -173,6 +176,8 @@ public void CodMod_OnPlayerSpawn(iClient){
 }
 
 
+/*
+
 char g_szBlockedPerks[][] = {
     "zestaw rushera",
     "zestaw paranoika",
@@ -204,7 +209,7 @@ public void OnMapStart(){
 }
 
 
-public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
+public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
     if(g_bHasClass[iClient]){
         CreateTimer(0.3, Timer_RemoveWeapon, iClient);
 
@@ -225,4 +230,4 @@ public Action Timer_RemoveWeapon(Handle hTimer, int iClient){
             RemoveEdict(iEntity);
         }
     }
-}
+}*/
