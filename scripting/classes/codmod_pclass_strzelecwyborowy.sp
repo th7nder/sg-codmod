@@ -38,7 +38,6 @@ bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
 int g_iBeamSprite = -1;
 int g_iHaloSprite = -1;
-int g_iGlowSprite = -1;
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_USP;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, ADMFLAG_CUSTOM5, g_iStartingHealth);
@@ -53,7 +52,6 @@ public void OnMapStart()
 {
     g_iBeamSprite = PrecacheModel("materials/sprites/laserbeam.vmt");
     g_iHaloSprite = PrecacheModel("materials/sprites/halo.vmt");
-    g_iGlowSprite = PrecacheModel("sprites/glow07.vmt");
 }
 
 
@@ -106,15 +104,6 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
             TE_SendToAll();
         }
     }
-
-    if(g_bHasClass[iVictim] && GetRandomInt(1, 9) == 1){
-        fDamage *= 0.1;
-        PrintToChat(iVictim, "%s Damage został zredukowany!", PREFIX_SKILL);
-        float fPosition[3];
-        GetClientEyePosition(iVictim, fPosition);
-        fPosition[2] -= 32.0;
-        CreateGlowSprite(g_iGlowSprite, fPosition, 0.5);
-    }
 }
 
 public Action DeleteEntity(Handle hTimer, any iEntity)
@@ -123,11 +112,6 @@ public Action DeleteEntity(Handle hTimer, any iEntity)
         AcceptEntityInput(iEntity, "kill");
 }
 
-void CreateGlowSprite(int iSprite, const float faCoord[3], const float fDuration)
-{
-    TE_SetupGlowSprite(faCoord, iSprite, fDuration, 2.2, 180);
-    TE_SendToAll();
-}
 
 
 public Action Timer_Unfreeze(Handle hTimer, int iClient){

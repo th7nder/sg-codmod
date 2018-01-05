@@ -17,6 +17,8 @@ int g_iOffsetActiveWeapon = -1;
 
 
 
+int g_iGlowSprite = -1;
+
 /**************************************************/
 bool g_bFreezed[MAXPLAYERS+1] = {false};
 
@@ -32,6 +34,7 @@ int g_iTypowySeba = -1;
 int g_iHitynowaPowloka = -1;
 int g_iWyszkolenie = -1;
 int g_iKomandor = -1;
+int g_iStrzelec = -1;
 
 int g_iWeaponCanUse[MAXPLAYERS+1][2048 + 1];
 
@@ -705,7 +708,10 @@ int g_iWsparcie = -1;
 int g_iCamouflageMask = -1
 int g_iRoundIndex = -1;
 int g_iBeamSprite = -1;
+
 public OnMapStart(){
+
+    g_iGlowSprite = PrecacheModel("sprites/glow07.vmt");
     g_iRoundIndex = 0;
     AddFileToDownloadsTable("materials/sprites/fire1.vmt")
     AddFileToDownloadsTable("materials/sprites/flames1/flame.vtf")
@@ -1073,6 +1079,7 @@ public CodMod_OnRegisterClass(Handle:plugin, numParams){
     ReplaceString(classes[classId][CLANTAG], 64, "Elitarny", "E.");
     ReplaceString(classes[classId][CLANTAG], 64, "Strzelec", "S.");
 
+
     classesStats[classId][HP] = health;
     classesStats[classId][ARMOR] = armor;
     classesStats[classId][DEX] = dexterity;
@@ -1082,6 +1089,13 @@ public CodMod_OnRegisterClass(Handle:plugin, numParams){
 
 
     classesIsVip[classId] = GetNativeCell(8);
+
+    if(StrEqual(classes[classId][NAME], "Strzelec Wyborowy [Premium]"))
+    {
+        g_iStrzelec = classId;
+    }
+
+
 
     return classId;
 }
@@ -1190,6 +1204,12 @@ public CodMod_OnRegisterPerk(Handle:plugin, numParams){
 
 public CodMod_OnUnregisterClass(Handle:plugin, numParams){
     new classId = GetNativeCell(1);
+
+    if(StrEqual(classes[classId][NAME], "Strzelec Wyborowy [Premium]"))
+    {
+        g_iStrzelec = -1;
+    }
+
     if(classId > 0){
         Format(classes[classId][NAME], 128, "UNREG");
         Format(classes[classId][DESC], 128, "UNREG");
@@ -1487,6 +1507,19 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
         }
 
     }
+    else if(iVictimClass == g_iStrzelec)
+    {
+        if(GetRandomInt(1, 9) == 1)
+        {
+            damage *= 0.1;
+            PrintToChat(victim, "%s Damage został zredukowany!", PREFIX_SKILL);
+            float fPosition[3];
+            GetClientEyePosition(victim, fPosition);
+            fPosition[2] -= 32.0;
+            CreateGlowSprite(g_iGlowSprite, fPosition, 0.5);
+        }
+    }
+
     else if(iVictimClass == g_iMajor)
     {
         if(GetRandomInt(1, 15) == 1)
@@ -3488,3 +3521,11 @@ any GetAmmoDef()
     }
     return SDKCall(call);
 }
+
+
+void CreateGlowSprite(int iSprite, const float faCoord[3], const float fDuration)
+{
+    TE_SetupGlowSprite(faCoord, iSprite, fDuration, 2.2, 180);
+    TE_SendToAll();
+}
+
