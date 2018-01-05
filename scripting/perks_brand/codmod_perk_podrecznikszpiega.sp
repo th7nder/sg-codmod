@@ -4,6 +4,7 @@
 #include <sdkhooks>
 #include <codmod301>
 #include <currentmapmodel>
+#include <th7manager>
 
 
 public Plugin:myinfo = {
@@ -15,7 +16,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Podręcznik Szpiega"};
-new const String:szDesc[DESC_LENGTH] = {"Zadajesz +30DMG w Plecy, oraz na starcie rundy masz 1/8 szans na resp u przeciwnika."};
+new const String:szDesc[DESC_LENGTH] = {"Zadajesz +30DMG w Plecy, oraz na starcie rundy masz 1/8 szans na resp u przeciwnika.\nJesteś niewidzialny na radarze"};
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
@@ -67,6 +68,9 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
 		return;
 
 	g_bHasItem[iClient] = true;
+
+    TH7_SetRadarVisibility(iClient, false);
+
 
 }
 
@@ -191,6 +195,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = false;
+    TH7_SetRadarVisibility(iClient, true);
 }
 
 

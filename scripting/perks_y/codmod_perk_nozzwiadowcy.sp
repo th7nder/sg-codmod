@@ -30,6 +30,7 @@ public OnPluginEnd(){
 
 public OnClientPutInServer(iClient){
 	g_bHasItem[iClient] = false;
+	g_bHadStat[iClient] = false;
 }
 
 public CodMod_OnPerkEnabled(iClient, iPerkId){
@@ -48,6 +49,8 @@ public CodMod_OnPerkDisabled(iClient, iPerkId){
 	if(g_bHasItem[iClient]){
 		SDKUnhook(iClient, SDKHook_WeaponSwitchPost, Hook_WeaponSwitchPost);
 		if(g_bHadStat[iClient]) CodMod_ChangeStat(iClient, DEX_PERK, -60);
+
+		g_bHadStat[iClient] = false;
 	}
 	g_bHasItem[iClient] = false;
 }

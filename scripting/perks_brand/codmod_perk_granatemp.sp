@@ -16,7 +16,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Granat EMP"};
-new const String:szDesc[300] = {"Dostajesz flasha, który po oślepieniu przeciwnika blokuje jego skille \nna 5 sekund, niszczy wszystkie miny, apteczki, etc(750u)"};
+new const String:szDesc[300] = {"Dostajesz flasha, który po oślepieniu przeciwnika blokuje jego skille \nna 5 sekund, niszczy wszystkie miny, apteczki, etc(750u)\nKolejny flash 20 sec po rzuceniu"};
 new g_iPerkId;
 
 int g_iHaloSprite, g_iBeamSprite;
@@ -77,7 +77,46 @@ public void OnEntityCreated(int iEntity, const char[] szClassname)
     if(StrEqual(szClassname, "flashbang_projectile"))
     {
         SDKHook(iEntity, SDKHook_SpawnPost, OnFlashSpawned);
+        SDKHook(iEntity, SDKHook_Spawn, OnSpawn);
     }
+}
+
+const float g_fNextGrenadeTime = 20.0;
+
+public Action OnSpawn(int iGrenade)
+{
+    int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
+    if(IsValidPlayer(iOwner) && g_bHasItem[iOwner]){
+        Handle hPack = CreateDataPack();
+        WritePackCell(hPack, GetClientSerial(iOwner));
+        WritePackCell(hPack, CodMod_GetRoundIndex());
+        CreateTimer(g_fNextGrenadeTime, Timer_GiveGrenade, hPack);
+    }
+}
+
+public Action Timer_GiveGrenade(Handle hTimer, Handle hPack)
+{
+    ResetPack(hPack);
+    int iSerial = ReadPackCell(hPack);
+    int iRoundIndex = ReadPackCell(hPack);
+    delete hPack;
+
+    
+    if(CodMod_GetRoundIndex() != iRoundIndex)
+    {
+        return Plugin_Stop;
+    }
+
+    int iClient = GetClientFromSerial(iSerial);
+    if(!IsValidPlayer(iClient) || CodMod_GetPlayerNades(iClient, TH7_FLASHBANG))
+    {
+        return Plugin_Stop;
+    }
+
+    GivePlayerItem(iClient, "weapon_flashbang");
+
+
+    return Plugin_Stop;
 }
 
 public Action OnFlashSpawned(int iEntity)

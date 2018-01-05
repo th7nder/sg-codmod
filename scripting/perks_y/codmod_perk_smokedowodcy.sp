@@ -14,7 +14,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Smoke Dowódcy"};
-new const String:szDesc[DESC_LENGTH] = {"Na początku rundy dostajesz smoke'a, gdy trafisz nim w kogoś - zabijasz."};
+new const String:szDesc[DESC_LENGTH] = {"Na początku rundy dostajesz smoke'a, gdy trafisz nim w kogoś - zabijasz.\n Kolejny smoke 20 sec po rzuceniu."};
 new g_iPerkId;
 
 

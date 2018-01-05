@@ -13,8 +13,11 @@ public Plugin myinfo = {
     url = "http://th7.eu"
 };
 
+
+const int g_iAdditionalArmor = 25;
+const int g_iAdditionalHealth = 25;
 char szClassName[] = {"Przysposobienie Obronne"};
-char szDesc[] = {"+20 do wytrzymałości, +10 witalności"};
+char szDesc[] = {"+25 do wytrzymałości, +25 witalności"};
 int g_iPerkId;
 
 
@@ -38,8 +41,8 @@ public void CodMod_OnPerkEnabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = true;
-    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) + 20);
-    CodMod_SetStat(iClient, HP_PERK, CodMod_GetStat(iClient, HP_PERK) + 10);
+    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) + g_iAdditionalArmor);
+    CodMod_SetStat(iClient, HP_PERK, CodMod_GetStat(iClient, HP_PERK) + g_iAdditionalHealth);
 }
 
 public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
@@ -47,6 +50,6 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
         return;
 
     g_bHasItem[iClient] = false;
-    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) - 20);
-    CodMod_SetStat(iClient, HP_PERK, CodMod_GetStat(iClient, HP_PERK) - 10);
+    CodMod_SetStat(iClient, ARMOR_PERK, CodMod_GetStat(iClient, ARMOR_PERK) - g_iAdditionalArmor);
+    CodMod_SetStat(iClient, HP_PERK, CodMod_GetStat(iClient, HP_PERK) - g_iAdditionalHealth);
 }
