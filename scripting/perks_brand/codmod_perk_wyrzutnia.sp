@@ -14,7 +14,7 @@ public Plugin myinfo = {
 };
 
 char szClassName[] = {"Wyrzutnia"};
-char szDesc[] = {"Masz 1/8 na wyrzucenie wroga w powietrze. \n Gdy wróg jest w powietrzu zadajesz mu x2 obrażeń."};
+char szDesc[] = {"Masz 1/6 na wyrzucenie wroga w powietrze. \n Gdy wróg jest w powietrzu zadajesz mu x2 obrażeń."};
 int g_iPerkId;
 
 
@@ -49,7 +49,7 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
-        if(GetRandomInt(1, 1000) >= 875)
+        if(GetRandomInt(1, 1000) >= 834)
         {
             Knockback(iVictim, 555.0);
         }

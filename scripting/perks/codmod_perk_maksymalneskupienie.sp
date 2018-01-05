@@ -13,8 +13,10 @@ public Plugin myinfo = {
     url = "http://th7.eu"
 };
 
+const int g_iAdditionalExp = 800;
+const int g_iAdditionalHSExp = 1500;
 char szClassName[] = {"Maksymalne Skupienie"};
-char szDesc[] = {"Za każde zabójstwo dodatkowe +500 expa, za HS +1000 expa"};
+char szDesc[] = {"Za każde zabójstwo dodatkowe +800 expa, za HS +1500 expa"};
 int g_iPerkId;
 
 
@@ -50,10 +52,10 @@ public void CodMod_OnPerkDisabled(int iClient, int iPerkId){
 public void CodMod_OnGiveExp(int iAttacker, int iVictim, int &iExp, bool bHeadshot){
     if(g_bHasItem[iAttacker])
     {
-	   iExp += 500;
+       iExp += g_iAdditionalExp;
        if(bHeadshot)
        {
-            iExp += 500;
+            iExp += g_iAdditionalHSExp;
        }
     }
 }

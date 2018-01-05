@@ -106,10 +106,21 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 public void CodMod_OnPerkDisabled(int iClient, int iPerkId)
 {
   if(g_bHasClass[iClient])
+  { 
+    CreateTimer(0.1, Timer_RadarVisibility, GetClientSerial(iClient));
+   
+  }
+}
+
+public Action Timer_RadarVisibility(Handle hTimer, int iSerial)
+{
+  int iClient = GetClientFromSerial(iSerial);
+  if(IsValidPlayer(iClient) && g_bHasClass[iClient])
   {
     TH7_SetRadarVisibility(iClient, false);
   }
 }
+
 
 public void CodMod_OnPlayerSpawn(int iClient){
   if(g_bHasClass[iClient]){
