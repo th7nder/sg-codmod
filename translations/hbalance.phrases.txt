@@ -1,0 +1,24 @@
+"Phrases"
+{
+	"Teams have been balanced"
+	{
+		"en"			"Teams have been balanced"
+		"de"			"Teams wurden angepasst"
+		"pl"			"Druzyny zostaly wyrownane"
+		"fr"			"Les équipes ont été équilibrées"
+	}
+	"No team balancing necessary"
+	{
+		"en"			"No team balancing necessary"
+		"de"			"Teams sind ausgeglichen"
+		"pl"			"Druzyny nie potrzebuja wyrownania"
+		"fr"			"Aucun équilibrage nécessaire"
+	}
+	"You have been moved"
+	{
+		"en"			"You have been moved"
+		"de"			"Achtung Teamwechsel"
+		"pl"			"Zostales przeniesiony"
+		"fr"			"Vous avez été déplacé"
+	}
+}
