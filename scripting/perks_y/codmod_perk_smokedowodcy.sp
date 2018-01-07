@@ -109,7 +109,7 @@ public Action Timer_GiveGrenade(Handle hTimer, Handle hPack)
 public OnSmokeTouch(iGrenade, iClient){
 	if(IsValidPlayer(iClient) && IsPlayerAlive(iClient)){
 		new iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
-		if(IsValidPlayer(iOwner) && g_bHasItem[iOwner]){
+		if(IsValidPlayer(iOwner) && g_bHasItem[iOwner] && GetClientTeam(iOwner) != GetClientTeam(iClient)){
 			CodMod_DealDamage(iOwner, iClient, 1000.0, TH7_DMG_SMOKE);
 			CreateTimer(0.1, Timer_AcceptKill, iGrenade);
 		}
