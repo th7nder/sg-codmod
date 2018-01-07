@@ -4,7 +4,7 @@
 #include <sdkhooks>
 
 #define _ON_FIRE 1
-bool g_bOnFire[MAXPLAYERS+1] = {0};
+bool g_bOnFire[MAXPLAYERS+1] = {false};
 #include <codmod301>
 
 public Plugin:myinfo = {
@@ -16,7 +16,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Ciepło Spajka"};
-new const String:szDesc[DESC_LENGTH] = {"Dostajesz Molotova, ktory ma 2x damage oraz 1/4 na 3s podpalenie 10dmg/1s"};
+new const String:szDesc[DESC_LENGTH] = {"Dostajesz Molotova, ktory ma 30+(0.3*int) damage oraz 1/4 na 3s podpalenie 10dmg/1s"};
 new g_iPerkId;
 
 
@@ -64,7 +64,7 @@ public void CodMod_OnPlayerSpawn(int iClient){
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasItem[iAttacker]){
         if((iWeaponID == WEAPON_MOLOTOV)){
-            fDamage *= 2.0
+            fDamage = 30.0 + (float(CodMod_GetWholeStat(iAttacker, INT)) / 3.0)
 
             if(GetRandomInt(1, 1000) >= 750 && !g_bOnFire[iVictim])
             {

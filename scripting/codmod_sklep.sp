@@ -60,7 +60,7 @@ public Event_OnRoundStart(Handle:event, const String:name[], bool:broadcast){
 	roundEnd = false;
 	for(int i = 1; i <= MaxClients; i++){
 		g_bIncreasedExp[i] = false;
-		for(int j = 0; j < sizeof(itemBought); j++)
+		for(int j = 0; j < 7; j++)
 		{
 			itemBought[i][j] = false;
 		}
