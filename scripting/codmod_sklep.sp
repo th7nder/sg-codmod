@@ -20,7 +20,6 @@ bool g_bIncreasedDamage[MAXPLAYERS+1] = {false};
 
 new itemsPrices[20];
 new bought[MAXPLAYERS + 1] = {0};
-//new moneyOffset;
 new bool:roundEnd = false;
 
 new bool:itemBought[MAXPLAYERS + 1][7];
@@ -53,7 +52,6 @@ public OnPluginStart(){
 		for(new j = 0; j < 7; j++)
 			itemBought[i][j] = false;
 	}
-	//moneyOffset = FindSendPropOffs("CCSPlayer", "m_iAccount");
 
 }
 
@@ -62,6 +60,10 @@ public Event_OnRoundStart(Handle:event, const String:name[], bool:broadcast){
 	roundEnd = false;
 	for(int i = 1; i <= MaxClients; i++){
 		g_bIncreasedExp[i] = false;
+		for(int j = 0; j < sizeof(itemBought); j++)
+		{
+			itemBought[i][j] = false;
+		}
 	}
 }
 
@@ -71,7 +73,6 @@ public Event_OnRoundEnd(Handle:event, const String:name[], bool:broadcast){
 
 
 stock GetMoney(client){
-	//4return GetEntData(client, moneyOffset);
 	return GetEntProp(client, Prop_Send, "m_iAccount");
 }
 
@@ -155,15 +156,9 @@ public Event_OnPlayerSpawn(Handle:event, const String:name[], bool:broadcast){
 		g_bIncreasedDamage[client] = false;
 	}
 
-	CreateTimer(1.0, FixMoney, any:client);
 }
 
-public Action:FixMoney(Handle:timer, any:client){
 
-	for(new i = 0; i < 7; i++){
-		itemBought[client][i] = false;
-	}
-}
 
 public OnClientPutInServer(client){
 	for(new i = 0; i < 7; i++){
@@ -351,8 +346,8 @@ stock Lotto(int iClient){
 	}
 }
 
-public CodMod_OnPlayerDamaged(attacker, victim, &Float:damage, WeaponID:weaponID, forwardClassId, damageType){
-	if(g_bIncreasedDamage[attacker]){
-		damage += 10.0;
+public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
+	if(g_bIncreasedDamage[iAttacker]){
+		fDamage += 10.0;
 	}
 }
