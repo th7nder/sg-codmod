@@ -79,7 +79,7 @@ public OnEntityCreated(int iEnt, const char[] szClassname){
 public Action OnSmokeTouch(int iGrenade, int iClient){
 	if(IsValidPlayer(iClient) && IsPlayerAlive(iClient)){
 		int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
-		if(IsValidPlayer(iOwner) && g_bHasClass[iOwner]){
+		if(IsValidPlayer(iOwner) && g_bHasClass[iOwner] && GetClientTeam(iOwner) != GetClientTeam(iClient)){
 			CodMod_DealDamage(iOwner, iClient, 1000.0, TH7_DMG_SMOKE);
 			RemoveEdict(iGrenade);
 		}
