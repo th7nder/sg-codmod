@@ -23,11 +23,11 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Saper"};
-char g_szDesc[128] = {"120HP, P90, P250 \nPosiada 3 miny(100dmg + 1,5/1 INT)"};
+char g_szDesc[128] = {"120HP, P90, P250 \nPosiada 3 miny(100dmg + 1,5/1 INT)\n+15 kondycji"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
-const int g_iDexterity = 0;
+const int g_iDexterity = 15;
 const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
