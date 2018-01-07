@@ -42,6 +42,28 @@ public void OnPluginStart(){
     g_iWeapons[1] = WEAPON_CZ;
     g_iWeapons[2] = WEAPON_FLASHBANG;
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
+
+    HookEvent("round_start", Event_OnRoundStart);
+}
+
+bool g_bAllowedToRocket = false;
+
+public Action Event_OnRoundStart(Event hEvent, const char[] szBroadcast, bool bBroadcast)
+{
+    g_bAllowedToRocket = false;
+    CreateTimer(GetConVarFloat(FindConVar("mp_freezetime")) + 5.0, Timer_AllowRockets, CodMod_GetRoundIndex(), TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action Timer_AllowRockets(Handle hTimer, int iRoundIndex)
+{
+    if(CodMod_GetRoundIndex() != iRoundIndex)
+    {
+        return Plugin_Stop;
+    }
+
+    g_bAllowedToRocket = true;
+
+    return Plugin_Stop;
 }
 
 public void OnPluginEnd(){
@@ -69,6 +91,13 @@ public void CodMod_OnPlayerSpawn(int iClient){
 public void CodMod_OnClassSkillUsed(int iClient){
     if(!g_bHasClass[iClient] || !IsPlayerAlive(iClient))
         return;
+
+    if(!g_bAllowedToRocket)
+    {
+        PrintToChat(iClient, "%s Rakiet można używać 5 sec po rozpoczęciu rundy.");
+        return;
+    }
+
 
     if(GetGameTime() - g_fLastUse[iClient] < 4.0){
         PrintToChat(iClient, "%s Rakiety można używać co 4 sekundy!", PREFIX_SKILL);
