@@ -142,10 +142,10 @@ public Action Command_Sprzedaj (int iClient, int args)
 		{
 			PrintToChat(iClient, "Na rynku jest już za dużo perków!");
 		}
-		else if (!IsPlayerAlive(iClient))
-		{
-			PrintToChat (iClient, "Nie możesz wystawić perku gdy jesteś martwy!");
-		}
+		//else if (!IsPlayerAlive(iClient))
+		//{
+		//	PrintToChat (iClient, "Nie możesz wystawić perku gdy jesteś martwy!");
+		//}
 		else
 		{
 			for (int i = 0; i < sizeof(g_ePerk); i++)
