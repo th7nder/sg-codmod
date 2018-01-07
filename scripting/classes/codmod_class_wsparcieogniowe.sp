@@ -25,7 +25,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 char g_szClassName[128] = {"Wsparcie Ogniowe"};
 char g_szDesc[200] = {"120HP, UMP-45(+5dmg), CZ75\n \
                             3 rakiety(65dmg+INT)\n1/4 na podpalenie z rakiety(7dmg *3s)\n \
-                            1/8 na odbicie 50% dmg w plecy\n \ 
+                            1/8 na odbicie 50%% dmg w plecy\n \ 
                             Po śmierci wybucha 60dmg(+INT)"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
@@ -94,23 +94,23 @@ public void CodMod_OnClassSkillUsed(int iClient){
 
     if(!g_bAllowedToRocket)
     {
-        PrintToChat(iClient, "%s Rakiet można używać 5 sec po rozpoczęciu rundy.");
+        PrintToChat(iClient, "%s Rakiet można używać 5 sec po rozpoczęciu rundy.", PREFIX_SKILL);
         return;
     }
 
 
-    if(GetGameTime() - g_fLastUse[iClient] < 4.0){
-        PrintToChat(iClient, "%s Rakiety można używać co 4 sekundy!", PREFIX_SKILL);
-        return;
-    }
     int iMaxRockets = MAX_ROCKETS;
     if(g_iRockets[iClient] + 1 <= iMaxRockets){
+        if(GetGameTime() - g_fLastUse[iClient] < 4.0){
+            PrintToChat(iClient, "%s Rakiety można użyć za %.2fs!", PREFIX_SKILL, 4.0 - (GetGameTime() - g_fLastUse[iClient]));
+            return;
+        }
         g_fLastUse[iClient] = GetGameTime();
         g_iRockets[iClient]++;
         PrintToChat(iClient, "%s Wystrzeliłeś rakietę! Zostały Ci %d rakiety", PREFIX_SKILL, iMaxRockets - g_iRockets[iClient]);
         FireRocket(iClient);
     } else {
-        PrintToChat(iClient, "%s Wykorzystałeś już %d rakiet tej rundzie!", PREFIX_SKILL, iMaxRockets)
+        PrintToChat(iClient, "%s Wykorzystałeś już %d rakiety tej rundzie!", PREFIX_SKILL, iMaxRockets)
     }
 }
 

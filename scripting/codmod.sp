@@ -726,8 +726,11 @@ int g_iCamouflageMask = -1
 int g_iRoundIndex = -1;
 int g_iBeamSprite = -1;
 
+int g_iBlueGlow = -1;
+
 public OnMapStart(){
 
+    g_iBlueGlow = PrecacheModel("sprites/blueglow1.vmt");
     g_iGlowSprite = PrecacheModel("sprites/glow07.vmt");
     g_iRoundIndex = 0;
     AddFileToDownloadsTable("materials/sprites/fire1.vmt")
@@ -3411,6 +3414,11 @@ public bool Freeze(int iClient, float fTime)
         WritePackCell(hPack, GetClientSerial(iClient));
         WritePackCell(hPack, g_iRoundIndex);
         CreateTimer(fTime, Timer_Unfreeze, hPack);
+
+        float fPosition[3];
+        GetClientEyePosition(iClient, fPosition);
+        fPosition[2] -= 32.0;
+        CreateGlowSprite(g_iBlueGlow, fPosition, fTime);
         return true;
     }
     return false;
