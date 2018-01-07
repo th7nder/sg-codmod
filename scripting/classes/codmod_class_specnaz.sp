@@ -29,6 +29,8 @@ const int g_iDexterity = 15;
 const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
+
+bool g_bInTimer[MAXPLAYERS+1] = {false};
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_P250;
     g_iWeapons[1] = WEAPON_AK47;
@@ -79,6 +81,12 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 }
 
 
+public void CodMod_OnPlayerSpawn(int iClient)
+{
+    g_bInTimer[iClient] = false;
+}
+
+
 
 public OnEntityCreated(int iEnt, const char[] szClassname){
     if(StrEqual(szClassname, "hegrenade_projectile")){
@@ -88,14 +96,22 @@ public OnEntityCreated(int iEnt, const char[] szClassname){
 
 public Action SpawnPost_Smoke(int iGrenade) {
     int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
-    if(IsValidPlayer(iOwner) && g_bHasClass[iOwner]) {
-        CreateTimer(15.0, Timer_GiveSmoke, GetClientSerial(iOwner), TIMER_FLAG_NO_MAPCHANGE);
+    if(IsValidPlayer(iOwner) && g_bHasClass[iOwner] && !g_bInTimer[iOwner]) {
+        Handle hPack = CreateDataPack();
+        WritePackCell(hPack, GetClientSerial(iOwner));
+        WritePackCell(hPack, CodMod_GetRoundIndex());
+        g_bInTimer[iOwner] = true;
+        CreateTimer(15.0, Timer_GiveSmoke, hPack, TIMER_FLAG_NO_MAPCHANGE);
     }
 }
 
-public Action Timer_GiveSmoke(Handle hTimer, int iSerial) {
+public Action Timer_GiveSmoke(Handle hTimer, Handle hPack) {
+    ResetPack(hPack);
+    int iSerial = ReadPackCell(hPack);
+    int iRoundIndex = ReadPackCell(hPack);
     int iClient = GetClientFromSerial(iSerial);
-    if(IsValidPlayer(iClient) && g_bHasClass[iClient]) {
+    if(iRoundIndex == CodMod_GetRoundIndex() && IsValidPlayer(iClient) && g_bHasClass[iClient]) {
         GivePlayerItem(iClient, "weapon_hegrenade");
+        g_bInTimer[iClient] = false;
     }
 }
