@@ -109,6 +109,7 @@ public Action Timer_GiveSmoke(Handle hTimer, Handle hPack) {
     ResetPack(hPack);
     int iSerial = ReadPackCell(hPack);
     int iRoundIndex = ReadPackCell(hPack);
+    delete hPack;
     int iClient = GetClientFromSerial(iSerial);
     if(iRoundIndex == CodMod_GetRoundIndex() && IsValidPlayer(iClient) && g_bHasClass[iClient]) {
         GivePlayerItem(iClient, "weapon_hegrenade");

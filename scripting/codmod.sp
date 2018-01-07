@@ -1520,7 +1520,7 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     int iVictimClass = CodMod_GetClass(victim);
     if(iVictimClass == g_iWsparcie)
     {
-        if(isInFOV(attacker, victim) && !isInFOV(victim, attacker))
+        if(isInFOV(attacker, victim) && !isInFOV(victim, attacker)) 
         {
             if(GetRandomInt(1, 8) == 1)
             {
@@ -3376,7 +3376,7 @@ public void Player_PerformEntityExplosion(int iEntity, int iOwner, float fDamage
 
         //fDamage = fDamage * (float(iRadius) - fDistance) / float(iRadius);
         CodMod_DealDamage(iOwner, i, fDamage, iTH7Dmg);
-        if(CodMod_GetClass(iOwner) == CodMod_GetClassId("Wsparcie Ogniowe") && iTH7Dmg == TH7_DMG_ROCKET ){
+        if(CodMod_GetClass(iOwner) == g_iWsparcie && iTH7Dmg == TH7_DMG_ROCKET ){
             if(iRandom == 1) {
                 CodMod_Burn(iOwner, i, 3.0, 1.0, 7.0 )
             }
