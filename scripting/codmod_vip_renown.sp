@@ -21,6 +21,19 @@ stock bool Player_IsVIP(int iClient){
 public void OnPluginStart(){
 	RegConsoleCmd("respawn", Command_Respawn);
 	HookEvent("player_spawn", Event_OnPlayerSpawn);
+	HookEvent("round_start", Event_OnRoundStart);
+}
+
+public Action Event_OnRoundStart(Event hEvent, const char[] szBroadcast, bool bBroadcast)
+{
+	if(CodMod_GetRoundIndex() % 3 == 0)
+	{
+		for(int i = 0; i <= MaxClients; i++)
+		{
+			g_bBought[i] = false;
+		}	
+	}
+	
 }
 
 public void OnClientPutInServer(int iClient){
@@ -42,7 +55,6 @@ public Action Timer_TakeMoney(Handle hTimer, int iClient){
 	if(iClient > 0 && IsClientInGame(iClient) && IsPlayerAlive(iClient)){
 		if(g_bBought[iClient]){
 			SetEntProp(iClient, Prop_Send, "m_iAccount", GetEntProp(iClient, Prop_Send, "m_iAccount") - 32000);
-			g_bBought[iClient] = false;
 		}
 
 	}
@@ -52,7 +64,9 @@ public Action Timer_TakeMoney(Handle hTimer, int iClient){
 public Action Command_Respawn(int iClient, int iArgs){
 	if(IsClientInGame(iClient)){
 		if(!IsPlayerAlive(iClient) && (GetClientTeam(iClient) == CS_TEAM_T || GetClientTeam(iClient) == CS_TEAM_CT)){
-			if(Player_IsVIP(iClient)){
+			if(Player_IsVIP(iClient) && !g_bBought[iClient]){
+				PrintToChat(iClient, "%s Komenda tymczasowo wyłączona // th7nder", CHAT_PREFIX_SG);
+				return Plugin_Handled;
 				int iMoney = GetEntProp(iClient, Prop_Send, "m_iAccount");
 				if(iMoney >= 32000){
 					g_bBought[iClient] = true;
