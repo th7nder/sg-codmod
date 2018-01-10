@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Lekki Snajper"};
-char g_szDesc[256] = {"140HP, Scout, USP(18 naboi) \n 1/3 na potrójny damage ze scouta, \n Zmniejszona grawitacja \n 1 siły - 0.9dmg, 50%% widoczności"};
+char g_szDesc[256] = {"140HP, Scout, USP(+10dmg) \n 1/3 na potrójny damage ze scouta, \n Zmniejszona grawitacja \n 1 siły - 0.9dmg, 50%% widoczności"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 140;
 const int g_iArmor = 0;
@@ -32,8 +32,8 @@ const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
 
-int g_iGetMaxClip1Offset = 353;
-Handle g_hGetMaxClip1 = null;
+//int g_iGetMaxClip1Offset = 353;
+//Handle g_hGetMaxClip1 = null;
 
 public void OnPluginStart(){
     g_iWeapons[0] = WEAPON_SSG08;
@@ -41,25 +41,25 @@ public void OnPluginStart(){
     g_iClassId = CodMod_RegisterClass(g_szClassName, g_szDesc, g_iHealth, g_iArmor, g_iDexterity, g_iIntelligence, g_iWeapons, 0, g_iStartingHealth);
     CodMod_RegisterClassGravity(g_szClassName, 80);
 
-    g_hGetMaxClip1 = DHookCreate(g_iGetMaxClip1Offset, HookType_Entity, ReturnType_Int, ThisPointer_CBaseEntity, DHook_OnGetMaxClip1);
+    //g_hGetMaxClip1 = DHookCreate(g_iGetMaxClip1Offset, HookType_Entity, ReturnType_Int, ThisPointer_CBaseEntity, DHook_OnGetMaxClip1);
 
-    for(int i = 1; i <= MaxClients; i++)
+    /*for(int i = 1; i <= MaxClients; i++)
     {
         if(IsClientInGame(i))
         {
             OnClientPutInServer(i);
         }
-    }
+    }*/
 }
 
 public void OnPluginEnd(){
     CodMod_UnregisterClass(g_iClassId);
 }
 
-public void OnClientPutInServer(int client)
+/*public void OnClientPutInServer(int client)
 {
     SDKHook(client, SDKHook_WeaponDropPost, Hook_OnWeaponDropPost);
-}
+}*/
 
 
 public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
@@ -79,6 +79,10 @@ public int CodMod_OnChangeClass(int iClient, int iPrevious, int iNext){
 public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
 
+        if(iWeaponID == WEAPON_USP)
+        {
+            fDamage += 10.0;
+        }
         if(iWeaponID == WEAPON_SSG08){
             fDamage += CodMod_GetWholeStat(iAttacker, STRENGTH) * ADDITIONAL_MULTIPLIER;
             if(GetRandomInt(1, 100) >= 67){
@@ -88,6 +92,7 @@ public void CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, W
     }
 }
 
+/*
 
 public void OnEntityCreated(int iEntity, const char[] szClassname)
 {
@@ -147,4 +152,4 @@ public void Hook_OnWeaponDropPost(int iClient, int iWeapon)
     
     return;
 }
-
+*/
