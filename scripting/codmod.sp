@@ -1534,13 +1534,10 @@ public Action SDK_OnTakeDamage(victim, &attacker, &inflictor, float &damage, int
     } 
     else if(iVictimClass == g_iKomandor)
     {
-        if(GetRandomInt(1, 10) == 1)
+        if(GetRandomInt(1, 12) == 1)
         {
-            if(isInFOV(attacker, victim) && !isInFOV(victim, attacker))
-            {
-                CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
-                PrintToChat(victim, "%s Odbiłeś %.2f damage'u Komandorze!", PREFIX_SKILL, damage);
-            }
+            CodMod_DealDamage(victim, attacker, damage, TH7_DMG_REFLECT);
+            PrintToChat(victim, "%s Odbiłeś %.2f damage'u Komandorze!", PREFIX_SKILL, damage);
         }
 
     }

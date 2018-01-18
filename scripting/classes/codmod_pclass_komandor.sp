@@ -26,8 +26,8 @@ char g_szClassName[128] = {"Komandor [Premium]"};
 char g_szDesc[256] = {"130HP, G3SG1, CZetka(+5dmg)\n\
                         codmod_skill (15hp/1s przez 10s)\n\
                         +500$ za zabójstwo\n\
-                        1/15 na spowolnienie przeciwnika o 40% na 2 sec\n\
-                        1/10 na odbicie pocisku w plecy"};
+                        1/10 na spowolnienie przeciwnika o 50%% na 2 sec\n\
+                        1/12 na odbicie pocisku"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -80,13 +80,13 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
             fDamage += 5.0;
         }
 
-        if(!g_bSlow[iVictim] && GetRandomInt(1, 15) == 1)
+        if(!g_bSlow[iVictim] && GetRandomInt(1, 10) == 1)
         {
             PrintToChat(iVictim, "%s Zostałeś spowolniony!", PREFIX_SKILL);
             PrintToChat(iAttacker, "%s Spowolniłeś %N!", PREFIX_SKILL, iVictim);
             g_bSlow[iVictim] = true;
             Handle hPack = CreateDataPack();
-            CodMod_ChangeStat(iVictim, DEX_PERK, -40);
+            CodMod_ChangeStat(iVictim, DEX_PERK, -50);
             WritePackCell(hPack, GetClientSerial(iVictim));
             WritePackCell(hPack, CodMod_GetRoundIndex());
             CreateTimer(2.0, Timer_Unslow, hPack);
@@ -115,7 +115,7 @@ public Action Timer_Unslow(Handle hTimer, Handle hPack)
         if(!IsValidPlayer(iClient)) return Plugin_Stop;
 
 
-        CodMod_ChangeStat(iClient, DEX_PERK, 40);
+        CodMod_ChangeStat(iClient, DEX_PERK, 50);
 
         if(IsPlayerAlive(iClient))
         {
