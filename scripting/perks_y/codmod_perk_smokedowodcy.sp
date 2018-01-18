@@ -42,6 +42,9 @@ public CodMod_OnPerkEnabled(iClient, iPerkId){
 		return;
 
 	g_bHasItem[iClient] = true;
+	if(!CodMod_GetPlayerNades(iClient, TH7_SMOKE)){
+		GivePlayerItem(iClient, "weapon_smokegrenade");
+	}
 
 }
 
