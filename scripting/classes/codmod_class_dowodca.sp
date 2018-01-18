@@ -59,6 +59,13 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 
 }
 
+public Action CodMod_OnPlayerBlind(int iClient, int &mSecs) {
+    if(g_bHasClass[iClient]) {
+        return Plugin_Handled;
+    }
+    return Plugin_Continue;
+}
+
 public Action:Event_OnFlashPlayer(Event hEvent, const char[] szEvent, bool bDontBroadcast)
 {
 	int iClient = GetClientOfUserId(hEvent.GetInt("userid"));
@@ -71,7 +78,7 @@ public Action:Event_OnFlashPlayer(Event hEvent, const char[] szEvent, bool bDont
 public OnEntityCreated(int iEnt, const char[] szClassname){
 	if(StrEqual(szClassname, "smokegrenade_projectile")){
         SDKHook(iEnt, SDKHook_SpawnPost, SpawnPost_Smoke)
-		SDKHook(iEnt, SDKHook_StartTouch, OnSmokeTouch);
+        SDKHook(iEnt, SDKHook_StartTouch, OnSmokeTouch);
 	}
 }
 

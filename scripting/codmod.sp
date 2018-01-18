@@ -118,6 +118,7 @@ new Handle:g_OnGiveExp;
 new Handle:g_OnGiveExpMultiply;
 new Handle:g_OnWeakenPerk;
 new Handle:g_OnChangeClass;
+new Handle:g_hOnPlayerBlind;
 
 new Handle:g_specTimer;
 
@@ -183,6 +184,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
     CreateNative("CodMod_GetRoundIndex", Native_GetRoundIndex);
     CreateNative("CodMod_Freeze", Native_Freeze);
     CreateNative("CodMod_RadiusFreeze", Native_RadiusFreeze);
+    CreateNative("CodMod_PlayerBlind", Native_PlayerBlind);
     CreateNative("CodMod_DestroyPerk", Native_DestroyPerk);
     CreateNative("CodMod_BlockSkill", Native_BlockSkill);
     CreateNative("CodMod_SetPerk", Native_SetPerk);
@@ -281,6 +283,7 @@ public OnPluginStart(){
     g_hOnTH7Dmg = CreateGlobalForward("CodMod_OnTH7Dmg", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
     g_hOnTH7DmgPost = CreateGlobalForward("CodMod_OnTH7DmgPost", ET_Ignore, Param_Cell, Param_Cell, Param_FloatByRef, Param_Cell);
     g_hOnHealthShotUsed = CreateGlobalForward("CodMod_OnHealthshotUsed", ET_Ignore, Param_Cell);
+    g_hOnPlayerBlind = CreateGlobalForward("CodMod_OnPlayerBlind", ET_Event, Param_Cell, Param_CellByRef)
 
 
 
@@ -3526,6 +3529,40 @@ public bool RadiusFreeze(int iEntity, int iRadius, float fTime)
 
     return true;
 
+}
+
+public int Native_PlayerBlind(Handle hPlugin, int iNumParams)
+{
+    int iClient = GetNativeCell(1);
+    int iMsecs = GetNativeCell(2);
+    int iRed = GetNativeCell(3);
+    int iGreen = GetNativeCell(4);
+    int iBlue = GetNativeCell(5);
+    int iAlpha = GetNativeCell(6);
+
+    Player_Blind(iClient, iMsecs, iRed, iGreen, iBlue, iAlpha)
+}
+
+public void Player_Blind(int iClient, int iMsecs, int iRed, int iGreen, int iBlue, int iAlpha){
+    Action aResult;
+    Call_StartForward(g_hOnPlayerBlind);
+    Call_PushCell(iClient);
+    Call_PushCellRef(iMsecs);
+    Call_Finish(aResult);
+    if(aResult == Plugin_Stop || aResult == Plugin_Handled) {
+        return;
+    }
+    int iColor[4];
+    iColor[0] = iRed;
+    iColor[1] = iGreen;
+    iColor[2] = iBlue;
+    iColor[3] = iAlpha;
+    Handle hFadeClient = StartMessageOne("Fade", iClient)
+    PbSetInt(hFadeClient, "duration", 100);
+    PbSetInt(hFadeClient, "hold_time", iMsecs);
+    PbSetInt(hFadeClient, "flags", (0x0010|0x0002));
+    PbSetColor(hFadeClient, "clr", iColor);
+    EndMessage();
 }
 
 

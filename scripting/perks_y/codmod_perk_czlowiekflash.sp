@@ -70,20 +70,6 @@ stock void BeamRing(color[4], Float:vec[3]){
 	TE_SendToAll();
 }
 
-public void Player_Blind(int iClient, int iMsecs, int iRed, int iGreen, int iBlue, int iAlpha){
-	int iColor[4];
-	iColor[0] = iRed;
-	iColor[1] = iGreen;
-	iColor[2] = iBlue;
-	iColor[3] = iAlpha;
-	Handle hFadeClient = StartMessageOne("Fade", iClient)
-	PbSetInt(hFadeClient, "duration", 100);
-	PbSetInt(hFadeClient, "hold_time", iMsecs);
-	PbSetInt(hFadeClient, "flags", (0x0010|0x0002));
-	PbSetColor(hFadeClient, "clr", iColor);
-	EndMessage();
-}
-
 public void CodMod_OnPerkSkillUsed(int iClient){
 	if(!IsValidPlayer(iClient) || !IsPlayerAlive(iClient) || !g_bHasItem[iClient])
 		return;
@@ -107,7 +93,7 @@ public void CodMod_OnPerkSkillUsed(int iClient){
 		if(IsClientInGame(i) && IsPlayerAlive(i) && iTeam != GetClientTeam(i)){
 			GetClientAbsOrigin(i, fTargetOrigin);
 			if(GetVectorDistance(fTargetOrigin, fOrigin) <= 650.0){
-				Player_Blind(i, 2500, 255, 255, 255, 255);
+				CodMod_PlayerBlind(i, 2500, 255, 255, 255, 255);
 			}
 
 		}

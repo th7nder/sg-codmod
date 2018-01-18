@@ -54,6 +54,13 @@ public void OnPluginEnd()
     CodMod_UnregisterClass(g_iClassId);
 }
 
+public Action CodMod_OnPlayerBlind(int iClient, int &mSecs) {
+    if(g_bHasClass[iClient]) {
+        return Plugin_Handled;
+    }
+    return Plugin_Continue;
+}
+
 public Action:Event_OnFlashPlayer(Event hEvent, const char[] szEvent, bool bDontBroadcast)
 {
     int iClient = GetClientOfUserId(hEvent.GetInt("userid"));
