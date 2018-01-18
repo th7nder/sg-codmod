@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"El Pistolero"};
-char g_szDesc[256] = {"120HP, Może kupić każdy pistolet \n Moduł Odrzutowy(CTRL + SPACE, co 5 sec) \n +5dmg do pistoli, 15%% redukcji obrażeń"};
+char g_szDesc[256] = {"120HP, Może kupić każdy pistolet \n Moduł Odrzutowy(CTRL + SPACE, co 5 sec) \n +5dmg do pistoli, 15%% redukcji obrażeń\n1/12 na usunięcie ammo przeciwnika z aktywnego magazynka"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -76,6 +76,10 @@ public Action OnPlayerRunCmd(int iClient, int &iButtons, int &iImpulse, float fV
 public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
     if(g_bHasClass[iAttacker]){
         fDamage += 5.0;
+        if(GetRandomInt(1,12) == 1) {
+            RemoveAmmo(iVictim);
+            PrintToChat(iAttacker, "%s Opróżniłeś magazynek przeciwnika", PREFIX_SKILL);
+        }
     }
 
     if(g_bHasClass[iVictim]){
@@ -86,5 +90,18 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
 public void CodMod_OnWeaponCanUse(int iClient, WeaponID iWeaponID, int &iCanUse, bool bBuy){
     if(g_bHasClass[iClient] && CodMod_WeaponIsPistol(iWeaponID)){
         iCanUse = 2;
+    }
+}
+
+int RemoveAmmo(int iClient)
+{
+    int iWeapon = GetEntPropEnt(iClient, Prop_Send, "m_hActiveWeapon");
+    if(iWeapon != -1 && IsValidEntity(iWeapon))
+    {
+        WeaponID iWeaponID = CodMod_GetWeaponID(iWeapon);
+        if(g_iWeaponClip[iWeaponID][0] > 0)
+        {
+            SetEntProp(iWeapon, Prop_Send, "m_iClip1", 0);
+        }
     }
 }
