@@ -19,10 +19,12 @@ public Plugin myinfo = {
 
 WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
+#define MAX_LASERS 2+RoundToFloor(float(CodMod_GetWholeStat(iClient, INT))/50.0)
+#define LASER_DMG 150.0+float(CodMod_GetWholeStat(iAttacker, INT))*1.5
 
 
 char g_szClassName[128] = {"Specjalista [Premium]"};
-char g_szDesc[256] = {"M4A1-S, USP\n 3 lasery(200dmg) \n 5HP(+1HP/3int)/6sec, Odnawianie ammo per kill, +5dmg \n Może kupić każdy granat"};
+char g_szDesc[256] = {"M4A1-S, USP\n 2(+1 za każde 50 int) lasery(150dmg + 1.5*int) \n 5HP(+1HP/3int)/6sec, Odnawianie ammo per kill, +5dmg \n Może kupić każdy granat"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
@@ -94,7 +96,7 @@ public void CodMod_OnClassSkillUsed(int iClient){
     if(!g_bHasClass[iClient] || !IsPlayerAlive(iClient))
         return;
 
-    int iMaxMines = 3;
+    int iMaxMines = MAX_LASERS;
     if(g_iMines[iClient] + 1 <= iMaxMines){
 
         int iColor[3];
@@ -117,6 +119,13 @@ public void CodMod_OnClassSkillUsed(int iClient){
     }
 }
 
+public Action:OnPreHitByLasermine(iVictim, &iAttacker, &iBeam, &iLasermine, int &iDamage) {
+    if(g_bHasClass[iAttacker]) {
+        iDamage = RoundToFloor(LASER_DMG);
+        return Plugin_Changed
+    }
+    return Plugin_Continue;
+}
 
 public void CodMod_OnWeaponCanUse(int iClient, WeaponID iWeaponID, int &iCanUse, bool bBuy){
     if(g_bHasClass[iClient] && IsWeaponGrenade(iWeaponID)){
