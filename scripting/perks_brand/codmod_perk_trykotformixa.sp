@@ -14,7 +14,7 @@ public Plugin:myinfo = {
 };
 
 new const String:szClassName[NAME_LENGTH] = {"Trykot Formixa"};
-new const String:szDesc[DESC_LENGTH] = {"Za zabójstwo +20HP, odnowienie magazynku \n Odporny na AWP)"};
+new const String:szDesc[DESC_LENGTH] = {"Za zabójstwo +20HP, odnowienie magazynku \n Odporny na AWP\n1/2 na 50%% redukcji obrażen ze SSG08"};
 new g_iPerkId;
 
 new bool:g_bHasItem[MAXPLAYERS +1] = {false};
@@ -59,8 +59,14 @@ public Action Timer_Refill(Handle hTimer, int iSerial)
 
 
 public void CodMod_OnPlayerDamagedPerk(int iAttacker, int iVictim, float &fDamage, WeaponID iWeaponID, int iDamageType){
-    if(g_bHasItem[iVictim] && iWeaponID == WEAPON_AWP){
-        fDamage = 0.0;
+    if(g_bHasItem[iVictim]){
+        if(iWeaponID == WEAPON_AWP) {
+            fDamage = 0.0;
+        } else if (iWeaponID == WEAPON_SSG08) {
+            if(GetRandomInt(0,1) == 0) {
+                fDamage *= 0.5;
+            }
+        }
     }
 }
 
