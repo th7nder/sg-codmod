@@ -23,7 +23,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Obrońca"};
-char g_szDesc[128] = {"140HP, M249, Glock/HKP2000, Molotov \n codmod_skill - 3 worki \n Odporny na Miny, Granat EMP \n 15 kondycji"};
+char g_szDesc[128] = {"140HP, M249, Glock/HKP2000, Molotov \n codmod_skill - 3 worki \n Odporny na Miny, Granat EMP(co 25 sekund) \n 15 kondycji"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 140;
 const int g_iArmor = 0;
@@ -31,6 +31,7 @@ const int g_iDexterity = 15;
 const int g_iIntelligence = 0;
 int g_iClassId = 0;
 bool g_bHasClass[MAXPLAYERS+1]    = {false};
+bool g_bInTimer[MAXPLAYERS+1] = {false};
 
 int g_iSandbags[MAXPLAYERS+1] = {0};
 float g_fLastUse[MAXPLAYERS+1] = {0.0};
@@ -112,5 +113,34 @@ public void CodMod_OnClassSkillUsed(int iClient){
         Player_PlaceSandbag(iClient);
     } else {
         PrintToChat(iClient, "%s Wykorzystałeś już %d worków tej rundzie!", PREFIX_SKILL, iMaxSandbags)
+    }
+}
+
+public OnEntityCreated(int iEnt, const char[] szClassname){
+    if(StrEqual(szClassname, "flashbang_projectile")){
+        SDKHook(iEnt, SDKHook_SpawnPost, SpawnPost_Smoke)
+    }
+}
+
+public Action SpawnPost_Smoke(int iGrenade) {
+    int iOwner = GetEntPropEnt(iGrenade, Prop_Data, "m_hOwnerEntity");
+    if(IsValidPlayer(iOwner) && g_bHasClass[iOwner] && !g_bInTimer[iOwner]) {
+        Handle hPack = CreateDataPack();
+        WritePackCell(hPack, GetClientSerial(iOwner));
+        WritePackCell(hPack, CodMod_GetRoundIndex());
+        g_bInTimer[iOwner] = true;
+        CreateTimer(25.0, Timer_GiveSmoke, hPack, TIMER_FLAG_NO_MAPCHANGE);
+    }
+}
+
+public Action Timer_GiveSmoke(Handle hTimer, Handle hPack) {
+    ResetPack(hPack);
+    int iSerial = ReadPackCell(hPack);
+    int iRoundIndex = ReadPackCell(hPack);
+    delete hPack;
+    int iClient = GetClientFromSerial(iSerial);
+    if(iRoundIndex == CodMod_GetRoundIndex() && IsValidPlayer(iClient) && g_bHasClass[iClient]) {
+        GivePlayerItem(iClient, "weapon_flashbang");
+        g_bInTimer[iClient] = false;
     }
 }
