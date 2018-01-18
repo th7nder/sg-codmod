@@ -50,7 +50,6 @@ char g_saGrenadeWeaponNames[][] = {
 char g_szSidGiveItem[][64] = {
     "37282907", //Mahesvara
     "29118382", //th7
-    "34914398", //Silver
     "47438709", //Nobody
     "26958529", //dray
     "121662520" // strajker
