@@ -21,7 +21,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Dowódca"};
-char g_szDesc[256] = {"130HP, M4A4, FiveSeven, Smoke\n 1/1 ze smoke'a, NoFlash\n+30dmg w głowę i 40%% mniej obrażen otrzymywanych w nią\nDostaje smoke co 15 sekund"};
+char g_szDesc[256] = {"130HP, M4A4, FiveSeven, Smoke\n 1/1 ze smoke'a, NoFlash\n+30dmg w głowę\nDostaje smoke co 15 sekund"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 130;
 const int g_iArmor = 0;
@@ -56,10 +56,6 @@ public CodMod_OnPlayerDamaged(int iAttacker, int iVictim, float &fDamage, Weapon
     if(g_bHasClass[iAttacker] && (iDamageType & DMG_HEADSHOT)){
         fDamage += 30.0;
     }
-    if(g_bHasClass[iVictim] && (iDamageType & DMG_HEADSHOT)) {
-        fDamage *= 0.6;
-    }
-
 }
 
 public Action CodMod_OnPlayerBlind(int iClient, int &mSecs) {
