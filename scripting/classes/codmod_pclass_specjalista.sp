@@ -19,8 +19,8 @@ public Plugin myinfo = {
 
 WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
-#define MAX_LASERS 2+RoundToFloor(float(CodMod_GetWholeStat(iClient, INT))/50.0)
-#define LASER_DMG 150.0+float(CodMod_GetWholeStat(iAttacker, INT))*1.5
+#define MAX_LASERS 3
+#define LASER_DMG 150.0+float(CodMod_GetWholeStat(iAttacker, INT))*1.0
 
 
 char g_szClassName[128] = {"Specjalista [Premium]"};
