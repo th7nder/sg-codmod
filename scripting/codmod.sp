@@ -198,6 +198,7 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max){
     CreateNative("CodMod_SetBlockedPerks", Native_SetBlockedPerks);
 
     RegPluginLibrary("codmod301");
+    g_smPerksIds = new StringMap();
 
     return APLRes_Success;
 }
@@ -259,8 +260,6 @@ Handle g_hGameConf = INVALID_HANDLE;
 
 Handle g_hOnPerkRegistered = INVALID_HANDLE;
 public OnPluginStart(){
-    g_smPerksIds = new StringMap();
-
     g_hGameConf = LoadGameConfigFile("grenades.games");
     g_msgHudMsg = GetUserMessageId("HudMsg");
     g_iOffsetActiveWeapon = FindSendPropInfo("CBasePlayer", "m_hActiveWeapon");
