@@ -24,7 +24,7 @@ WeaponID g_iWeapons[WEAPON_LIMIT] = {WEAPON_NONE};
 
 
 char g_szClassName[128] = {"Specjalista [Premium]"};
-char g_szDesc[256] = {"M4A1-S, USP\n 2(+1 za każde 50 int) lasery(150dmg + 1.5*int) \n 5HP(+1HP/3int)/6sec, Odnawianie ammo per kill, +5dmg \n Może kupić każdy granat"};
+char g_szDesc[256] = {"M4A1-S, USP\n 3 lasery(150dmg + 1.5*int) \n 5HP(+1HP/3int)/6sec, Odnawianie ammo per kill, +5dmg \n Może kupić każdy granat"};
 const int g_iHealth = 0;
 const int g_iStartingHealth = 120;
 const int g_iArmor = 0;
